@@ -4,7 +4,7 @@ import './Header.css';
 
 function Header() {
     return(
-        <header className="header page__content">
+        <header className="header">
             <img className="header__logo" src={logoHeader} alt="Логотип сайта"/>
             <ul className="header__navigation">
                 <li className="header__navigation-item">Регистрация</li>

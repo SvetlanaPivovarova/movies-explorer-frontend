@@ -1,0 +1,26 @@
+.content {
+    padding: 0 70px 0;
+    box-sizing: border-box;
+}
+
+.content_color_black {
+    background-color: rgba(32, 32, 32, 1);
+}
+
+.content_color_grey {
+    background-color: rgba(39, 39, 39, 1);
+}
+
+@media screen and (max-width: 1140px) {
+    .content {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .content {
+        padding-right: 14px;
+        padding-left: 14px;
+    }
+}

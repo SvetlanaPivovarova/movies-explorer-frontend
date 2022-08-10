@@ -3,7 +3,7 @@ import './NavTab.css'
 
 function NavTab() {
     return(
-        <section className="page__content">
+        <section className="content content_color_grey">
             <nav className="nav-tab">
                 <ul className="nav-tab__items">
                     <li className="nav-tab__item">О проекте</li>

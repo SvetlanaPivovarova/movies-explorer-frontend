@@ -1,0 +1,107 @@
+.about-project {
+    display: flex;
+    flex-direction: column;
+}
+
+.about-project__heading {
+    border-bottom: 1px solid rgba(218, 218, 218, 1);
+    margin: 0 0 70px;
+    padding: 110px 0 23px;
+    box-sizing: border-box;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+}
+
+.about-project__columns {
+    display: grid;
+    grid-template-columns: minmax(268px, 550px) minmax(268px, 550px);
+    grid-template-rows: max-content;
+    column-gap: 40px;
+    margin: 0 0 93px 0;
+}
+
+.about-project__description {
+
+}
+
+.about-project__title {
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0 0 26px;
+    letter-spacing: -0.04em;
+}
+
+.about-project__text {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.about-project__table {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(100px, 228px) minmax(184px, 912px);
+    grid-template-rows: max-content;
+    gap: 0;
+    margin: 0 0 93px 0;
+}
+
+.about-project__item {
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0 auto;
+    padding: 9px 14px;
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+}
+
+.about-project__item_type_bright {
+    background-color: rgba(61, 220, 132, 1);
+    color: #000;
+}
+
+.about-project__item_type_pale {
+    background-color: rgba(48, 48, 48, 1);
+}
+
+@media screen and (max-width: 880px) {
+    .about-project__columns {
+        column-gap: 30px;
+    }
+}
+
+@media screen and (max-width: 690px) {
+    .about-project__heading {
+        margin-bottom: 60px;
+    }
+
+    .about-project__columns {
+        grid-template-columns: repeat(1, minmax(268px, 614px));
+        grid-template-rows: max-content;
+        row-gap: 56px;
+        margin-bottom: 60px;
+    }
+
+    .about-project__title {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 16px;
+    }
+
+    .about-project__text {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .about-project__table {
+        margin-bottom: 59px;
+    }
+
+    .about-project__item {
+        padding: 11px 10px;
+    }
+}

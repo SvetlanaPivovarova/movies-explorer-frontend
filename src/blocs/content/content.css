@@ -48,6 +48,13 @@
     color: #ffffff;
     padding: 0;
     text-decoration: none;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity .3s ease;
+}
+
+.content__link-item:hover {
+    opacity: .7;
 }
 
 @media screen and (max-width: 1140px) {

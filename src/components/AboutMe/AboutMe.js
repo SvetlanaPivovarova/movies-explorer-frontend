@@ -4,7 +4,7 @@ import studentPhoto from '../../images/student-photo.jpg';
 
 function AboutMe() {
     return(
-        <section className="content content_color_grey content__section">
+        <section className="content content_color_black content__section">
             <h2 className="content__heading">Студент</h2>
             <div className="about-me">
                 <div className="about-me__info">
@@ -18,7 +18,7 @@ function AboutMe() {
                     </p>
                     <ul className="content__links">
                         <li className="content__link">
-                            <a className="content__link-item" href="#" target="_blank">VK</a>
+                            <a className="content__link-item" href="https://vk.com/id859528" target="_blank">VK</a>
                         </li>
                         <li className="content__link">
                             <a className="content__link-item" href="https://github.com/SvetlanaPivovarova/" target="_blank">Github</a>

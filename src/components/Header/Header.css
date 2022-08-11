@@ -45,7 +45,7 @@
 }
 
 .header__auth-button:hover {
-    opacity: .6;
+    opacity: .8;
 }
 
 @media screen and (max-width: 568px) {

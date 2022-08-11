@@ -53,6 +53,10 @@
     transition: opacity .3s ease;
 }
 
+.content__link-item_type_footer {
+    font-size: 13px;
+}
+
 .content__link-item:hover {
     opacity: .7;
 }
@@ -80,5 +84,20 @@
         font-size: 18px;
         line-height: 22px;
         padding-bottom: 28px;
+    }
+
+    .content__links_type_footer {
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+
+    .content__link_type_footer {
+        margin-bottom: 12px;
+        margin-right: 0;
+    }
+
+    .content__link-item_type_footer {
+        font-size: 12px;
     }
 }

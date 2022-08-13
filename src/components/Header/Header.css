@@ -1,11 +1,15 @@
 .header {
     max-width: 100%;
     min-height: 74px;
-    background-color: #073042;
+    background-color: rgba(32, 32, 32, 1);
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.header_type_lending {
+    background-color: #073042;
 }
 
 .header__logo {

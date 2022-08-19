@@ -80,6 +80,11 @@
         padding-left: 14px;
     }
 
+    .content_type_small-padding {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
     .content__heading {
         font-size: 18px;
         line-height: 22px;

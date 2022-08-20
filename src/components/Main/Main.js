@@ -20,12 +20,6 @@ function Main() {
             <AboutMe />
             <Portfolio />
             <Footer />
-            <section className="profile content__section">
-
-            </section>
-            <section className="elements content__section">
-
-            </section>
         </main>
     )
 }

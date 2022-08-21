@@ -9,14 +9,15 @@
     font-size: 24px;
     line-height: 29px;
     padding: 0;
-    margin: 0 auto 123px;
+    margin: 0 auto 106px;
 }
 
 .profile__info {
     width: 410px;
     display: flex;
     flex-direction: column;
-    margin: 0 0 220px;
+    margin: 0 0 204px;
+    padding: 0;
 }
 
 .profile__info-item {
@@ -35,6 +36,7 @@
     font-weight: 500;
     font-size: 11px;
     line-height: 13px;
+    margin: 17px 0 16px;
 }
 
 .profile__text-info {
@@ -62,4 +64,34 @@
     color: rgba(238, 52, 101, 1);
     font-weight: 500;
     margin-bottom: 70px;
+}
+
+@media screen and (max-width: 880px) {
+    .profile__greeting {
+        margin-top: 236px;
+        margin-bottom: 79px;
+    }
+
+    .profile__info {
+        margin-bottom: 194px;
+    }
+
+    .profile__exit-button {
+        margin-bottom: 269px;
+    }
+}
+
+@media screen and (max-width: 568px) {
+    .profile__greeting {
+        margin-top: 70px;
+        margin-bottom: 63px;
+    }
+
+    .profile__info {
+        margin-bottom: 363px;
+    }
+
+    .profile__exit-button {
+        margin-bottom: 40px;
+    }
 }

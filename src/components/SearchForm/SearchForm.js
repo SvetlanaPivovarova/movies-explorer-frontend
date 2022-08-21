@@ -4,15 +4,15 @@ import "./SearchForm.css";
 function SearchForm() {
     return(
         <section className="content">
-            <form className="form" name="search-film">
+            <form className="search-form" name="search-film">
                 <input
                     type="text"
                     placeholder="Фильм"
                     name="film"
-                    className="form__text"
+                    className="search-form__text"
                     required
                 />
-                <button type="submit" className="form__submit-btn" />
+                <button type="submit" className="search-form__submit-btn" />
             </form>
         </section>
     )

@@ -1,4 +1,4 @@
-.form {
+.search-form {
     max-width: 100%;
     font-family: 'Inter', Arial, sans-serif;
     padding: 0 0 13px 0;
@@ -9,7 +9,7 @@
     margin: 70px 0 0 0;
 }
 
-.form__text {
+.search-form__text {
     font-family: inherit;
     font-weight: 500;
     font-size: 28px;
@@ -23,7 +23,7 @@
     flex-basis: 70%;
 }
 
-.form__submit-btn {
+.search-form__submit-btn {
     min-width: 80px;
     height: 34px;
     box-sizing: border-box;
@@ -40,16 +40,16 @@
     transition: opacity .3s ease;
 }
 
-.form__submit-btn:hover {
+.search-form__submit-btn:hover {
     opacity: .8;
 }
 
 @media screen and (max-width: 568px) {
-    .form {
+    .search-form {
         margin-top: 90px;
     }
 
-    .form__text {
+    .search-form__text {
         font-size: 18px;
         line-height: 22px;
         flex-basis: auto;

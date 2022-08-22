@@ -1,0 +1,11 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    margin: 70px auto;
+}
+
+@media screen and (max-width: 568px) {
+    .form__button_type_login {
+        margin-top: 267px;
+    }
+}

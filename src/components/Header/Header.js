@@ -2,9 +2,13 @@ import logoHeader from '../../images/logo.svg'; // Путь к изображе�
 import React from 'react';
 import './Header.css';
 
-function Header() {
+function Header( {modifier} ) {
+    const headerClassName = (
+        `header content ${modifier ? 'header_type_lending' : ''}`
+    );
+
     return(
-        <header className="header content">
+        <header className={headerClassName}>
             <img className="header__logo" src={logoHeader} alt="Логотип сайта"/>
             <ul className="header__navigation">
                 <li className="header__navigation-item">Регистрация</li>

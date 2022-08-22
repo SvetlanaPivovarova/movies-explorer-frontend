@@ -12,7 +12,7 @@ function Main() {
 
     return(
         <main>
-            <Header />
+            <Header modifier="true" />
             <Promo />
             <NavTab />
             <AboutProject />

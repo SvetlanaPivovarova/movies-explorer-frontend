@@ -107,6 +107,12 @@
         text-decoration: none;
         padding: 0;
         margin: 0 0 28px;
+        cursor: pointer;
+        transition: opacity .3s ease;
+    }
+
+    .menu__nav-item:hover {
+        opacity: .8;
     }
 
     .menu__nav-item_type_last {

@@ -15,9 +15,15 @@ function Main() {
             <Header modifier="true" />
             <Promo />
             <NavTab />
-            <AboutProject />
-            <Techs />
-            <AboutMe />
+            <section id="about-project">
+                <AboutProject />
+            </section>
+            <section id="about-techs">
+                <Techs />
+            </section>
+            <section id="about-student">
+                <AboutMe />
+            </section>
             <Portfolio />
             <Footer />
         </main>

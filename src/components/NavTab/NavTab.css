@@ -23,6 +23,19 @@
     text-decoration: underline;
 }
 
+.nav-tab__item-link {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: #ffffff;
+    cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.nav-tab__item-link:hover {
+    opacity: .8;
+}
+
 @media screen and (max-width: 880px) {
     .nav-tab__item {
         font-size: 13px;

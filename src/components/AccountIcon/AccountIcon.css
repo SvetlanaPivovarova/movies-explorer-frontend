@@ -11,6 +11,12 @@
     border-radius: 40px;
     min-height: 32px;
     align-items: center;
+    cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.account-icon:hover {
+    opacity: .8;
 }
 
 .account-icon_type_underlined {

@@ -27,9 +27,13 @@
     list-style: none;
     font-size: 12px;
     line-height: 16px;
-    margin: 0;
+    margin: 0 20px 0 0;
     padding: 0;
     text-decoration: none;
+}
+
+.header__navigation-item_active {
+    font-weight: 500;
 }
 
 .header__auth-button {
@@ -50,6 +54,41 @@
 
 .header__auth-button:hover {
     opacity: .8;
+}
+
+.header__navigation-item_type_account {
+    width: 100px;
+    border-radius: 40px;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.header__navigation-item_type_text {
+    margin-right: 0;
+}
+
+.header__navigation-icon-container {
+    background-color: rgba(49, 49, 49, 1);
+    width: 26px;
+    height: 26px;
+    border-radius: 50px;
+    margin: 0 0 0 7px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.header__navigation-item-icon {
+    width: 10.38px;
+    height: 10.67px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 880px) {
+    .header__navigation_type_hyde {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 568px) {

@@ -13,7 +13,7 @@ import Footer from "../Footer/Footer";
 function Movies() {
     return(
         <>
-            <Header />
+            <Header loggedIn="true" />
             <SearchForm />
             <FilterCheckbox />
             <MoviesCardList />

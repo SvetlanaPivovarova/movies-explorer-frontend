@@ -1,0 +1,58 @@
+.account-icon {
+    display: flex;
+    color: #ffffff;
+    list-style: none;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    width: 100px;
+    border-radius: 40px;
+    min-height: 32px;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.account-icon:hover {
+    opacity: .8;
+}
+
+.account-icon_type_underlined {
+    text-decoration: underline;
+}
+
+.account-icon_type_bold {
+    font-weight: 500;
+}
+
+.account-icon__item {
+    margin: 0 0 0 11px;
+    padding: 0;
+}
+
+.account-icon__container {
+    background-color: rgba(49, 49, 49, 1);
+    width: 26px;
+    height: 26px;
+    border-radius: 50px;
+    margin: 0 0 0 7px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+.account-icon__icon {
+    width: 10.38px;
+    height: 10.67px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 568px) {
+    .account-icon__item {
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 16px;
+    }
+}

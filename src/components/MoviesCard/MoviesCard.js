@@ -1,6 +1,7 @@
 import React from "react";
 //import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import "./MoviesCard.css";
+import {BASE_URL} from "../../utils/constants";
 import preview from "../../images/33-slova-o-dizayne.png";
 
 function MoviesCard({item, isLiked}) {
@@ -18,9 +19,9 @@ function MoviesCard({item, isLiked}) {
 
     return(
         <article className="movies-card">
-            <img className="movies-card__image" src={preview} alt={item.name}/>
+            <img className="movies-card__image" src={`${BASE_URL}${item.image.url}`} alt={item.nameRU}/>
             <div className="movies-card__caption">
-                <h2 className="movies-card__title">{item.name}</h2>
+                <h2 className="movies-card__title">{item.nameRU}</h2>
                 <div className="movies-card__like">
                     <button className={moviesCardLikeButtonClassName} type="button" aria-label="Нравится" />
                 </div>

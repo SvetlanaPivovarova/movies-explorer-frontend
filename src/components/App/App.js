@@ -22,8 +22,9 @@ function App() {
 
     //const [search, setSearch] = useState('');
     const [search, setSearch] = useState({ query: '', isShort: false });
+    const [isSearched, setIsSearched] = useState(false);
     //const [queryMovies, setQueryMovies] = useState('');
-    const [isShort, setIsShort] = useState(false);
+    //const [isShort, setIsShort] = useState(false);
    // const [searchRequestSavedMov, setSearchRequestSavedMov] = useState('')
    // const [isChecked, setIsChecked] = useState(false);
 
@@ -31,6 +32,7 @@ function App() {
     const searchedMovies = useMovies(movies, search.query, search.isShort);
     console.log(searchedMovies);
     //const searchedSavedMovies = useMovies(savedMovies, querySavedMovies, isChecked);
+
 
     //useEffect(() => {
     //    if (movies.length) {
@@ -66,6 +68,7 @@ function App() {
             moviesApi.getMovies()
                 .then((data) => {
                     setMovies(data);
+                    setIsSearched(true);
                     console.log(data);
                 })
                 .catch((err) => {
@@ -93,7 +96,8 @@ function App() {
                         setSearch={setSearch}
                         error={error}
                         getMovies={getMovies}
-                        isShort={isShort}
+                        //movies={searchedMovies}
+                        movies={isSearched ? movies : []}
                     />
                 </Route>
                 <Route path="/saved-movies">

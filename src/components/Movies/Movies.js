@@ -10,10 +10,16 @@ import Preloader from "../Preloader/Preloader";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
 
-function Movies({ isLoading, search, setSearch, error, getMovies }) {
+function Movies({ isLoading, search, setSearch, error, getMovies, movies }) {
+
     //const [isSearchQueryEntered, setIsSearchQueryEntered] = useState(false);
-    console.log(search);
-    console.log(error);
+
+    const getScreenWidth = () => {
+        return document.documentElement.clientWidth;
+    };
+
+    const [moviesNumber, setMoviesNumber] = useState(0);
+
 
     return(
         <>
@@ -28,7 +34,9 @@ function Movies({ isLoading, search, setSearch, error, getMovies }) {
                 <Preloader />
                 :
                 <>
-                    <MoviesCardList />
+                    <MoviesCardList
+                        movies={movies}
+                    />
                     <ButtonMore />
                 </>
             }

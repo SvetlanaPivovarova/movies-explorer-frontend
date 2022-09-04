@@ -12,6 +12,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import moviesApi from "../../utils/MoviesApi";
 import {useMovies} from "../../utils/useMovies";
+import {SHORT_MOVIE_DURATION} from "../../utils/constants";
 
 function App() {
     const [isLoading, setIsLoading] = useState(false);
@@ -23,16 +24,36 @@ function App() {
     //const [search, setSearch] = useState('');
     const [search, setSearch] = useState({ query: '', isShort: false });
     const [isSearched, setIsSearched] = useState(false);
+    const [searchedMovies, setSearchedMovies] = useState([]);
     //const [queryMovies, setQueryMovies] = useState('');
     //const [isShort, setIsShort] = useState(false);
    // const [searchRequestSavedMov, setSearchRequestSavedMov] = useState('')
    // const [isChecked, setIsChecked] = useState(false);
 
 
-    const searchedMovies = useMovies(movies, search.query, search.isShort);
-    console.log(searchedMovies);
+    //const searchedMovies = useMovies(movies, search.query, search.isShort);
+    //console.log(searchedMovies);
     //const searchedSavedMovies = useMovies(savedMovies, querySavedMovies, isChecked);
 
+    const filteringMovies = (movies, query, isShort) => {
+        const allSearchedMovies = [...movies].filter(({ nameRU }) => {
+            return nameRU.toLowerCase().includes(query.toLowerCase().trim());
+        });
+        return query
+            ? isShort
+                ? allSearchedMovies.filter(({ duration }) => duration <= SHORT_MOVIE_DURATION)
+                : allSearchedMovies
+            : movies;
+    }
+
+    useEffect(() => {
+        if (movies.length) {
+            console.log('queryFilm:', search.query);
+            console.log('queryShort:', search.isShort);
+            const filteredMovies = filteringMovies(movies, search.query, search.isShort);
+            setSearchedMovies(filteredMovies);
+            }
+        }, [movies, search.query, search.isShort]);
 
     //useEffect(() => {
     //    if (movies.length) {
@@ -55,7 +76,6 @@ function App() {
     //}, []);
 
     useEffect(() =>{
-
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));
         }
@@ -97,7 +117,7 @@ function App() {
                         error={error}
                         getMovies={getMovies}
                         //movies={searchedMovies}
-                        movies={isSearched ? movies : []}
+                        movies={isSearched ? searchedMovies : []}
                     />
                 </Route>
                 <Route path="/saved-movies">

@@ -2,7 +2,6 @@ import React from "react";
 //import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import "./MoviesCard.css";
 import {BASE_URL} from "../../utils/constants";
-import preview from "../../images/33-slova-o-dizayne.png";
 
 function MoviesCard({item, isLiked}) {
     //const currentUser = React.useContext(CurrentUserContext);

@@ -22,6 +22,10 @@
     opacity: .8;
 }
 
+.button-more__button_invisible {
+    display: none;
+}
+
 @media screen and (max-width: 568px) {
     .button-more__button {
         width: 240px;

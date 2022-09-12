@@ -5,6 +5,7 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 function SearchForm({ search, setSearch, getMovies }) {
     const [frontSearch, setFrontSearch] = useState(search);
+    //const [isValidSearch, setIsValidSearch] = useState(false);
     const [error, setError] = useState('');
 
     const handleSubmit = (e) => {
@@ -21,6 +22,7 @@ function SearchForm({ search, setSearch, getMovies }) {
 
     const handleSearchInputChange = (e) => {
         setFrontSearch({ ...frontSearch, query: e.target.value });
+        //setIsValidSearch(e.target.validity.valid);
     };
 
     const handleChangeCheckbox = (e) => {
@@ -47,7 +49,7 @@ function SearchForm({ search, setSearch, getMovies }) {
                     checked={frontSearch.isShort}
                     onChange={handleChangeCheckbox}
                 />
-                <button type="submit" className="search-form__submit-btn" />
+                <button type="submit" disabled={!frontSearch.query} className="search-form__submit-btn" />
             </form>
         </section>
     )

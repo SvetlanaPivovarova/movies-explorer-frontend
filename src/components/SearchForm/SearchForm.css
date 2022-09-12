@@ -45,6 +45,10 @@
     opacity: .8;
 }
 
+.search-form__submit-btn:disabled {
+    background-color: #E5E5E5;
+}
+
 @media screen and (max-width: 568px) {
     .search-form {
         margin-top: 90px;

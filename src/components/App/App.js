@@ -52,30 +52,17 @@ function App() {
             console.log('queryShort:', search.isShort);
             const filteredMovies = filteringMovies(movies, search.query, search.isShort);
             setSearchedMovies(filteredMovies);
+            localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
+            if (filteredMovies.length === 0) {
+                setError('Ничего не найдено')
+            } else setError('');
             }
         }, [movies, search.query, search.isShort]);
 
-    //useEffect(() => {
-    //    if (movies.length) {
-    //        const filteredMovies = filterMovies(movies, search);
-    //        setSearchedMovies(filteredMovies);
-    //        localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
-    //        if (filteredMovies.length === 0) {
-    //            setError('Ничего не найдено');
-    //        } else setError('');
-    //    }
-    //}, [movies, search]);
-
-   // useEffect(() => {
-   //     if (localStorage.getItem('searchedMovies')) {
-    //        setSearchedMovies(JSON.parse(localStorage.getItem('searchedMovies')));
-    //    }
-     //   if (localStorage.getItem('search')) {
-     //       setSearch(JSON.parse(localStorage.getItem('search')));
-     //   }
-    //}, []);
-
     useEffect(() =>{
+        if (localStorage.getItem('searchedMovies')) {
+            setSearchedMovies(JSON.parse(localStorage.getItem('searchedMovies')));
+        }
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));
         }

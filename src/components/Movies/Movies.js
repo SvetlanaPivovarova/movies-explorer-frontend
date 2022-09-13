@@ -21,6 +21,11 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies })
     const [renderingMovies, setRenderingMovies] = useState([]);
     const [isButtonMoreShown, setIsButtonMoreShown] = useState(false);
 
+
+    useEffect(() => {
+
+    })
+
     useEffect(() => {
         let delay = null;
 
@@ -64,13 +69,10 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies })
         } else setIsButtonMoreShown(false);
     }, [addingMoviesNumber, moviesNumber, movies]);
 
-
-
     function addMoreMovie() {
         setMoviesNumber(moviesNumber + addingMoviesNumber);
         console.log('MoviesNumber:', moviesNumber);
     }
-
 
     return(
         <>

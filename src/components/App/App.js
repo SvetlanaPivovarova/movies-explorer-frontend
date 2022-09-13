@@ -12,7 +12,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import moviesApi from "../../utils/MoviesApi";
 import {useMovies} from "../../utils/useMovies";
-import {SHORT_MOVIE_DURATION} from "../../utils/constants";
+import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION} from "../../utils/constants";
 
 function App() {
     const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ function App() {
             localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
             if (filteredMovies.length === 0) {
                 console.log('filteredMovies.length', filteredMovies.length);
-                setErrorEmpty('Ничего не найдено');
+                setErrorEmpty(ERROR_SEARCH_TEXT);
                 console.log(errorEmpty);
             } else setErrorEmpty('');
             }
@@ -69,7 +69,7 @@ function App() {
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));
         }
-    }, [])
+    }, [searchedMovies, search])
 
     // getting movies
     //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя
@@ -86,7 +86,7 @@ function App() {
 
                 })
                 .catch((err) => {
-                    setError('Во время запроса произошла ошибка');
+                    setError(ERROR_REQUEST_TEXT);
                 })
                 .finally(() => {
                     setIsLoading(false);

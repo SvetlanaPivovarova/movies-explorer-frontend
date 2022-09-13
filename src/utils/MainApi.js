@@ -1,5 +1,7 @@
+import {API_URL} from "./constants";
+
 class MoviesApi {
-    constructor({url, headers}) {
+    constructor(url, {headers}) {
         this._url = url;
         this._headers = headers;
     }
@@ -18,21 +20,43 @@ class MoviesApi {
             })
     }
 
-    createNewCard({ name, link, owner }) {
-        const promise = fetch((`${this._url}/cards`), {
+    createSavedMovie({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        nameRU,
+        nameEN,
+        thumbnail,
+        movieId,
+    //    owner: _id,
+    }) {
+        const promise = fetch((`${this._url}/movies`), {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify({
-                name,
-                link,
-                owner
+                country,
+                director,
+                duration,
+                year,
+                description,
+                image,
+                trailerLink,
+                nameRU,
+                nameEN,
+                thumbnail,
+                movieId,
+               // owner
             })
         });
         return this._makeRequest(promise);
     }
 
-    deleteCard(id) {
-        const promise = fetch((`${this._url}/cards/${id}`), {
+    deleteSavedFilm(id) {
+        const promise = fetch((`${this._url}/movies/${id}`), {
             method: 'DELETE',
             headers: this._headers,
         });
@@ -148,12 +172,11 @@ class Api {
     }
 }
 
-const api = new Api('https://mesto.nomoreparties.co/v1/cohort-38', {
+const moviesApi = new MoviesApi(API_URL, {
     headers: {
-        authorization: 'e0e4f956-51a1-4eae-85fd-7abacc4211a4',
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8'
     }
 });
 
-export {api};
+export default moviesApi;

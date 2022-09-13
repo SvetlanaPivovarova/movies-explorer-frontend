@@ -8,14 +8,21 @@ import Footer from "../Footer/Footer";
 import SavedMoviesCardList from "../SavedMoviesCardList/SavedMoviesCardList";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
-function SavedMovies() {
+function SavedMovies({ search, setSearch, getMovies, movies, createSavedMovie }) {
     return(
         <>
             <NavigationSidebar isMenuOpened="true" />
             <Header loggedIn="true" />
-            <SearchForm />
+            <SearchForm
+                search={search}
+                setSearch={setSearch}
+                getMovies={getMovies}
+            />
             <FilterCheckbox />
-            <SavedMoviesCardList />
+            <SavedMoviesCardList
+                movies={movies}
+                onMovieLike={createSavedMovie}
+            />
             <ButtonMore />
             <Footer />
         </>

@@ -10,7 +10,7 @@ import Preloader from "../Preloader/Preloader";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
 
-function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies }) {
+function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, onMovieLike }) {
     const getScreenWidth = () => {
         return document.documentElement.clientWidth;
     };
@@ -20,11 +20,6 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies })
     const [addingMoviesNumber, setAddingMoviesNumber] = useState(0)
     const [renderingMovies, setRenderingMovies] = useState([]);
     const [isButtonMoreShown, setIsButtonMoreShown] = useState(false);
-
-
-    useEffect(() => {
-
-    })
 
     useEffect(() => {
         let delay = null;
@@ -95,6 +90,7 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies })
                         <>
                             <MoviesCardList
                                 movies={renderingMovies}
+                                onMovieLike={onMovieLike}
                             />
                             <ButtonMore
                                 onClick={addMoreMovie}

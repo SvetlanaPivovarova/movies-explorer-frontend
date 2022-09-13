@@ -2,15 +2,16 @@ import React from "react";
 import {initialCards} from "../../utils/data";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function SavedMoviesCardList() {
+function SavedMoviesCardList({ movies, onMovieLike }) {
     return(
         <section className="movies-list content content_type_small-padding">
-            {initialCards.map((card) => (
+            {movies.map((card) => (
                 card.isLiked ?
                 <MoviesCard
                 item={card}
                 key={card._id}
-                isLiked={card.isLiked}
+                onMovieLike={onMovieLike}
+                //isLiked={isLiked}
                 /> : ''
 
             ))

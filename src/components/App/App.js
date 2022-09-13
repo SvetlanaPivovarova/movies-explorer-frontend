@@ -11,16 +11,18 @@ import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import moviesApi from "../../utils/MoviesApi";
+import mainApi from "../../utils/MainApi";
 import {useMovies} from "../../utils/useMovies";
 import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION} from "../../utils/constants";
 
 function App() {
+    const [currentUser, setCurrentUser] = useState({})
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [errorEmpty, setErrorEmpty] = useState('');
 
     const [movies, setMovies] = useState([]);
-    //const [savedMovies, setSavedMovies] = useState([]);
+    const [savedMovies, setSavedMovies] = useState([]);
 
     //const [search, setSearch] = useState('');
     const [search, setSearch] = useState({ query: '', isShort: false });
@@ -69,7 +71,7 @@ function App() {
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));
         }
-    }, [searchedMovies, search])
+    }, [])
 
     // getting movies
     //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя
@@ -85,7 +87,7 @@ function App() {
                     console.log(data);
 
                 })
-                .catch((err) => {
+                .catch(() => {
                     setError(ERROR_REQUEST_TEXT);
                 })
                 .finally(() => {
@@ -96,6 +98,32 @@ function App() {
         localStorage.setItem('search', JSON.stringify(req));
 
     };
+
+    const createSavedMovie = (item) => {
+        mainApi.createSavedMovie(item)
+            .then((newSavedMovie) => {
+                setSavedMovies([...savedMovies, newSavedMovie]);
+                localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+                console.log('savedMovies:', savedMovies);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    //function handleMovieLike(movie) {
+    //    const isLiked = movie.likes.some(i => i._id === currentUser._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+     //   api.changeLikeCardStatus(card._id, !isLiked)
+     //       .then((newCard) => {
+      //          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      //      })
+      //      .catch((err) => {
+      //          console.error(err);
+      //          throw err;
+      //      });
+    //}
 
     return (
         <div className="page">
@@ -111,12 +139,19 @@ function App() {
                         setSearch={setSearch}
                         errorEmpty={errorEmpty}
                         getMovies={getMovies}
+                        onMovieLike={createSavedMovie}
                         //movies={searchedMovies}
                         movies={isSearched ? searchedMovies : []}
                     />
                 </Route>
                 <Route path="/saved-movies">
-                    <SavedMovies />
+                    <SavedMovies
+                        search={search}
+                        setSearch={setSearch}
+                        getMovies={getMovies}
+                        movies={savedMovies}
+                        createSavedMovie={createSavedMovie}
+                    />
                 </Route>
                 <Route path="/signup">
                     <Register />

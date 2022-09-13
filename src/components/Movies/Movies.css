@@ -1,0 +1,8 @@
+.movies__error-empty {
+    color: white;
+    text-align: center;
+    margin: 60px 0 0;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+}

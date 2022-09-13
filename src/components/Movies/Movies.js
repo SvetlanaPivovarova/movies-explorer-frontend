@@ -10,7 +10,7 @@ import Preloader from "../Preloader/Preloader";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
 
-function Movies({ isLoading, search, setSearch, error, getMovies, movies }) {
+function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies }) {
     const getScreenWidth = () => {
         return document.documentElement.clientWidth;
     };
@@ -81,18 +81,25 @@ function Movies({ isLoading, search, setSearch, error, getMovies, movies }) {
                 setSearch={setSearch}
                 getMovies={getMovies}
             />
-            {isLoading?
+            {isLoading
+                ?
                 <Preloader />
                 :
-                <>
-                    <MoviesCardList
-                        movies={renderingMovies}
-                    />
-                    <ButtonMore
-                        onClick={addMoreMovie}
-                        isVisible={isButtonMoreShown}
-                    />
-                </>
+                errorEmpty
+                    ?
+                        <p className="movies__error-empty">{errorEmpty}</p>
+                        :
+
+                        <>
+                            <MoviesCardList
+                                movies={renderingMovies}
+                            />
+                            <ButtonMore
+                                onClick={addMoreMovie}
+                                isVisible={isButtonMoreShown}
+                            />
+                        </>
+
             }
 
             <Footer />

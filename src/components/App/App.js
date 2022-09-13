@@ -17,6 +17,7 @@ import {SHORT_MOVIE_DURATION} from "../../utils/constants";
 function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [errorEmpty, setErrorEmpty] = useState('');
 
     const [movies, setMovies] = useState([]);
     //const [savedMovies, setSavedMovies] = useState([]);
@@ -54,10 +55,12 @@ function App() {
             setSearchedMovies(filteredMovies);
             localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
             if (filteredMovies.length === 0) {
-                setError('Ничего не найдено')
-            } else setError('');
+                console.log('filteredMovies.length', filteredMovies.length);
+                setErrorEmpty('Ничего не найдено');
+                console.log(errorEmpty);
+            } else setErrorEmpty('');
             }
-        }, [movies, search.query, search.isShort]);
+        }, [movies, errorEmpty, search.query, search.isShort]);
 
     useEffect(() =>{
         if (localStorage.getItem('searchedMovies')) {
@@ -69,14 +72,18 @@ function App() {
     }, [])
 
     // getting movies
+    //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя
+    // короткометражек сохраняются в хранилище, а блок результатов появляется.
     const getMovies = (req) => {
         if (!movies.length) {
             setIsLoading(true);
             moviesApi.getMovies()
                 .then((data) => {
                     setMovies(data);
+                    localStorage.setItem('movies', JSON.stringify(data));
                     setIsSearched(true);
                     console.log(data);
+
                 })
                 .catch((err) => {
                     setError('Во время запроса произошла ошибка');
@@ -87,6 +94,7 @@ function App() {
         }
         setSearch(req);
         localStorage.setItem('search', JSON.stringify(req));
+
     };
 
     return (
@@ -101,7 +109,7 @@ function App() {
                         isLoading={isLoading}
                         search={search}
                         setSearch={setSearch}
-                        error={error}
+                        errorEmpty={errorEmpty}
                         getMovies={getMovies}
                         //movies={searchedMovies}
                         movies={isSearched ? searchedMovies : []}

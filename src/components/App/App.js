@@ -1,4 +1,4 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
 import './App.css';
@@ -14,6 +14,7 @@ import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import {useMovies} from "../../utils/useMovies";
 import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION} from "../../utils/constants";
+import ProtectedRoute from "../ProtectedRoute";
 
 function App() {
     const [currentUser, setCurrentUser] = useState({})
@@ -28,11 +29,12 @@ function App() {
     const [search, setSearch] = useState({ query: '', isShort: false });
     const [isSearched, setIsSearched] = useState(false);
     const [searchedMovies, setSearchedMovies] = useState([]);
+    const [loggedIn, setLoggedIn] = useState(false);
     //const [queryMovies, setQueryMovies] = useState('');
     //const [isShort, setIsShort] = useState(false);
    // const [searchRequestSavedMov, setSearchRequestSavedMov] = useState('')
    // const [isChecked, setIsChecked] = useState(false);
-
+    const history = useHistory();
 
     //const searchedMovies = useMovies(movies, search.query, search.isShort);
     //console.log(searchedMovies);
@@ -72,6 +74,28 @@ function App() {
             setSearch(JSON.parse(localStorage.getItem('search')));
         }
     }, [])
+
+    const [errorRegister, setErrorRegister] = useState('');
+
+    const handleRegister = (email, password, name) => {
+        mainApi.register({ email, password, name })
+            //.then(() => {
+                //setIsInfoTooltipOpen(true);
+                //setTooltipMessage('Вы успешно зарегистрировались!');
+                //setMessageIcon(toolTipIconSuc);
+            //})
+            .then(() => {
+                history.push("/movies");
+            })
+            .catch(err => {
+                setErrorRegister(err);
+                //setIsInfoTooltipOpen(true);
+                //setTooltipMessage('Что-то пошло не так!\n' +
+                //    'Попробуйте ещё раз.');
+                //setMessageIcon(toolTipIconUnsuc);
+                console.log(err);
+            })
+    }
 
     // getting movies
     //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя
@@ -132,19 +156,19 @@ function App() {
                 <Route exact path="/">
                     <Main />
                 </Route>
-                <Route path="/movies">
-                    <Movies
-                        isLoading={isLoading}
-                        search={search}
-                        setSearch={setSearch}
-                        errorEmpty={errorEmpty}
-                        getMovies={getMovies}
-                        onMovieLike={createSavedMovie}
-                        //movies={searchedMovies}
-                        movies={isSearched ? searchedMovies : []}
-                    />
-                </Route>
-                <Route path="/saved-movies">
+                <ProtectedRoute path="/movies" isLoggedIn={loggedIn}>
+                        <Movies
+                            isLoading={isLoading}
+                            search={search}
+                            setSearch={setSearch}
+                            errorEmpty={errorEmpty}
+                            getMovies={getMovies}
+                            onMovieLike={createSavedMovie}
+                            //movies={searchedMovies}
+                            movies={isSearched ? searchedMovies : []}
+                        />
+                </ProtectedRoute>
+                <ProtectedRoute path="/saved-movies" isLoggedIn={loggedIn}>
                     <SavedMovies
                         search={search}
                         setSearch={setSearch}
@@ -152,15 +176,18 @@ function App() {
                         movies={savedMovies}
                         createSavedMovie={createSavedMovie}
                     />
-                </Route>
+                </ProtectedRoute>
+                <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
+                    <Profile />
+                </ProtectedRoute>
                 <Route path="/signup">
-                    <Register />
+                    <Register
+                        onRegister={handleRegister}
+                        error={errorRegister}
+                    />
                 </Route>
                 <Route path="/signin">
                     <Login />
-                </Route>
-                <Route path="/profile">
-                    <Profile />
                 </Route>
                 <Route path="*">
                     <PageNotFound />

@@ -51,6 +51,7 @@ export const authorize = (password, email) => {
 
 export const checkToken = () => {
     return fetch(`${API_URL}/users/me`, {
+        credentials: 'include',
         method: "GET",
         headers: {
             "Accept": "application/json",

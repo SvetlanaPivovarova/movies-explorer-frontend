@@ -44,10 +44,6 @@ function App() {
         auth.register({ email, password, name })
             .then((res) => {
                 history.push("/movies");
-                setUserData({
-                    email: res.email,
-                    name: res.name
-                });
                 //setErrorRegister('');
             })
             .catch(err => {
@@ -79,6 +75,22 @@ function App() {
                 console.log(err);
             })
     }
+
+    //информация о пользователе
+    const getUserInfo = () => {
+        mainApi.getProfile()
+            .then((user) => {
+                console.log('data:', user.data);
+                setUserData(user.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        getUserInfo();
+    }, [loggedIn])
 
     //useEffect(() => {
     //    checkToken();
@@ -224,7 +236,7 @@ function App() {
                     />
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
-                    <Profile data={currentUser} />
+                    <Profile data={userData} />
                 </ProtectedRoute>
                 <Route path="/signup">
                     <Register

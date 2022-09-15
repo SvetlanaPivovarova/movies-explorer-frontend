@@ -85,6 +85,7 @@ class MoviesApi {
         const promise = fetch((`${this._url}/users/me`), {
             method: 'GET',
             headers: this._headers,
+            credentials: 'include',
         });
         return this._makeRequest(promise);
     }

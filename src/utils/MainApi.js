@@ -81,20 +81,13 @@ class MoviesApi {
         }
     }
 
-    register({ email, password, name }) {
-        return fetch(`${API_URL}/signup`, {
-            method: 'POST',
+    getProfile() {
+        const promise = fetch((`${this._url}/users/me`), {
+            method: 'GET',
             headers: this._headers,
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                name: name,
-
-            })
-        }).then((res) => {
-            return this._makeRequest(res);
         });
-    };
+        return this._makeRequest(promise);
+    }
 }
 
 const moviesApi = new MoviesApi(API_URL, {

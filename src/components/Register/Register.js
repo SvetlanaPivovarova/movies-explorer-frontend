@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import "./Register.css";
 import logoHeader from "../../images/logo.svg";
 import {Link} from "react-router-dom";
-//import {useCallback} from "@types/react";
 
 function Register({ onRegister, error }) {
     const [values, setValues] = useState({});

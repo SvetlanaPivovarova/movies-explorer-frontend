@@ -9,6 +9,7 @@ import Register from "../Register/Register";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import * as auth from "../../utils/auth";
 import moviesApi from "../../utils/MoviesApi";
@@ -23,18 +24,15 @@ function App() {
     const [error, setError] = useState('');
     const [errorEmpty, setErrorEmpty] = useState('');
 
+    const [userData, setUserData] = useState('');
+
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
 
-    //const [search, setSearch] = useState('');
     const [search, setSearch] = useState({ query: '', isShort: false });
     const [isSearched, setIsSearched] = useState(false);
     const [searchedMovies, setSearchedMovies] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
-    //const [queryMovies, setQueryMovies] = useState('');
-    //const [isShort, setIsShort] = useState(false);
-   // const [searchRequestSavedMov, setSearchRequestSavedMov] = useState('')
-   // const [isChecked, setIsChecked] = useState(false);
     const history = useHistory();
 
     //const searchedMovies = useMovies(movies, search.query, search.isShort);
@@ -62,7 +60,7 @@ function App() {
                 //setUserData(email);
             })
             .then(() => {
-                history.push("/");
+                history.push("/movies");
             })
             .catch((err) => {
                 //setIsInfoTooltipOpen(true);
@@ -73,19 +71,18 @@ function App() {
             })
     }
 
-    useEffect(() => {
-        checkToken()
-    }, []);
+    //useEffect(() => {
+    //    checkToken()
+    //}, []);
 
     const checkToken = () => {
         const jwt = localStorage.getItem('jwt');
-        console.log('jwt', jwt);
         if (jwt) {
             auth.checkToken(jwt)
                 .then((response) => {
-                    //setUserData(response.data.email);
+                    setUserData(response.data.email);
                     setLoggedIn(true);
-                    history.push('/');
+                    history.push('/movies');
                 })
                 .catch((err) => {
                     console.log(err);
@@ -97,6 +94,18 @@ function App() {
         localStorage.removeItem('jwt');
         setLoggedIn(false);
     }
+
+    //useEffect(() => {
+    //    mainApi.getProfile()
+    //        .then((profile) => {
+    //            console.log(profile);
+    //            setCurrentUser(profile);
+    //        })
+    //        .catch((err) => {
+   //             console.error(err);
+    //            throw err;
+    //        });
+    //},[loggedIn]);
 
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
@@ -188,8 +197,8 @@ function App() {
     //}
 
     return (
+        <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-
             <Switch>
                 <Route exact path="/">
                     <Main />
@@ -225,13 +234,14 @@ function App() {
                     />
                 </Route>
                 <Route path="/signin">
-                    <Login />
+                    <Login onLogin={handleLogin} />
                 </Route>
                 <Route path="*">
                     <PageNotFound />
                 </Route>
             </Switch>
         </div>
+        </CurrentUserContext.Provider>
     );
 }
 

@@ -33,8 +33,8 @@ export const authorize = (password, email) => {
         },
         body: JSON.stringify(
             {
-                "password": password,
-                "email": email
+                "email": email,
+                "password": password
             }
         )
     })

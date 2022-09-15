@@ -19,12 +19,12 @@ import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION } from "../.
 import ProtectedRoute from "../ProtectedRoute";
 
 function App() {
-    const [currentUser, setCurrentUser] = useState({})
+    const [currentUser, setCurrentUser] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [errorEmpty, setErrorEmpty] = useState('');
 
-    const [userData, setUserData] = useState('');
+    const [userData, setUserData] = useState({ email: '', name: '' });
 
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
@@ -42,9 +42,13 @@ function App() {
     // регистрация
     const handleRegister = (email, password, name) => {
         auth.register({ email, password, name })
-            .then(() => {
+            .then((res) => {
                 history.push("/movies");
-                setErrorRegister('');
+                setUserData({
+                    email: res.email,
+                    name: res.name
+                });
+                //setErrorRegister('');
             })
             .catch(err => {
                 setErrorRegister(err);
@@ -57,10 +61,15 @@ function App() {
         auth.authorize(password, email)
             .then(() => {
                 setLoggedIn(true);
-                //setUserData(email);
+                //setCurrentUser(responce);
+                //setUserData({
+                //    email: email
+                //});
             })
             .then(() => {
                 history.push("/movies");
+                //console.log('Profile:', currentUser);
+                console.log('loggedIn', loggedIn);
             })
             .catch((err) => {
                 //setIsInfoTooltipOpen(true);
@@ -72,40 +81,30 @@ function App() {
     }
 
     //useEffect(() => {
-    //    checkToken()
+    //    checkToken();
     //}, []);
 
-    const checkToken = () => {
-        const jwt = localStorage.getItem('jwt');
-        if (jwt) {
-            auth.checkToken(jwt)
-                .then((response) => {
-                    setUserData(response.data.email);
-                    setLoggedIn(true);
-                    history.push('/movies');
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-    }
+    //const checkToken = () => {
+    //    const jwt = localStorage.getItem('jwt');
+    //    if (jwt) {
+    //        auth.checkToken(jwt)
+    //            .then(() => {
+    //                //setUserData(response.data.email);
+    //                setLoggedIn(true);
+     //               history.push('/movies');
+     //           })
+     //           .catch((err) => {
+     //               console.log(err);
+     //           })
+      //  }
+    //}
+
+
 
     const handleSignOut = () => {
         localStorage.removeItem('jwt');
         setLoggedIn(false);
     }
-
-    //useEffect(() => {
-    //    mainApi.getProfile()
-    //        .then((profile) => {
-    //            console.log(profile);
-    //            setCurrentUser(profile);
-    //        })
-    //        .catch((err) => {
-   //             console.error(err);
-    //            throw err;
-    //        });
-    //},[loggedIn]);
 
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
@@ -225,7 +224,7 @@ function App() {
                     />
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
-                    <Profile />
+                    <Profile data={currentUser} />
                 </ProtectedRoute>
                 <Route path="/signup">
                     <Register

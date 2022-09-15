@@ -69,7 +69,7 @@ function Register({ onRegister, error }) {
                     <span id="email-error" className="form__error"/>
                 <label htmlFor="e-mail" className="form__label">Пароль</label>
                 <input
-                    type="text"
+                    type="password"
                     name="password"
                     className="form__text form__text_type_email"
                     required

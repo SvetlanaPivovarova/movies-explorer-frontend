@@ -1,4 +1,4 @@
-import {API_URL} from "./constants";
+const BASE_URL = 'https://api.pivovarova.pro.nomoredomains.xyz';
 
 function checkResponse(res) {
     if (res.ok) {
@@ -7,8 +7,8 @@ function checkResponse(res) {
     return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = ( {password, email, name} ) => {
-    return fetch(`${API_URL}/signup`, {
+export const register = ( {password, email} ) => {
+    return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -16,18 +16,15 @@ export const register = ( {password, email, name} ) => {
         },
         body: JSON.stringify({
             password: password,
-            email: email,
-            name: name
-        }
-        )
-    })
-        .then((res) => {
+            email: email
+        })
+    }).then((res) => {
         return checkResponse(res);
     });
 };
 
 export const authorize = (password, email) => {
-    return fetch(`${API_URL}/signin`, {
+    return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -50,7 +47,7 @@ export const authorize = (password, email) => {
 };
 
 export const checkToken = () => {
-    return fetch(`${API_URL}/users/me`, {
+    return fetch(`${BASE_URL}/users/me`, {
         method: "GET",
         headers: {
             "Accept": "application/json",

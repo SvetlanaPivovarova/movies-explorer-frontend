@@ -1,15 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./Login.css";
 import logoHeader from "../../images/logo.svg";
 import {Link} from "react-router-dom";
 
-function Login({onLogin}) {
+function Login({ onLogin }) {
     const [login, setLogin] = useState({});
+    const [errors, setErrors] = useState({});
+    const [isValid, setIsValid] = useState(false);
 
     const handleChange = (event) => {
-        const { value, name } = event.target;
-        setLogin({ ...login, [name]: value });
+        const target = event.target;
+        const name = target.name;
+        const value = target.value;
+        setLogin({...login, [name]: value});
+        setErrors({...errors, [name]: target.validationMessage });
+        setIsValid(target.closest("form").checkValidity());
     };
+
+    const resetForm = useCallback(
+        (newValues = {}, newErrors = {}, newIsValid = false) => {
+            setLogin(newValues);
+            setErrors(newErrors);
+            setIsValid(newIsValid);
+        },
+        [setLogin, setErrors, setIsValid]
+    );
+
+    //const handleChange = (event) => {
+    //    const { value, name } = event.target;
+    //    setLogin({ ...login, [name]: value });
+    //};
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -48,6 +68,7 @@ function Login({onLogin}) {
                 <button
                     type="submit"
                     className="form__button form__button_type_login"
+                    disabled={!isValid}
                 >
                     Войти
                 </button>

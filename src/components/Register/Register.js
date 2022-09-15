@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import "./Register.css";
 import logoHeader from "../../images/logo.svg";
 import {Link} from "react-router-dom";
+//import {useCallback} from "@types/react";
 
 function Register({ onRegister, error }) {
     const [values, setValues] = useState({});
@@ -18,6 +19,15 @@ function Register({ onRegister, error }) {
         console.log('login:', values);
     };
 
+    const resetForm = useCallback(
+        (newValues = {}, newErrors = {}, newIsValid = false) => {
+            setValues(newValues);
+            setErrors(newErrors);
+            setIsValid(newIsValid);
+        },
+        [setValues, setErrors, setIsValid]
+    );
+
     function handleSubmit(e) {
         e.preventDefault();
         const { email, password, name } = values;
@@ -25,6 +35,7 @@ function Register({ onRegister, error }) {
         if (onRegister && password && email && name) {
             onRegister(email, password, name);
         }
+        resetForm();
     }
 
     return(
@@ -69,13 +80,6 @@ function Register({ onRegister, error }) {
                     onChange={handleChange}
                 />
                 <span id="password-error" className="form__error"/>
-                {error?
-                    error === 409?
-                        <p>Пользователь с таким email уже существует.</p>
-                    :
-                    <p>При регистрации пользователя произошла ошибка.</p>
-                : ''
-                }
                 <button type="submit" disabled={!isValid} className="form__button">Зарегистрироваться</button>
             </form>
             <div className="form__signin">

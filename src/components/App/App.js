@@ -46,6 +46,7 @@ function App() {
         auth.register({ email, password, name })
             .then(() => {
                 history.push("/movies");
+                setErrorRegister('');
             })
             .catch(err => {
                 setErrorRegister(err);

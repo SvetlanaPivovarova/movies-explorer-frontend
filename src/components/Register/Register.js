@@ -4,14 +4,17 @@ import logoHeader from "../../images/logo.svg";
 import {Link} from "react-router-dom";
 
 function Register({ onRegister, error }) {
-    const [login, setLogin] = useState({ email: "", password: "", name: "" });
     const [values, setValues] = useState({});
+    const [errors, setErrors] = useState({});
+    const [isValid, setIsValid] = useState(false);
 
     const handleChange = (event) => {
         const target = event.target;
         const value = target.value;
         const name = target.name;
         setValues({...values, [name]: value});
+        setErrors({...errors, [name]: target.validationMessage });
+        setIsValid(target.closest("form").checkValidity());
         console.log('login:', values);
     };
 
@@ -21,7 +24,6 @@ function Register({ onRegister, error }) {
         console.log('email:', email);
         if (onRegister && password && email && name) {
             onRegister(email, password, name);
-            console.log('login', login);
         }
     }
 
@@ -68,10 +70,13 @@ function Register({ onRegister, error }) {
                 />
                 <span id="password-error" className="form__error"/>
                 {error?
-                <p>{error.message}</p>
+                    error === 409?
+                        <p>Пользователь с таким email уже существует.</p>
+                    :
+                    <p>При регистрации пользователя произошла ошибка.</p>
                 : ''
                 }
-                <button type="submit" className="form__button">Зарегистрироваться</button>
+                <button type="submit" disabled={!isValid} className="form__button">Зарегистрироваться</button>
             </form>
             <div className="form__signin">
                 <p className="form__signin-text">Уже зарегистрированы? </p>

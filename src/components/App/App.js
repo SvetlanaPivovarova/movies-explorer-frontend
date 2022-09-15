@@ -10,10 +10,11 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
+import * as auth from "../../utils/auth";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import {useMovies} from "../../utils/useMovies";
-import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION} from "../../utils/constants";
+import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION } from "../../utils/constants";
 import ProtectedRoute from "../ProtectedRoute";
 
 function App() {
@@ -39,6 +40,62 @@ function App() {
     //const searchedMovies = useMovies(movies, search.query, search.isShort);
     //console.log(searchedMovies);
     //const searchedSavedMovies = useMovies(savedMovies, querySavedMovies, isChecked);
+
+    // регистрация
+    const handleRegister = (email, password, name) => {
+        auth.register({ email, password, name })
+            .then(() => {
+                history.push("/movies");
+            })
+            .catch(err => {
+                setErrorRegister(err);
+                console.log(err);
+            })
+    }
+
+    // авторизация
+    const handleLogin = (password, email) => {
+        auth.authorize(password, email)
+            .then(() => {
+                setLoggedIn(true);
+                //setUserData(email);
+            })
+            .then(() => {
+                history.push("/");
+            })
+            .catch((err) => {
+                //setIsInfoTooltipOpen(true);
+                //setTooltipMessage('Что-то пошло не так!\n' +
+                //    'Попробуйте ещё раз.');
+                //setMessageIcon(toolTipIconUnsuc);
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        checkToken()
+    }, []);
+
+    const checkToken = () => {
+        const jwt = localStorage.getItem('jwt');
+        console.log('jwt', jwt);
+        if (jwt) {
+            auth.checkToken(jwt)
+                .then((response) => {
+                    //setUserData(response.data.email);
+                    setLoggedIn(true);
+                    history.push('/');
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
+    }
+
+    const handleSignOut = () => {
+        localStorage.removeItem('jwt');
+        setLoggedIn(false);
+    }
 
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
@@ -76,26 +133,6 @@ function App() {
     }, [])
 
     const [errorRegister, setErrorRegister] = useState('');
-
-    const handleRegister = (email, password, name) => {
-        mainApi.register({ email, password, name })
-            //.then(() => {
-                //setIsInfoTooltipOpen(true);
-                //setTooltipMessage('Вы успешно зарегистрировались!');
-                //setMessageIcon(toolTipIconSuc);
-            //})
-            .then(() => {
-                history.push("/movies");
-            })
-            .catch(err => {
-                setErrorRegister(err);
-                //setIsInfoTooltipOpen(true);
-                //setTooltipMessage('Что-то пошло не так!\n' +
-                //    'Попробуйте ещё раз.');
-                //setMessageIcon(toolTipIconUnsuc);
-                console.log(err);
-            })
-    }
 
     // getting movies
     //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя

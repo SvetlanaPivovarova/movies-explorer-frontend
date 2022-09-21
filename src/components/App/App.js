@@ -17,6 +17,9 @@ import mainApi from "../../utils/MainApi";
 import {useMovies} from "../../utils/useMovies";
 import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION } from "../../utils/constants";
 import ProtectedRoute from "../ProtectedRoute";
+import toolTipIconSuc from '../../images/successfuly.svg';
+import toolTipIconUnsuc from '../../images/unsuccessfuly.svg';
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -33,6 +36,11 @@ function App() {
     const [isSearched, setIsSearched] = useState(false);
     const [searchedMovies, setSearchedMovies] = useState([]);
     const [loggedIn, setLoggedIn] = useState(false);
+
+    const [tooltipMessage, setTooltipMessage] = useState('');
+    const [messageIcon, setMessageIcon] = useState('');
+    const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
+
     const history = useHistory();
 
     //const searchedMovies = useMovies(movies, search.query, search.isShort);
@@ -42,12 +50,22 @@ function App() {
     // регистрация
     const handleRegister = (email, password, name) => {
         auth.register({ email, password, name })
-            .then((res) => {
+            .then(() => {
+                setIsInfoTooltipOpen(true);
+                setTooltipMessage('Вы успешно зарегистрировались!');
+                setMessageIcon(toolTipIconSuc);
+                //history.push("/movies");
+            })
+            .then(() => {
                 history.push("/movies");
                 //setErrorRegister('');
             })
             .catch(err => {
                 setErrorRegister(err);
+                setIsInfoTooltipOpen(true);
+                setTooltipMessage('Что-то пошло не так!\n' +
+                    'Попробуйте ещё раз.');
+                setMessageIcon(toolTipIconUnsuc);
                 console.log(err);
             })
     }
@@ -55,9 +73,9 @@ function App() {
     // авторизация
     const handleLogin = (password, email) => {
         auth.authorize(password, email)
-            .then(() => {
+            .then((res) => {
                 setLoggedIn(true);
-                //setCurrentUser(responce);
+                //setCurrentUser(res);
                 //setUserData({
                 //    email: email
                 //});
@@ -68,12 +86,17 @@ function App() {
                 console.log('loggedIn', loggedIn);
             })
             .catch((err) => {
-                //setIsInfoTooltipOpen(true);
-                //setTooltipMessage('Что-то пошло не так!\n' +
-                //    'Попробуйте ещё раз.');
-                //setMessageIcon(toolTipIconUnsuc);
-                console.log(err);
+                    setIsInfoTooltipOpen(true);
+                    setTooltipMessage('Что-то пошло не так!\n' +
+                        'Попробуйте ещё раз.');
+                    setMessageIcon(toolTipIconUnsuc);
+                    console.log(err);
             })
+    }
+
+    const handleSignOut = () => {
+        localStorage.removeItem('jwt');
+        setLoggedIn(false);
     }
 
     //информация о пользователе
@@ -128,10 +151,7 @@ function App() {
 
 
 
-    const handleSignOut = () => {
-        localStorage.removeItem('jwt');
-        setLoggedIn(false);
-    }
+
 
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
@@ -222,6 +242,12 @@ function App() {
       //      });
     //}
 
+    const closePopup = () => {
+        setIsInfoTooltipOpen(false);
+        setTooltipMessage('');
+        setMessageIcon('');
+    }
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
@@ -269,6 +295,14 @@ function App() {
                     <PageNotFound />
                 </Route>
             </Switch>
+
+            <InfoTooltip
+                isOpen={isInfoTooltipOpen}
+                messageIcon={messageIcon}
+                tooltipMessage={tooltipMessage}
+                onClose={closePopup}
+            />
+
         </div>
         </CurrentUserContext.Provider>
     );

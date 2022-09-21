@@ -1,7 +1,10 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect, useContext } from "react";
 import "./ProfileInfo.css";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function ProfileInfo({ name, email, onEdit, onExit }) {
+function ProfileInfo({ onEdit, onExit }) {
+    const { name, email } = useContext(CurrentUserContext);
+
     const [values, setValues] = useState({ name: name, email: email });
     const [errors, setErrors] = useState({ name: '' });
     const [isValid, setIsValid] = useState(false);

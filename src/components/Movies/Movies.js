@@ -9,8 +9,17 @@ import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
-
-function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, onMovieLike, isLoggedIn }) {
+function Movies({
+                    isLoading,
+                    search,
+                    setSearch,
+                    errorEmpty,
+                    getMovies,
+                    movies,
+                    onMovieLike,
+                    isLoggedIn,
+                    onMovieDelete
+                }) {
     const getScreenWidth = () => {
         return document.documentElement.clientWidth;
     };
@@ -91,6 +100,7 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, o
                             <MoviesCardList
                                 movies={renderingMovies}
                                 onMovieLike={onMovieLike}
+                                onMovieDelete={onMovieDelete}
                             />
                             <ButtonMore
                                 onClick={addMoreMovie}

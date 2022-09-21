@@ -21,22 +21,23 @@ class MainApi {
             })
     }
 
-    createSavedMovie({
-        country,
-        director,
-        duration,
-        year,
-        description,
-        image,
-        trailerLink,
-        nameRU,
-        nameEN,
-        thumbnail,
-        movieId,
-    //    owner: _id,
-    }) {
+    createSavedMovie(movie) {
+        const {
+            country,
+            director,
+            duration,
+            year,
+            description,
+            image,
+            trailerLink,
+            nameRU,
+            nameEN,
+            thumbnail,
+            movieId
+        } = movie;
         const promise = fetch((`${this._url}/movies`), {
             method: 'POST',
+            credentials: 'include',
             headers: this._headers,
             body: JSON.stringify({
                 country,

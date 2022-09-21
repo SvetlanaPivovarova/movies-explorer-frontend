@@ -230,6 +230,18 @@ function App() {
             })
     }
 
+    const handleDeleteMovie = (movieId) => {
+        mainApi.deleteSavedFilm(movieId)
+            .then(() => {
+                const filteredMovies = savedMovies.filter(
+                    (item) => item._id !== movieId
+                );
+                setSavedMovies(filteredMovies);
+                localStorage.setItem('savedMovies', JSON.stringify(filteredMovies));
+            })
+            .catch((err) => console.log(err));
+    }
+
     //function handleMovieLike(movie) {
     //    const isLiked = movie.likes.some(i => i._id === currentUser._id);
 
@@ -264,10 +276,11 @@ function App() {
                             setSearch={setSearch}
                             errorEmpty={errorEmpty}
                             getMovies={getMovies}
-                            onMovieLike={createSavedMovie}
                             //movies={searchedMovies}
                             movies={isSearched ? searchedMovies : []}
+                            onMovieLike={createSavedMovie}
                             isLoggedIn={loggedIn}
+                            onMovieDelete={handleDeleteMovie}
                         />
                 </ProtectedRoute>
                 <ProtectedRoute path="/saved-movies" isLoggedIn={loggedIn}>
@@ -277,11 +290,12 @@ function App() {
                         getMovies={getMovies}
                         movies={savedMovies}
                         createSavedMovie={createSavedMovie}
+
                     />
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
                     <Profile
-                        data={currentUser}
+                        // data={currentUser}
                         onEdit={updateUserProfile}
                         onExit={handleSignOut}
                     />

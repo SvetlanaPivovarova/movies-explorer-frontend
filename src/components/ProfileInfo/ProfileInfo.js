@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import "./ProfileInfo.css";
 
 function ProfileInfo({ name, email, onEdit }) {
     const [values, setValues] = useState({ name: name, email: email });
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({ name: '' });
     const [isValid, setIsValid] = useState(false);
 
     const handleChange = (event) => {
@@ -35,6 +35,11 @@ function ProfileInfo({ name, email, onEdit }) {
         }
         resetForm();
     }
+
+    useEffect(() => {
+        setValues({ name, email });
+    }, [name, email]);
+
     return(
         <section className="profile content">
             <h2 className="profile__greeting">

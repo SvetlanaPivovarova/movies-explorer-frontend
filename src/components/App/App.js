@@ -10,11 +10,11 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
+//import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import * as auth from "../../utils/auth";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-import {useMovies} from "../../utils/useMovies";
+//import {useMovies} from "../../utils/useMovies";
 import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION } from "../../utils/constants";
 import ProtectedRoute from "../ProtectedRoute";
 import toolTipIconSuc from '../../images/successfuly.svg';
@@ -26,8 +26,6 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [errorEmpty, setErrorEmpty] = useState('');
-
-    const [userData, setUserData] = useState({ email: '', name: '' });
 
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
@@ -75,14 +73,13 @@ function App() {
         auth.authorize(password, email)
             .then((res) => {
                 setLoggedIn(true);
-                //setCurrentUser(res);
+                setCurrentUser(res);
                 //setUserData({
                 //    email: email
                 //});
             })
             .then(() => {
                 history.push("/movies");
-                //console.log('Profile:', currentUser);
                 console.log('loggedIn', loggedIn);
             })
             .catch((err) => {
@@ -105,7 +102,7 @@ function App() {
             .then((user) => {
                 console.log('data:', user.data);
                 setCurrentUser(user.data);
-                setUserData(user.data);
+                //setUserData(user.data);
             })
             .catch((err) => {
                 console.log(err);
@@ -114,18 +111,25 @@ function App() {
 
     useEffect(() => {
         getUserInfo();
-    }, [loggedIn])
+    }, [loggedIn]);
 
     // обновляет информацию о пользователе (email и имя)
     const updateUserProfile = (name, email) => {
         mainApi.editProfile({ name, email })
-            .then((newUser) => {
+            .then(({ data: newUser }) => {
                 setCurrentUser(newUser);
-                console.log('data', newUser);
-                //closeAllPopups();
+                const {email, name} = newUser;
+                console.log('data:', {email, name});
+                setIsInfoTooltipOpen(true);
+                setTooltipMessage('Данные успешно обновлены!');
+                setMessageIcon(toolTipIconSuc);
             })
             .catch((err) => {
-                console.error(err);
+                setIsInfoTooltipOpen(true);
+                setTooltipMessage('Что-то пошло не так!\n' +
+                    'Попробуйте ещё раз.');
+                setMessageIcon(toolTipIconUnsuc);
+                console.log(err);
                 throw err;
             });
     }
@@ -148,10 +152,6 @@ function App() {
      //           })
       //  }
     //}
-
-
-
-
 
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
@@ -278,7 +278,7 @@ function App() {
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
                     <Profile
-                        data={userData}
+                        data={currentUser}
                         onEdit={updateUserProfile}
                     />
                 </ProtectedRoute>

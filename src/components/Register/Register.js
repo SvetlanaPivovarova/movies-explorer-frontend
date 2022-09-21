@@ -15,7 +15,6 @@ function Register({ onRegister, error }) {
         setValues({...values, [name]: value});
         setErrors({...errors, [name]: target.validationMessage });
         setIsValid(target.closest("form").checkValidity());
-        console.log('login:', values);
     };
 
     const resetForm = useCallback(
@@ -30,7 +29,6 @@ function Register({ onRegister, error }) {
     function handleSubmit(e) {
         e.preventDefault();
         const { email, password, name } = values;
-        console.log('email:', email);
         if (onRegister && password && email && name) {
             onRegister(email, password, name);
         }

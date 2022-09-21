@@ -48,14 +48,10 @@ function App() {
     const handleRegister = (email, password, name) => {
         auth.register({ email, password, name })
             .then(() => {
+                handleLogin(password, email);
                 setIsInfoTooltipOpen(true);
                 setTooltipMessage('Вы успешно зарегистрировались!');
                 setMessageIcon(toolTipIconSuc);
-                //history.push("/movies");
-            })
-            .then(() => {
-                history.push('/movies');
-                //setErrorRegister('');
             })
             .catch(err => {
                 setErrorRegister(err);
@@ -73,8 +69,6 @@ function App() {
             .then((res) => {
                 setLoggedIn(true);
                 setCurrentUser(res);
-            })
-            .then(() => {
                 history.push('/movies');
                 console.log('loggedIn', loggedIn);
             })
@@ -87,10 +81,16 @@ function App() {
             })
     }
 
+    // выход из аккаунта
     const handleSignOut = () => {
+        localStorage.removeItem('search');
         mainApi.signOut()
             .then(() => {
                 setLoggedIn(false);
+                setCurrentUser({});
+                setSavedMovies([]);
+                setSearchedMovies([]);
+                localStorage.clear();
                 history.push('/');
             })
             .catch((err) => {

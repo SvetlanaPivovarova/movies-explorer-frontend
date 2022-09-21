@@ -267,6 +267,7 @@ function App() {
                             onMovieLike={createSavedMovie}
                             //movies={searchedMovies}
                             movies={isSearched ? searchedMovies : []}
+                            isLoggedIn={loggedIn}
                         />
                 </ProtectedRoute>
                 <ProtectedRoute path="/saved-movies" isLoggedIn={loggedIn}>

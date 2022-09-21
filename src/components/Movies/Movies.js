@@ -10,7 +10,7 @@ import Preloader from "../Preloader/Preloader";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
 
-function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, onMovieLike }) {
+function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, onMovieLike, isLoggedIn }) {
     const getScreenWidth = () => {
         return document.documentElement.clientWidth;
     };
@@ -72,7 +72,7 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, o
     return(
         <>
             <NavigationSidebar isMenuOpened="true" />
-            <Header loggedIn="true" />
+            <Header loggedIn={isLoggedIn} />
             <SearchForm
                 search={search}
                 setSearch={setSearch}
@@ -97,7 +97,6 @@ function Movies({ isLoading, search, setSearch, errorEmpty, getMovies, movies, o
                                 isVisible={isButtonMoreShown}
                             />
                         </>
-
             }
 
             <Footer />

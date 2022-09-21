@@ -1,6 +1,7 @@
 .checkbox-container {
     display: flex;
     margin: 32px 0 47px;
+    padding-left: 0;
 }
 
 .checkbox__label {

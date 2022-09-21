@@ -36,20 +36,24 @@ function SearchForm({ search, setSearch, getMovies }) {
                 className="search-form"
                 name="search-film"
                 onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Фильм"
-                    name="film"
-                    className="search-form__text"
-                    onChange={handleSearchInputChange}
-                    value={frontSearch.query || ''}
-                    required
-                />
+                <div className="search-form__container">
+                    <input
+                        type="text"
+                        placeholder="Фильм"
+                        name="film"
+                        className="search-form__text"
+                        onChange={handleSearchInputChange}
+                        value={frontSearch.query || ''}
+                        required
+                    />
+
+                    <button type="submit" disabled={!frontSearch.query} className="search-form__submit-btn" />
+                </div>
+
                 <FilterCheckbox
                     checked={frontSearch.isShort}
                     onChange={handleChangeCheckbox}
                 />
-                <button type="submit" disabled={!frontSearch.query} className="search-form__submit-btn" />
             </form>
         </section>
     )

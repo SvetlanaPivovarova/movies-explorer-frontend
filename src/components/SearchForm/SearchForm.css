@@ -1,13 +1,16 @@
 .search-form {
     max-width: 100%;
     font-family: 'Inter', Arial, sans-serif;
+    align-items: center;
+    margin: 70px 0 0 0;
+    color: #ffffff;
+}
+
+.search-form__container {
     padding: 0 0 13px 0;
     border-bottom: 1px solid rgba(66, 66, 66, 1);
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin: 70px 0 0 0;
-    color: #ffffff;
 }
 
 .search-form__text {

@@ -3,7 +3,7 @@ import "./Profile.css";
 import Header from "../Header/Header";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
 
-function Profile({ data, onEdit }) {
+function Profile({ data, onEdit, onExit }) {
 
     return(
         <>
@@ -12,6 +12,7 @@ function Profile({ data, onEdit }) {
                 name={data.name}
                 email={data.email}
                 onEdit={onEdit}
+                onExit={onExit}
             />
         </>
     )

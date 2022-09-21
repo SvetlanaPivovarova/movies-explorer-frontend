@@ -42,7 +42,6 @@ function App() {
     const history = useHistory();
 
     //const searchedMovies = useMovies(movies, search.query, search.isShort);
-    //console.log(searchedMovies);
     //const searchedSavedMovies = useMovies(savedMovies, querySavedMovies, isChecked);
 
     // регистрация
@@ -55,7 +54,7 @@ function App() {
                 //history.push("/movies");
             })
             .then(() => {
-                history.push("/movies");
+                history.push('/movies');
                 //setErrorRegister('');
             })
             .catch(err => {
@@ -74,12 +73,9 @@ function App() {
             .then((res) => {
                 setLoggedIn(true);
                 setCurrentUser(res);
-                //setUserData({
-                //    email: email
-                //});
             })
             .then(() => {
-                history.push("/movies");
+                history.push('/movies');
                 console.log('loggedIn', loggedIn);
             })
             .catch((err) => {
@@ -92,8 +88,14 @@ function App() {
     }
 
     const handleSignOut = () => {
-        localStorage.removeItem('jwt');
-        setLoggedIn(false);
+        mainApi.signOut()
+            .then(() => {
+                setLoggedIn(false);
+                history.push('/');
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     //информация о пользователе
@@ -280,6 +282,7 @@ function App() {
                     <Profile
                         data={currentUser}
                         onEdit={updateUserProfile}
+                        onExit={handleSignOut}
                     />
                 </ProtectedRoute>
                 <Route path="/signup">

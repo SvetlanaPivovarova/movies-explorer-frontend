@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import "./ProfileInfo.css";
 
-function ProfileInfo({ name, email, onEdit }) {
+function ProfileInfo({ name, email, onEdit, onExit }) {
     const [values, setValues] = useState({ name: name, email: email });
     const [errors, setErrors] = useState({ name: '' });
     const [isValid, setIsValid] = useState(false);
@@ -77,7 +77,12 @@ function ProfileInfo({ name, email, onEdit }) {
                 <span id="email-error" className="form__error"/>
                 <button type="submit" disabled={!isValid} className="profile__button">Редактировать</button>
             </form>
-            <button className="profile__button profile__exit-button">Выйти из аккаунта</button>
+            <button
+                className="profile__button profile__exit-button"
+                onClick={onExit}
+            >
+                Выйти из аккаунта
+            </button>
         </section>
     )
 }

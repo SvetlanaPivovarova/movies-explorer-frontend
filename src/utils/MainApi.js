@@ -13,7 +13,7 @@ class MainApi {
             }
             else {
                 return Promise.reject(`Ошибка: ${res.status}`);
-                throw 'Ошибка запроса';
+                //throw 'Ошибка запроса';
             }
         })
             .then((result) => {
@@ -99,6 +99,15 @@ class MainApi {
                 name: name,
                 email: email
             })
+        });
+        return this._makeRequest(promise);
+    }
+
+    signOut() {
+        const promise = fetch((`${this._url}/signout`), {
+            method: 'GET',
+            headers: this._headers,
+            credentials: 'include'
         });
         return this._makeRequest(promise);
     }

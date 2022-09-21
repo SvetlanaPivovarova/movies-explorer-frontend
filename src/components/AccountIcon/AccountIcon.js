@@ -1,6 +1,6 @@
 import React from 'react';
 import './AccountIcon.css';
-import iconAccount from "../../images/iicon-account.svg";
+import iconAccount from "../../images/icon-account.svg";
 import {NavLink} from "react-router-dom";
 
 function AccountIcon({activeClassName}) {

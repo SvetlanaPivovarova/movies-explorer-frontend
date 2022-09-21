@@ -81,6 +81,7 @@ function App() {
         mainApi.getProfile()
             .then((user) => {
                 console.log('data:', user.data);
+                setCurrentUser(user.data);
                 setUserData(user.data);
             })
             .catch((err) => {
@@ -91,6 +92,20 @@ function App() {
     useEffect(() => {
         getUserInfo();
     }, [loggedIn])
+
+    // обновляет информацию о пользователе (email и имя)
+    const updateUserProfile = (name, email) => {
+        mainApi.editProfile({ name, email })
+            .then((newUser) => {
+                setCurrentUser(newUser);
+                console.log('data', newUser);
+                //closeAllPopups();
+            })
+            .catch((err) => {
+                console.error(err);
+                throw err;
+            });
+    }
 
     //useEffect(() => {
     //    checkToken();
@@ -236,7 +251,10 @@ function App() {
                     />
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
-                    <Profile data={userData} />
+                    <Profile
+                        data={userData}
+                        onEdit={updateUserProfile}
+                    />
                 </ProtectedRoute>
                 <Route path="/signup">
                     <Register

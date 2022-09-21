@@ -1,6 +1,6 @@
 import { API_URL } from "./constants";
 
-class MoviesApi {
+class MainApi {
     constructor(url, {headers}) {
         this._url = url;
         this._headers = headers;
@@ -89,13 +89,26 @@ class MoviesApi {
         });
         return this._makeRequest(promise);
     }
+
+    editProfile({name, email}) {
+        const promise = fetch((`${this._url}/users/me`), {
+            method: 'PATCH',
+            headers: this._headers,
+            credentials: 'include',
+            body: JSON.stringify({
+                name: name,
+                email: email
+            })
+        });
+        return this._makeRequest(promise);
+    }
 }
 
-const moviesApi = new MoviesApi(API_URL, {
+const mainApi = new MainApi(API_URL, {
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8'
     }
 });
 
-export default moviesApi;
+export default mainApi;

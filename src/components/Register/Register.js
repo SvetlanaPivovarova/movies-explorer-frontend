@@ -83,7 +83,7 @@ function Register({ onRegister, error }) {
             </form>
             <div className="form__signin">
                 <p className="form__signin-text">Уже зарегистрированы? </p>
-                <Link to="/sign-in" className="form__signin-text form__signin-text_link">Войти</Link>
+                <Link to="/signin" className="form__signin-text form__signin-text_link">Войти</Link>
             </div>
         </section>
     )

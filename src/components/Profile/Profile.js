@@ -3,12 +3,16 @@ import "./Profile.css";
 import Header from "../Header/Header";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
 
-function Profile({ data }) {
+function Profile({ data, onEdit }) {
 
     return(
         <>
             <Header />
-            <ProfileInfo name={data.name} email={data.email} />
+            <ProfileInfo
+                name={data.name}
+                email={data.email}
+                onEdit={onEdit}
+            />
         </>
     )
 }

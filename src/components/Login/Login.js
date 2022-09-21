@@ -75,7 +75,7 @@ function Login({ onLogin }) {
             </form>
             <div className="form__signin">
                 <p className="form__signin-text">Ещё не зарегистрированы?</p>
-                <Link to="/sign-up" className="form__signin-text form__signin-text_link">Регистрация</Link>
+                <Link to="/signup" className="form__signin-text form__signin-text_link">Регистрация</Link>
             </div>
         </section>
     )

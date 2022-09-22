@@ -14,6 +14,7 @@ function Movies({
                     search,
                     setSearch,
                     errorEmpty,
+                    errorRequest,
                     getMovies,
                     movies,
                     onMovieLike,
@@ -91,6 +92,10 @@ function Movies({
                 ?
                 <Preloader />
                 :
+                errorRequest
+                    ?
+                    <p className="movies__error-empty">{errorRequest}</p>
+                    :
                 errorEmpty
                     ?
                         <p className="movies__error-empty">{errorEmpty}</p>

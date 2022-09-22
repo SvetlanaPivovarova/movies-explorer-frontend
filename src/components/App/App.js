@@ -10,11 +10,10 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-//import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
+import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import * as auth from "../../utils/auth";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-//import {useMovies} from "../../utils/useMovies";
 import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION } from "../../utils/constants";
 import ProtectedRoute from "../ProtectedRoute";
 import toolTipIconSuc from '../../images/successfuly.svg';
@@ -40,9 +39,6 @@ function App() {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
     const history = useHistory();
-
-    //const searchedMovies = useMovies(movies, search.query, search.isShort);
-    //const searchedSavedMovies = useMovies(savedMovies, querySavedMovies, isChecked);
 
     // регистрация
     const handleRegister = (email, password, name) => {
@@ -136,25 +132,6 @@ function App() {
             });
     }
 
-    //useEffect(() => {
-    //    checkToken();
-    //}, []);
-
-    //const checkToken = () => {
-    //    const jwt = localStorage.getItem('jwt');
-    //    if (jwt) {
-    //        auth.checkToken(jwt)
-    //            .then(() => {
-    //                //setUserData(response.data.email);
-    //                setLoggedIn(true);
-     //               history.push('/movies');
-     //           })
-     //           .catch((err) => {
-     //               console.log(err);
-     //           })
-      //  }
-    //}
-
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
             return nameRU.toLowerCase().includes(query.toLowerCase().trim());
@@ -242,20 +219,6 @@ function App() {
             .catch((err) => console.log(err));
     }
 
-    //function handleMovieLike(movie) {
-    //    const isLiked = movie.likes.some(i => i._id === currentUser._id);
-
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-     //   api.changeLikeCardStatus(card._id, !isLiked)
-     //       .then((newCard) => {
-      //          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-      //      })
-      //      .catch((err) => {
-      //          console.error(err);
-      //          throw err;
-      //      });
-    //}
-
     const closePopup = () => {
         setIsInfoTooltipOpen(false);
         setTooltipMessage('');
@@ -265,6 +228,7 @@ function App() {
     return (
         <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
+            <NavigationSidebar isMenuOpened="true" />
             <Switch>
                 <Route exact path="/">
                     <Main />
@@ -275,6 +239,7 @@ function App() {
                             search={search}
                             setSearch={setSearch}
                             errorEmpty={errorEmpty}
+                            errorRequest={error}
                             getMovies={getMovies}
                             //movies={searchedMovies}
                             movies={isSearched ? searchedMovies : []}
@@ -295,7 +260,6 @@ function App() {
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
                     <Profile
-                        // data={currentUser}
                         onEdit={updateUserProfile}
                         onExit={handleSignOut}
                     />

@@ -51,4 +51,6 @@
 Дополнительные сведения см. в разделе о развертывании [deployment](https://facebook.github.io/create-react-app/docs/deployment) .
 
 **Размещение проекта**
+[movies-explorer-frontend](http://pivovarova.diploma.nomoredomains.xyz/) \
+[movies-explorer server](http://api.pivovarova.diploma.nomoredomains.xyz/) \
 Ссылка на пул реквест https://github.com/SvetlanaPivovarova/movies-explorer-frontend/pull/2

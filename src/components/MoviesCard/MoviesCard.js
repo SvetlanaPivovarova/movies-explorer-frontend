@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import "./MoviesCard.css";
 import {BASE_URL} from "../../utils/constants";
@@ -14,6 +15,8 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     //const isLiked = item.likes.some(i => i._id === currentUser._id);
 
     const [isLiked, setIsLiked] = useState(false);
+
+    let location = useLocation();
 
     useEffect(() => {
         const isSaved = savedMovies.find((movie) => movie.movieId === item.id);
@@ -31,22 +34,41 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
         }
     };
 
-    const handleDeleteClick = () => {
-        //onMovieDelete(item);
+    const handleDeleteClick = (item) => {
+        onMovieDelete(item);
         setIsLiked(false);
     };
+
+    const handleMovieClick = () => {
+        window.open(item.trailerLink, '_blank');
+    }
 
     // Создаём переменную, которую после зададим в `className` для кнопки лайка
     const moviesCardLikeButtonClassName = (
         `movies-card__like-icon ${isLiked ? 'movies-card__like-icon_active' : ''}`
     );
 
+    // формат длительности фильма
+    const durationFormat = (item) => {
+        const hours = Math.floor(item.duration / 60);
+        const min = item.duration % 60;
+        return hours ? `${hours}ч ${min}м` : `${min}м`;
+    }
+
     return(
-        <article className="movies-card">
+        <article className="movies-card" onClick={handleMovieClick}>
             <img className="movies-card__image" src={`${BASE_URL}${item.image.url}`} alt={item.nameRU}/>
             <div className="movies-card__caption">
                 <h2 className="movies-card__title">{item.nameRU}</h2>
                 <div className="movies-card__like">
+                    {location.pathname === '/saved-movies' && (
+                        <button
+                            className="movies-card__like-icon movies-card__delete-icon"
+                            onClick={handleDeleteClick}
+                            type="button"
+                            aria-label="Удалить"
+                        />
+                    )}
                     <button
                         className={moviesCardLikeButtonClassName}
                         onClick={handleLikeClick}
@@ -55,7 +77,7 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
                     />
                 </div>
             </div>
-            <p className="movies-card__duration">{item.duration}</p>
+            <p className="movies-card__duration">{durationFormat}</p>
         </article>
     )
 }

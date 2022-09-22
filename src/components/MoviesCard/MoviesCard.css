@@ -37,6 +37,10 @@
     margin: 0;
 }
 
+.movies-card__delete-icon {
+    background-image: url("../../images/delete-icon.svg");
+}
+
 .movies-card__duration {
     color: rgba(139, 139, 139, 1);
     font-size: 11px;

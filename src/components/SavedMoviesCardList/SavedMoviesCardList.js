@@ -1,5 +1,4 @@
 import React from "react";
-import {initialCards} from "../../utils/data";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 function SavedMoviesCardList({ movies, onMovieLike }) {

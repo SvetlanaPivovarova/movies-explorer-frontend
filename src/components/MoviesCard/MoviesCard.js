@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import "./MoviesCard.css";
 import {BASE_URL} from "../../utils/constants";
-//import savedMovies from "../SavedMovies/SavedMovies";
 
 function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
@@ -56,8 +55,13 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     }
 
     return(
-        <article className="movies-card" onClick={handleMovieClick}>
-            <img className="movies-card__image" src={`${BASE_URL}${item.image.url}`} alt={item.nameRU}/>
+        <article className="movies-card">
+            <img
+                className="movies-card__image"
+                src={`${BASE_URL}${item.image.url}`}
+                alt={item.nameRU}
+                onClick={handleMovieClick}
+            />
             <div className="movies-card__caption">
                 <h2 className="movies-card__title">{item.nameRU}</h2>
                 <div className="movies-card__like">
@@ -77,7 +81,7 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
                     />
                 </div>
             </div>
-            <p className="movies-card__duration">{durationFormat}</p>
+            <p className="movies-card__duration">{durationFormat(item)}</p>
         </article>
     )
 }

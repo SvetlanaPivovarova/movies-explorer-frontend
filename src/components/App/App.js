@@ -233,7 +233,7 @@ function App() {
                 <Route exact path="/">
                     <Main />
                 </Route>
-                <ProtectedRoute path="/movies" isLoggedIn={loggedIn}>
+                <Route path="/movies" isLoggedIn={loggedIn}>
                         <Movies
                             isLoading={isLoading}
                             search={search}
@@ -247,8 +247,8 @@ function App() {
                             isLoggedIn={loggedIn}
                             onMovieDelete={handleDeleteMovie}
                         />
-                </ProtectedRoute>
-                <ProtectedRoute path="/saved-movies" isLoggedIn={loggedIn}>
+                </Route>
+                <Route path="/saved-movies" isLoggedIn={loggedIn}>
                     <SavedMovies
                         search={search}
                         setSearch={setSearch}
@@ -257,7 +257,7 @@ function App() {
                         createSavedMovie={createSavedMovie}
 
                     />
-                </ProtectedRoute>
+                </Route>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
                     <Profile
                         onEdit={updateUserProfile}

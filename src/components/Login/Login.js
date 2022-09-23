@@ -1,4 +1,7 @@
-import React, { useState, useCallback } from "react";
+import React, {
+    useState,
+    // useCallback
+} from "react";
 import "./Login.css";
 import logoHeader from "../../images/logo.svg";
 import {Link} from "react-router-dom";
@@ -17,19 +20,14 @@ function Login({ onLogin }) {
         setIsValid(target.closest("form").checkValidity());
     };
 
-    const resetForm = useCallback(
-        (newValues = {}, newErrors = {}, newIsValid = false) => {
-            setLogin(newValues);
-            setErrors(newErrors);
-            setIsValid(newIsValid);
-        },
-        [setLogin, setErrors, setIsValid]
-    );
-
-    //const handleChange = (event) => {
-    //    const { value, name } = event.target;
-    //    setLogin({ ...login, [name]: value });
-    //};
+    //const resetForm = useCallback(
+    //    (newValues = {}, newErrors = {}, newIsValid = false) => {
+    //        setLogin(newValues);
+    //        setErrors(newErrors);
+    //        setIsValid(newIsValid);
+    //    },
+    //    [setLogin, setErrors, setIsValid]
+    //);
 
     function handleSubmit(e) {
         e.preventDefault();

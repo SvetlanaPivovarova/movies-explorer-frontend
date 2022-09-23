@@ -99,15 +99,6 @@ class MainApi {
         });
         return this._makeRequest(promise);
     }
-
-    signOut() {
-        const promise = fetch((`${this._url}/signout`), {
-            method: 'GET',
-            headers: this._headers,
-            //credentials: 'include'
-        });
-        return this._makeRequest(promise);
-    }
 }
 
 const mainApi = new MainApi(API_URL, {

@@ -79,19 +79,12 @@ function App() {
 
     // выход из аккаунта
     const handleSignOut = () => {
-        localStorage.removeItem('search');
-        mainApi.signOut()
-            .then(() => {
-                setLoggedIn(false);
-                setCurrentUser({});
-                setSavedMovies([]);
-                setSearchedMovies([]);
-                localStorage.clear();
-                history.push('/');
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        localStorage.clear();
+        setLoggedIn(false);
+        setCurrentUser({});
+        setSavedMovies([]);
+        setSearchedMovies([]);
+        history.push('/');
     }
 
     useEffect(() => {

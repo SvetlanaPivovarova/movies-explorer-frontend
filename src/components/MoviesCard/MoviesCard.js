@@ -34,8 +34,10 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
         }
     };
 
-    const handleDeleteClick = (item) => {
-        onMovieDelete(item);
+    const handleDeleteClick = () => {
+        const { _id } = item;
+        console.log('id', _id);
+        onMovieDelete(_id);
         setIsLiked(false);
     };
 

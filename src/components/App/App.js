@@ -231,7 +231,7 @@ function App() {
                 setSavedMovies(newSavedMovies);
                 localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
             //.then((newSavedMovie) => {
-                console.log('saved', res.director);
+                console.log('saved', res._id);
             //    setSavedMovies([...savedMovies, newSavedMovie]);
             //    localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
                 console.log('savedMovies:', savedMovies);

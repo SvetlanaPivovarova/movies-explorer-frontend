@@ -61,7 +61,11 @@ class MainApi {
     deleteSavedFilm(id) {
         const promise = fetch((`${this._url}/movies/${id}`), {
             method: 'DELETE',
-            headers: this._headers,
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
         });
         return this._makeRequest(promise);
     }

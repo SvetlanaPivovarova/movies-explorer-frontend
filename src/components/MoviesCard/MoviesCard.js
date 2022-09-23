@@ -84,12 +84,15 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
                             aria-label="Удалить"
                         />
                     )}
-                    <button
-                        className={moviesCardLikeButtonClassName}
-                        onClick={handleLikeClick}
-                        type="button"
-                        aria-label="Нравится"
-                    />
+                    {location.pathname === '/movies' && (
+                        <button
+                            className={moviesCardLikeButtonClassName}
+                            onClick={handleLikeClick}
+                            type="button"
+                            aria-label="Нравится"
+                        />
+                    )}
+
                 </div>
             </div>
             <p className="movies-card__duration">{durationFormat(item)}</p>

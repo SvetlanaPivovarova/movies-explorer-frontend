@@ -275,7 +275,6 @@ function App() {
                             errorEmpty={errorEmpty}
                             errorRequest={error}
                             getMovies={getMovies}
-                            //movies={searchedMovies}
                             movies={isSearched ? searchedMovies : []}
                             onMovieLike={createSavedMovie}
                             isLoggedIn={loggedIn}

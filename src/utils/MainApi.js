@@ -35,11 +35,7 @@ class MainApi {
         const promise = fetch((`${this._url}/movies`), {
             method: 'POST',
             //credentials: 'include',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json; charset=utf-8'
-            },
+            headers: this._headers,
             body: JSON.stringify({
                 country,
                 director,
@@ -52,7 +48,6 @@ class MainApi {
                 nameEN,
                 thumbnail: `${BASE_URL}${movie.image.formats.thumbnail.url}`,
                 movieId: movie.id,
-               // owner
             })
         });
         return this._makeRequest(promise);
@@ -61,11 +56,7 @@ class MainApi {
     deleteSavedFilm(id) {
         const promise = fetch((`${this._url}/movies/${id}`), {
             method: 'DELETE',
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json; charset=utf-8'
-            },
+            headers: this._headers,
         });
         return this._makeRequest(promise);
     }
@@ -74,7 +65,7 @@ class MainApi {
         if (isLiked) {
             const promise = fetch((`${this._url}/cards/${id}/likes`), {
                 method: 'PUT',
-                headers: this._headers
+                headers: this._headers,
             });
             return this._makeRequest(promise);
         }
@@ -121,7 +112,7 @@ class MainApi {
 
 const mainApi = new MainApi(API_URL, {
     headers: {
-        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8'
     }

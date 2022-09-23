@@ -1,4 +1,4 @@
-import { API_URL } from "./constants";
+import {API_URL, BASE_URL} from "./constants";
 
 class MainApi {
     constructor(url, {headers}) {
@@ -28,29 +28,30 @@ class MainApi {
             duration,
             year,
             description,
-            image,
             trailerLink,
             nameRU,
-            nameEN,
-            thumbnail,
-            movieId
+            nameEN
         } = movie;
         const promise = fetch((`${this._url}/movies`), {
             method: 'POST',
-            credentials: 'include',
-            headers: this._headers,
+            //credentials: 'include',
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
             body: JSON.stringify({
                 country,
                 director,
                 duration,
                 year,
                 description,
-                image,
+                image: `${BASE_URL}${movie.image.url}`,
                 trailerLink,
                 nameRU,
                 nameEN,
-                thumbnail,
-                movieId,
+                thumbnail: `${BASE_URL}${movie.image.formats.thumbnail.url}`,
+                movieId: movie.id,
                // owner
             })
         });
@@ -86,7 +87,7 @@ class MainApi {
         const promise = fetch((`${this._url}/users/me`), {
             method: 'GET',
             headers: this._headers,
-            credentials: 'include',
+            //credentials: 'include',
         });
         return this._makeRequest(promise);
     }
@@ -95,7 +96,7 @@ class MainApi {
         const promise = fetch((`${this._url}/users/me`), {
             method: 'PATCH',
             headers: this._headers,
-            credentials: 'include',
+            //credentials: 'include',
             body: JSON.stringify({
                 name: name,
                 email: email
@@ -108,7 +109,7 @@ class MainApi {
         const promise = fetch((`${this._url}/signout`), {
             method: 'GET',
             headers: this._headers,
-            credentials: 'include'
+            //credentials: 'include'
         });
         return this._makeRequest(promise);
     }
@@ -116,6 +117,7 @@ class MainApi {
 
 const mainApi = new MainApi(API_URL, {
     headers: {
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=utf-8'
     }

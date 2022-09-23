@@ -94,22 +94,31 @@ function App() {
             })
     }
 
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
     //информация о пользователе
     const getUserInfo = () => {
         mainApi.getProfile()
             .then((user) => {
-                console.log('data:', user.data);
-                setCurrentUser(user.data);
+
+                if (user) {
+                    setCurrentUser(user.data);
+                    setLoggedIn(true);
+                    history.push('/movies');
+                    console.log('data:', user);
+                }
+                // setCurrentUser(user.data);
                 //setUserData(user.data);
             })
             .catch((err) => {
                 console.log(err);
+                setLoggedIn(false);
             })
     }
 
-    useEffect(() => {
-        getUserInfo();
-    }, [loggedIn]);
+
 
     // обновляет информацию о пользователе (email и имя)
     const updateUserProfile = (name, email) => {
@@ -130,6 +139,26 @@ function App() {
                 console.log(err);
                 throw err;
             });
+    }
+
+    useEffect(() => {
+        checkToken()
+    }, []);
+
+    const checkToken = () => {
+        const jwt = localStorage.getItem('jwt');
+        console.log('jwt', jwt);
+        if (jwt) {
+            auth.checkToken(jwt)
+                .then(() => {
+                    //setUserData(response.data.email);
+                    setLoggedIn(true);
+                    history.push('/movies');
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        }
     }
 
     const filteringMovies = (movies, query, isShort) => {
@@ -197,9 +226,14 @@ function App() {
 
     const createSavedMovie = (item) => {
         mainApi.createSavedMovie(item)
-            .then((newSavedMovie) => {
-                setSavedMovies([...savedMovies, newSavedMovie]);
-                localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+            .then((res) => {
+                const newSavedMovies = [...savedMovies, res];
+                setSavedMovies(newSavedMovies);
+                localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+            //.then((newSavedMovie) => {
+                console.log('saved', res.director);
+            //    setSavedMovies([...savedMovies, newSavedMovie]);
+            //    localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
                 console.log('savedMovies:', savedMovies);
             })
             .catch((err) => {
@@ -255,7 +289,7 @@ function App() {
                         getMovies={getMovies}
                         movies={savedMovies}
                         createSavedMovie={createSavedMovie}
-
+                        onMovieDelete={handleDeleteMovie}
                     />
                 </Route>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>

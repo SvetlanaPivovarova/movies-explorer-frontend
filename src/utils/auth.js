@@ -41,6 +41,12 @@ export const authorize = (password, email) => {
         )
     })
         .then((response => response.json()))
+        .then((data) => {
+            if (data.token){
+                localStorage.setItem('jwt', data.token);
+                return data.token;
+            }
+        })
     //.then((data) => {
     //    if (data.token){
     //        localStorage.setItem('jwt', data.token);
@@ -49,14 +55,14 @@ export const authorize = (password, email) => {
     // })
 };
 
-export const checkToken = () => {
+export const checkToken = (token) => {
     return fetch(`${API_URL}/users/me`, {
-        credentials: 'include',
+        //credentials: 'include',
         method: "GET",
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            //"Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     })
         .then(res => {

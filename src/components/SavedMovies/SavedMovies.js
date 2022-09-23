@@ -4,10 +4,10 @@ import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import ButtonMore from "../ButtonMore/ButtonMore";
 import Footer from "../Footer/Footer";
-import SavedMoviesCardList from "../SavedMoviesCardList/SavedMoviesCardList";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
-function SavedMovies({ search, setSearch, getMovies, movies, createSavedMovie }) {
+function SavedMovies({ search, setSearch, getMovies, movies, createSavedMovie, onMovieDelete }) {
     return(
         <>
             <NavigationSidebar isMenuOpened="true" />
@@ -17,9 +17,10 @@ function SavedMovies({ search, setSearch, getMovies, movies, createSavedMovie })
                 setSearch={setSearch}
                 getMovies={getMovies}
             />
-            <SavedMoviesCardList
+            <MoviesCardList
                 movies={movies}
                 onMovieLike={createSavedMovie}
+                onMovieDelete={onMovieDelete}
             />
             <ButtonMore />
             <Footer />

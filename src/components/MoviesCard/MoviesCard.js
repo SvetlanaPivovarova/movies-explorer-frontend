@@ -14,6 +14,7 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     //const isLiked = item.likes.some(i => i._id === currentUser._id);
 
     const [isLiked, setIsLiked] = useState(false);
+    const [imgUrl, setImgUrl] = useState('');
 
     let location = useLocation();
 
@@ -54,11 +55,21 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
         return hours ? `${hours}ч ${min}м` : `${min}м`;
     }
 
+    useEffect(() => {
+        const url =
+            location.pathname === '/saved-movies'
+                ? item.image
+                : item?.image?.url.includes(BASE_URL)
+                    ? item.image
+                    : `${BASE_URL}${item.image.url}`;
+        setImgUrl(url);
+    }, [item]);
+
     return(
         <article className="movies-card">
             <img
                 className="movies-card__image"
-                src={`${BASE_URL}${item.image.url}`}
+                src={imgUrl}
                 alt={item.nameRU}
                 onClick={handleMovieClick}
             />

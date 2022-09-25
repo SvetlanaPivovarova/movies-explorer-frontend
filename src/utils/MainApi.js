@@ -79,7 +79,12 @@ class MainApi {
     }
 
     getSavedMovies() {
-
+        const promise = fetch((`${this._url}/movies`), {
+            method: 'GET',
+            headers: this._headers,
+            //credentials: 'include',
+        });
+        return this._makeRequest(promise);
     }
 
     getProfile() {

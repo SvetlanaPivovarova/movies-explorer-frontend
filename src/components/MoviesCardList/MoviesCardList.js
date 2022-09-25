@@ -10,7 +10,7 @@ function MoviesCardList({ movies, onMovieLike, onMovieDelete, savedMovies }) {
             {movies.map((card) => (
                 <MoviesCard
                     item={card}
-                    key={card.id}
+                    key={card._id}
                     savedMovies={savedMovies}
                     onMovieLike={onMovieLike}
                     onMovieDelete={onMovieDelete}

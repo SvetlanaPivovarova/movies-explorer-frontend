@@ -246,6 +246,22 @@ function App() {
             .catch((err) => console.log(err));
     }
 
+    const [savedMoviesFromServ, setSavedMoviesFromServ] = useState([]);
+
+    useEffect(() => {
+        getSavedMoviesFromServ();
+    }, []);
+
+    const getSavedMoviesFromServ = () => {
+        mainApi.getSavedMovies()
+            .then((movies) => {
+                setSavedMoviesFromServ(movies);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     const closePopup = () => {
         setIsInfoTooltipOpen(false);
         setTooltipMessage('');
@@ -284,7 +300,7 @@ function App() {
                         movies={savedMovies}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
-                        savedMovies={savedMovies}
+                        savedMovies={savedMoviesFromServ}
                     />
                 </Route>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>

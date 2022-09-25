@@ -7,11 +7,14 @@ import Footer from "../Footer/Footer";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
-function SavedMovies({ search, setSearch, getMovies, movies, createSavedMovie, onMovieDelete }) {
+function SavedMovies({ isLoggedIn, search, setSearch, getMovies, movies, createSavedMovie, onMovieDelete }) {
     return(
         <>
             <NavigationSidebar isMenuOpened="true" />
-            <Header loggedIn="true" />
+            <Header
+                modifier={false}
+                loggedIn={isLoggedIn}
+            />
             <SearchForm
                 search={search}
                 setSearch={setSearch}

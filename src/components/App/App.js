@@ -276,6 +276,7 @@ function App() {
                 </Route>
                 <Route path="/saved-movies" isLoggedIn={loggedIn}>
                     <SavedMovies
+                        isLoggedIn={loggedIn}
                         search={search}
                         setSearch={setSearch}
                         getMovies={getMovies}

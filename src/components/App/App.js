@@ -272,6 +272,7 @@ function App() {
                             onMovieLike={createSavedMovie}
                             isLoggedIn={loggedIn}
                             onMovieDelete={handleDeleteMovie}
+                            savedMovies={savedMovies}
                         />
                 </Route>
                 <Route path="/saved-movies" isLoggedIn={loggedIn}>
@@ -283,6 +284,7 @@ function App() {
                         movies={savedMovies}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
+                        savedMovies={savedMovies}
                     />
                 </Route>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>

@@ -2,7 +2,7 @@ import React from "react";
 import "./MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({ movies, onMovieLike, onMovieDelete }) {
+function MoviesCardList({ movies, onMovieLike, onMovieDelete, savedMovies }) {
     //const [cards, setCards] = React.useState([]);
 
     return(
@@ -11,7 +11,7 @@ function MoviesCardList({ movies, onMovieLike, onMovieDelete }) {
                 <MoviesCard
                     item={card}
                     key={card.id}
-                    savedMovies={movies}
+                    savedMovies={savedMovies}
                     onMovieLike={onMovieLike}
                     onMovieDelete={onMovieDelete}
                     //isLiked={card.isLiked}

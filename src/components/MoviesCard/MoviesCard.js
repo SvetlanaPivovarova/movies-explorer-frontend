@@ -26,7 +26,7 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     const handleLikeClick = () => {
         setIsLiked(true);
         if (isLiked) {
-            const { _id } = savedMovies.find((movie) => movie.movieId === item.id);
+            const { _id } = savedMovies.find((movie) => movie.movieId === item._id);
             onMovieDelete(_id);
         } else {
             onMovieLike(item, _id);

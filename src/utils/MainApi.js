@@ -78,6 +78,10 @@ class MainApi {
         }
     }
 
+    getSavedMovies() {
+
+    }
+
     getProfile() {
         const promise = fetch((`${this._url}/users/me`), {
             method: 'GET',

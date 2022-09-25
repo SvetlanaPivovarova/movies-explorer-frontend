@@ -19,7 +19,8 @@ function Movies({
                     movies,
                     onMovieLike,
                     isLoggedIn,
-                    onMovieDelete
+                    onMovieDelete,
+                    savedMovies
                 }) {
     const getScreenWidth = () => {
         return document.documentElement.clientWidth;
@@ -106,6 +107,7 @@ function Movies({
                                 movies={renderingMovies}
                                 onMovieLike={onMovieLike}
                                 onMovieDelete={onMovieDelete}
+                                savedMovies={savedMovies}
                             />
                             <ButtonMore
                                 onClick={addMoreMovie}

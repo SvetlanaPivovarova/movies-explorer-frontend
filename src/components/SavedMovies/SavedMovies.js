@@ -7,7 +7,14 @@ import Footer from "../Footer/Footer";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
-function SavedMovies({ isLoggedIn, search, setSearch, getMovies, movies, createSavedMovie, onMovieDelete }) {
+function SavedMovies({ isLoggedIn,
+                         search,
+                         setSearch,
+                         getMovies,
+                         movies,
+                         createSavedMovie,
+                         onMovieDelete,
+                         savedMovies}) {
     return(
         <>
             <NavigationSidebar isMenuOpened="true" />
@@ -22,6 +29,7 @@ function SavedMovies({ isLoggedIn, search, setSearch, getMovies, movies, createS
             />
             <MoviesCardList
                 movies={movies}
+                savedMovies={savedMovies}
                 onMovieLike={createSavedMovie}
                 onMovieDelete={onMovieDelete}
             />

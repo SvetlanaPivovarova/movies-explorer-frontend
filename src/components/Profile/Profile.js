@@ -3,10 +3,13 @@ import "./Profile.css";
 import Header from "../Header/Header";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
 
-function Profile({ onEdit, onExit }) {
+function Profile({ isLoggedIn, onEdit, onExit }) {
     return(
         <>
-            <Header />
+            <Header
+                modifier={false}
+                loggedIn={isLoggedIn}
+            />
             <ProfileInfo
                 onEdit={onEdit}
                 onExit={onExit}

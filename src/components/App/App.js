@@ -287,6 +287,7 @@ function App() {
                 </Route>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
                     <Profile
+                        isLoggedIn={loggedIn}
                         onEdit={updateUserProfile}
                         onExit={handleSignOut}
                     />

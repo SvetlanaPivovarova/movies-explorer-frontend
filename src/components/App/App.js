@@ -97,23 +97,18 @@ function App() {
     const getUserInfo = () => {
         mainApi.getProfile()
             .then((user) => {
-
                 if (user) {
                     setCurrentUser(user.data);
                     setLoggedIn(true);
                     history.push('/movies');
                     console.log('data:', user);
                 }
-                // setCurrentUser(user.data);
-                //setUserData(user.data);
             })
             .catch((err) => {
                 console.log(err);
                 setLoggedIn(false);
             })
     }
-
-
 
     // обновляет информацию о пользователе (email и имя)
     const updateUserProfile = (name, email) => {
@@ -146,7 +141,6 @@ function App() {
         if (jwt) {
             auth.checkToken(jwt)
                 .then(() => {
-                    //setUserData(response.data.email);
                     setLoggedIn(true);
                     history.push('/movies');
                 })
@@ -169,8 +163,6 @@ function App() {
 
     useEffect(() => {
         if (movies.length) {
-            console.log('queryFilm:', search.query);
-            console.log('queryShort:', search.isShort);
             const filteredMovies = filteringMovies(movies, search.query, search.isShort);
             setSearchedMovies(filteredMovies);
             localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
@@ -204,8 +196,6 @@ function App() {
                     setMovies(data);
                     localStorage.setItem('movies', JSON.stringify(data));
                     setIsSearched(true);
-                    console.log(data);
-
                 })
                 .catch(() => {
                     setError(ERROR_REQUEST_TEXT);
@@ -276,7 +266,7 @@ function App() {
                 <Route exact path="/">
                     <Main />
                 </Route>
-                <Route path="/movies" isLoggedIn={loggedIn}>
+                <ProtectedRoute path="/movies" isLoggedIn={loggedIn}>
                         <Movies
                             isLoading={isLoading}
                             search={search}
@@ -290,8 +280,8 @@ function App() {
                             onMovieDelete={handleDeleteMovie}
                             savedMovies={savedMovies}
                         />
-                </Route>
-                <Route path="/saved-movies" isLoggedIn={loggedIn}>
+                </ProtectedRoute>
+                <ProtectedRoute path="/saved-movies" isLoggedIn={loggedIn}>
                     <SavedMovies
                         isLoggedIn={loggedIn}
                         filtering={filteringMovies}
@@ -299,7 +289,7 @@ function App() {
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
                     />
-                </Route>
+                </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>
                     <Profile
                         isLoggedIn={loggedIn}

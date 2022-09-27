@@ -22,17 +22,19 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 function App() {
     const [currentUser, setCurrentUser] = useState({});
+    const [loggedIn, setLoggedIn] = useState(false);
+
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const [errorEmpty, setErrorEmpty] = useState('');
 
     const [movies, setMovies] = useState([]);
     const [savedMovies, setSavedMovies] = useState([]);
+    const [savedMoviesFromServ, setSavedMoviesFromServ] = useState([]);
 
     const [search, setSearch] = useState({ query: '', isShort: false });
     const [isSearched, setIsSearched] = useState(false);
     const [searchedMovies, setSearchedMovies] = useState([]);
-    const [loggedIn, setLoggedIn] = useState(false);
 
     const [tooltipMessage, setTooltipMessage] = useState('');
     const [messageIcon, setMessageIcon] = useState('');
@@ -245,8 +247,6 @@ function App() {
             })
             .catch((err) => console.log(err));
     }
-
-    const [savedMoviesFromServ, setSavedMoviesFromServ] = useState([]);
 
     useEffect(() => {
         getSavedMoviesFromServ();

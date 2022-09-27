@@ -49,7 +49,7 @@ function SavedMovies({ isLoggedIn,
                 setSearch={setSearch}
                 getMovies={searchInSavedMovies}
             />
-            {error && <p>{error}</p> }
+            {error && <p className='movies__error-empty' >{error}</p> }
             <MoviesCardList
                 movies={filteredMovies}
                 savedMovies={filteredMovies}

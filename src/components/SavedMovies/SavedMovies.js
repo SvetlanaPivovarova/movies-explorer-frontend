@@ -35,7 +35,7 @@ function SavedMovies({ isLoggedIn,
                 setError('Ничего не найдено');
             } else setError('');
         }
-    }, []);
+    }, [filtering, movies, search.query, search.isShort]);
 
     return(
         <>

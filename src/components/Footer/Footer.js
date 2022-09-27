@@ -9,13 +9,13 @@ function Footer() {
                 <p className="footer__copyright">&copy; 2020</p>
                 <ul className="content__links content__links_type_footer">
                     <li className="content__link content__link_type_footer">
-                        <a className="content__link-item content__link-item_type_footer" href="https://practicum.yandex.ru/" target="_blank">Яндекс.Практикум</a>
+                        <a className="content__link-item content__link-item_type_footer" href="https://practicum.yandex.ru/" target="_blank" rel="noreferrer">Яндекс.Практикум</a>
                     </li>
                     <li className="content__link content__link_type_footer">
-                        <a className="content__link-item content__link-item_type_footer" href="https://github.com/SvetlanaPivovarova/" target="_blank">Github</a>
+                        <a className="content__link-item content__link-item_type_footer" href="https://github.com/SvetlanaPivovarova/" target="_blank" rel="noreferrer">Github</a>
                     </li>
                     <li className="content__link content__link_type_footer">
-                        <a className="content__link-item content__link-item_type_footer" href="https://vk.com/id859528" target="_blank">VK</a>
+                        <a className="content__link-item content__link-item_type_footer" href="https://vk.com/id859528" target="_blank" rel="noreferrer">VK</a>
                     </li>
                 </ul>
             </div>

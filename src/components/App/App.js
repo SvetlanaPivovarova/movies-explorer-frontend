@@ -91,6 +91,7 @@ function App() {
 
     useEffect(() => {
         getUserInfo();
+        // eslint-disable-next-line
     }, []);
 
     //информация о пользователе
@@ -133,6 +134,7 @@ function App() {
 
     useEffect(() => {
         checkToken()
+        // eslint-disable-next-line
     }, []);
 
     const checkToken = () => {

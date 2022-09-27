@@ -65,7 +65,7 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
                     ? item.image
                     : `${BASE_URL}${item.image.url}`;
         setImgUrl(url);
-    }, [item]);
+    }, [item, location.pathname]);
 
     return(
         <article className="movies-card">

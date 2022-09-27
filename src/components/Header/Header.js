@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, NavLink, Route} from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import './Header.css';
 import logoHeader from '../../images/logo.svg'; // Путь к изображению внутри сборки

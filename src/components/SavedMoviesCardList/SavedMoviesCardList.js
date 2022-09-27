@@ -10,7 +10,6 @@ function SavedMoviesCardList({ movies, onMovieLike }) {
                 key={card._id}
                 onMovieLike={onMovieLike}
                 />
-
             ))
             }
         </section>

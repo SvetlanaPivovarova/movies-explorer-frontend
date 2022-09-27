@@ -18,10 +18,10 @@ function AboutMe() {
                     </p>
                     <ul className="content__links">
                         <li className="content__link">
-                            <a className="content__link-item" href="https://vk.com/id859528" target="_blank">VK</a>
+                            <a className="content__link-item" href="https://vk.com/id859528" target="_blank" rel="noreferrer">VK</a>
                         </li>
                         <li className="content__link">
-                            <a className="content__link-item" href="https://github.com/SvetlanaPivovarova/" target="_blank">Github</a>
+                            <a className="content__link-item" href="https://github.com/SvetlanaPivovarova/" target="_blank" rel="noreferrer">Github</a>
                         </li>
                     </ul>
                 </div>

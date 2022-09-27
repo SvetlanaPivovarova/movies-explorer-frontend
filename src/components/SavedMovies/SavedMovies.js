@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./SavedMovies.css";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
@@ -8,15 +8,34 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
 function SavedMovies({ isLoggedIn,
-                         search,
-                         setSearch,
-                         getMovies,
+                         filtering,
                          movies,
                          createSavedMovie,
-                         onMovieDelete,
-                         savedMovies}) {
+                         onMovieDelete}) {
+    const [search, setSearch] = useState({query: '', isShort: false});
+    const [filteredMovies, setFilteredMovies] = useState(movies);
+    const [error, setError] = useState('');
 
+    const searchInSavedMovies = (search) => {
+        if (!!movies.length) {
+            const filteredMovies = filtering(movies, search.query, search.isShort);
+            setFilteredMovies(filteredMovies);
+            if (filteredMovies.length === 0) {
+                setError('Ничего не найдено');
+            } else setError('');
+        }
+        setSearch(search);
+    };
 
+    useEffect(() => {
+        if (movies.length) {
+            const filteredMovies = filtering(movies, search.query, search.isShort);
+            setFilteredMovies(filteredMovies);
+            if (filteredMovies.length === 0) {
+                setError('Ничего не найдено');
+            } else setError('');
+        }
+    }, []);
 
     return(
         <>
@@ -28,11 +47,12 @@ function SavedMovies({ isLoggedIn,
             <SearchForm
                 search={search}
                 setSearch={setSearch}
-                getMovies={getMovies}
+                getMovies={searchInSavedMovies}
             />
+            {error && <p>{error}</p> }
             <MoviesCardList
-                movies={movies}
-                savedMovies={savedMovies}
+                movies={filteredMovies}
+                savedMovies={filteredMovies}
                 onMovieLike={createSavedMovie}
                 onMovieDelete={onMovieDelete}
             />

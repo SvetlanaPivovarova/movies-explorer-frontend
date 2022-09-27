@@ -250,7 +250,7 @@ function App() {
 
     useEffect(() => {
         getSavedMoviesFromServ();
-    }, [savedMoviesFromServ]);
+    }, []);
 
     const getSavedMoviesFromServ = () => {
         mainApi.getSavedMovies()
@@ -294,13 +294,10 @@ function App() {
                 <Route path="/saved-movies" isLoggedIn={loggedIn}>
                     <SavedMovies
                         isLoggedIn={loggedIn}
-                        search={search}
-                        setSearch={setSearch}
-                        getMovies={getMovies}
+                        filtering={filteringMovies}
                         movies={savedMoviesFromServ}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
-                        savedMovies={savedMoviesFromServ}
                     />
                 </Route>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>

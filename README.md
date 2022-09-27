@@ -51,7 +51,8 @@
 Дополнительные сведения см. в разделе о развертывании [deployment](https://facebook.github.io/create-react-app/docs/deployment) .
 
 **Размещение проекта**
+
 [movies-explorer-frontend](http://pivovarova.diploma.nomoredomains.xyz/) \
 [movies-explorer server](http://api.pivovarova.diploma.nomoredomains.xyz/) \
-[Макет Figma](https://www.figma.com/file/29ycWLyVEeDco7sjOZlq82/Diploma-(Copy)?node-id=891%3A3857)
-Ссылка на пул реквест https://github.com/SvetlanaPivovarova/movies-explorer-frontend/pull/2
+[Макет Figma](https://www.figma.com/file/29ycWLyVEeDco7sjOZlq82/Diploma-(Copy)?node-id=891%3A3857) \
+[Ссылка на пул реквест](https://github.com/SvetlanaPivovarova/movies-explorer-frontend/pull/2)

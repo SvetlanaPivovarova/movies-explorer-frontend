@@ -15,6 +15,9 @@ function SavedMovies({ isLoggedIn,
                          createSavedMovie,
                          onMovieDelete,
                          savedMovies}) {
+
+
+
     return(
         <>
             <NavigationSidebar isMenuOpened="true" />

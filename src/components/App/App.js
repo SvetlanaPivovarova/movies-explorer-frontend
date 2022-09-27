@@ -250,7 +250,7 @@ function App() {
 
     useEffect(() => {
         getSavedMoviesFromServ();
-    }, []);
+    }, [savedMoviesFromServ]);
 
     const getSavedMoviesFromServ = () => {
         mainApi.getSavedMovies()
@@ -297,7 +297,7 @@ function App() {
                         search={search}
                         setSearch={setSearch}
                         getMovies={getMovies}
-                        movies={savedMovies}
+                        movies={savedMoviesFromServ}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
                         savedMovies={savedMoviesFromServ}

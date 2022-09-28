@@ -2,9 +2,9 @@ import React, {
     useState,
     // useCallback
 } from "react";
+import { Link, NavLink } from "react-router-dom";
 import "./Login.css";
 import logoHeader from "../../images/logo.svg";
-import {Link} from "react-router-dom";
 
 function Login({ onLogin }) {
     const [login, setLogin] = useState({});
@@ -36,7 +36,9 @@ function Login({ onLogin }) {
 
     return(
         <section className="login">
-            <img className="form__logo" src={logoHeader} alt="Логотип сайта"/>
+            <NavLink to="/">
+                <img className="form__logo" src={logoHeader} alt="Логотип сайта"/>
+            </NavLink>
             <h2 className="form__greeting">Рады видеть!</h2>
             <form className="form" onSubmit={handleSubmit}>
                 <label htmlFor="e-mail" className="form__label">E-mail</label>

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
 import "./Register.css";
 import logoHeader from "../../images/logo.svg";
-import {Link} from "react-router-dom";
 import { PATTERNS } from "../../utils/constants";
 
 function Register({ onRegister, error }) {
@@ -58,18 +58,11 @@ function Register({ onRegister, error }) {
         [setValues, setErrors, setIsValid]
     );
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        const { email, password, name } = values;
-        if (onRegister && password && email && name) {
-            onRegister(email, name, password);
-        }
-        //resetForm();
-    }
-
     return(
         <section className="register">
-            <img className="form__logo" src={logoHeader} alt="Логотип сайта"/>
+            <NavLink to="/">
+                <img className="form__logo" src={logoHeader} alt="Логотип сайта"/>
+            </NavLink>
             <h2 className="form__greeting">Добро пожаловать!</h2>
             <form className="form" onSubmit={handleRegister} noValidate >
                 <label htmlFor="user" className="form__label">Имя</label>

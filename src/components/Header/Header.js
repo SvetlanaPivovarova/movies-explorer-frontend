@@ -12,7 +12,9 @@ function Header( { modifier, loggedIn } ) {
 
     return(
         <header className={headerClassName}>
-            <img className="header__logo" src={logoHeader} alt="Логотип сайта"/>
+            <NavLink to="/">
+                <img className="header__logo" src={logoHeader} alt="Логотип сайта"/>
+            </NavLink>
             {loggedIn?
                 (
                     <nav className="header__navigation">

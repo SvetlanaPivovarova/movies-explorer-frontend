@@ -40,6 +40,7 @@ function ProfileInfo({ onEdit, onExit }) {
     }
 
     useEffect(() => {
+        console.log({CurrentUserContext});
         setValues({ name, email });
     }, [name, email]);
 

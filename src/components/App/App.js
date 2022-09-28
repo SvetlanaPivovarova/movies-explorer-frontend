@@ -51,7 +51,9 @@ function App() {
                 setLoggedIn(true);
                 const savedMoviesNew = await mainApi.getSavedMovies();
                 setSavedMoviesFromServ(savedMoviesNew);
-                setCurrentUser(user);
+                setCurrentUser(user.data);
+                console.log('savedM:', savedMoviesNew);
+                console.log('user:', user.data);
             } catch (error) {
                 setLoggedIn(false);
                 console.log(error);
@@ -66,7 +68,7 @@ function App() {
     const handleRegisterN = (email, password, name) => {
         auth.register({ email, password, name })
             .then(() => {
-                handleLogin(password, email);
+                handleLogin(email, password);
                 setIsInfoTooltipOpen(true);
                 setTooltipMessage('Вы успешно зарегистрировались!');
                 setMessageIcon(toolTipIconSuc);
@@ -86,7 +88,7 @@ function App() {
         auth.authorize(password, email)
             .then((res) => {
                 setLoggedIn(true);
-                setCurrentUser(res);
+                setCurrentUser(res.data);
                 history.push('/movies');
                 console.log('loggedIn', loggedIn);
             })
@@ -100,16 +102,18 @@ function App() {
     }
 
     //async
-    async function handleLogin(password, email) {
+    async function handleLogin(email, password) {
         try {
             setIsLoading(true);
-            const { message } = await auth.authorize(password, email);
-            console.log('message', message);
-            if (message) {
+            const { _id } = await auth.authorize(email, password);
+            console.log('_id', _id);
+            if (_id) {
                 setLoggedIn(true);
                 const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
                 setSavedMoviesFromServ(savedMoviesN);
-                setCurrentUser(user);
+                setCurrentUser(user.data);
+                console.log('savedM:', savedMoviesN);
+                console.log('user:', user.data);
                 history.push('/movies');
                 //navigate(MOVIES_ROUTE);
             }
@@ -125,11 +129,11 @@ function App() {
         }
     }
 
-    async function handleRegister(email, name, password) {
+    async function handleRegister(email, password,  name) {
         try {
             setIsLoading(true);
-            await auth.register({ email, name, password });
-            handleLogin(password, email);
+            await auth.register({ email, password,  name });
+            handleLogin(email, password);
         } catch (error) {
             setIsInfoTooltipOpen(true);
             setTooltipMessage('Что-то пошло не так!\n' +
@@ -152,27 +156,27 @@ function App() {
         history.push('/');
     }
 
-    useEffect(() => {
-        getUserInfo();
-        // eslint-disable-next-line
-    }, []);
+    //useEffect(() => {
+    //    getUserInfo();
+    //    // eslint-disable-next-line
+    //}, []);
 
     //информация о пользователе
-    const getUserInfo = () => {
-        mainApi.getProfile()
-            .then((user) => {
-                if (user) {
-                    setCurrentUser(user.data);
-                    setLoggedIn(true);
-                    history.push('/movies');
-                    console.log('data:', user);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoggedIn(false);
-            })
-    }
+    //const getUserInfo = () => {
+    //    mainApi.getProfile()
+    //        .then((user) => {
+    //            if (user) {
+    //                setCurrentUser(user.data);
+    //                setLoggedIn(true);
+    //                history.push('/movies');
+    //                console.log('data:', user);
+    //            }
+    //        })
+    //        .catch((err) => {
+    //            console.log(err);
+    //            setLoggedIn(false);
+    //        })
+    //}
 
     // обновляет информацию о пользователе (email и имя)
     const updateUserProfile = (name, email) => {
@@ -303,19 +307,19 @@ function App() {
             .catch((err) => console.log(err));
     }
 
-    useEffect(() => {
-        getSavedMoviesFromServ();
-    }, []);
+    //useEffect(() => {
+    //    getSavedMoviesFromServ();
+    //}, []);
 
-    const getSavedMoviesFromServ = () => {
-        mainApi.getSavedMovies()
-            .then((movies) => {
-                setSavedMoviesFromServ(movies);
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
+    //const getSavedMoviesFromServ = () => {
+    //    mainApi.getSavedMovies()
+    //        .then((movies) => {
+    //            setSavedMoviesFromServ(movies);
+    //        })
+    //        .catch((err) => {
+    //            console.log(err);
+    //        })
+    //}
 
     const closePopup = () => {
         setIsInfoTooltipOpen(false);

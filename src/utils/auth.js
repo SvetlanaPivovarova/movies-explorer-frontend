@@ -7,7 +7,7 @@ function checkResponse(res) {
     return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = ( {password, email, name} ) => {
+export const register = ( {email, password,  name} ) => {
     return fetch(`${API_URL}/signup`, {
         method: 'POST',
         headers: {
@@ -15,8 +15,8 @@ export const register = ( {password, email, name} ) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            password: password,
             email: email,
+            password: password,
             name: name
         }
         )
@@ -26,7 +26,7 @@ export const register = ( {password, email, name} ) => {
     });
 };
 
-export const authorize = (password, email) => {
+export const authorize = (email, password) => {
     return fetch(`${API_URL}/signin`, {
         method: 'POST',
         headers: {
@@ -35,8 +35,9 @@ export const authorize = (password, email) => {
         },
         body: JSON.stringify(
             {
-                "password": password,
-                "email": email
+                "email": email,
+                "password": password
+
             }
         )
     })

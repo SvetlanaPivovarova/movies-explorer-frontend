@@ -43,7 +43,7 @@ function App() {
     const history = useHistory();
 
     // регистрация
-    const handleRegister = (email, password, name) => {
+    const handleRegisterN = (email, password, name) => {
         auth.register({ email, password, name })
             .then(() => {
                 handleLogin(password, email);
@@ -62,7 +62,7 @@ function App() {
     }
 
     // авторизация
-    const handleLogin = (password, email) => {
+    const handleLoginN = (password, email) => {
         auth.authorize(password, email)
             .then((res) => {
                 setLoggedIn(true);
@@ -77,6 +77,49 @@ function App() {
                     setMessageIcon(toolTipIconUnsuc);
                     console.log(err);
             })
+    }
+
+    //async
+    async function handleLogin(password, email) {
+        try {
+            setIsLoading(true);
+            const { message } = await auth.authorize(password, email);
+            console.log('message', message);
+            if (message) {
+                setLoggedIn(true);
+                const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
+                setSavedMoviesFromServ(savedMoviesN);
+                setCurrentUser(user);
+                history.push('/movies');
+                //navigate(MOVIES_ROUTE);
+            }
+        } catch (error) {
+            //showError({ custom: ERROR_MESSAGES.BAD_REQUEST, status: error.status, ...error });
+            setIsInfoTooltipOpen(true);
+            setTooltipMessage('Что-то пошло не так!\n' +
+                'Попробуйте ещё раз.');
+            setMessageIcon(toolTipIconUnsuc);
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function handleRegister(email, name, password) {
+        try {
+            setIsLoading(true);
+            await auth.register({ email, name, password });
+            handleLogin(password, email);
+        } catch (error) {
+            setIsInfoTooltipOpen(true);
+            setTooltipMessage('Что-то пошло не так!\n' +
+                'Попробуйте ещё раз.');
+            setMessageIcon(toolTipIconUnsuc);
+            console.log(error);
+            //showError({ custom: ERROR_MESSAGES.REGISTRATION, status: error.status, ...error });
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     // выход из аккаунта

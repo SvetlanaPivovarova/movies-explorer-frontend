@@ -42,6 +42,26 @@ function App() {
 
     const history = useHistory();
 
+    //async token check
+    useEffect(() => {
+        async function tokenCheck() {
+            try {
+                setIsLoading(true);
+                const user = await mainApi.getProfile();
+                setLoggedIn(true);
+                const savedMoviesNew = await mainApi.getSavedMovies();
+                setSavedMoviesFromServ(savedMoviesNew);
+                setCurrentUser(user);
+            } catch (error) {
+                setLoggedIn(false);
+                console.log(error);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+        tokenCheck();
+    }, []);
+
     // регистрация
     const handleRegisterN = (email, password, name) => {
         auth.register({ email, password, name })

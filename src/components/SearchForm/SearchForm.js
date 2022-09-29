@@ -1,12 +1,14 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
+import { useLocation } from "react-router-dom";
 
+function SearchForm({ search, setSearch, filterMovies, filterSavedMovies, setIsSearchedInSave }) {
+    let location = useLocation();
 
-function SearchForm({ search, setSearch, getMovies }) {
     const [frontSearch, setFrontSearch] = useState(search);
-    //const [isValidSearch, setIsValidSearch] = useState(false);
     const [error, setError] = useState('');
+    const [frontSearchInSaved, setFrontSearchInSaved] = useState({ query: '', isShort: false })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,13 +18,28 @@ function SearchForm({ search, setSearch, getMovies }) {
         }
         else {
             setSearch(frontSearch);
-            getMovies(frontSearch);
+            filterMovies(frontSearch);
         }
+    };
+
+    const handleSubmitInSaved = (e) => {
+        e.preventDefault();
+        //setSearch(frontSearchInSaved);
+        filterSavedMovies(frontSearchInSaved);
+        setIsSearchedInSave(true);
     }
+
+    const handleSearchInputChangeInSaved = (e) => {
+        setFrontSearchInSaved({ ...frontSearchInSaved, query: e.target.value });
+    };
 
     const handleSearchInputChange = (e) => {
         setFrontSearch({ ...frontSearch, query: e.target.value });
-        //setIsValidSearch(e.target.validity.valid);
+        setSearch({ ...frontSearch, query: e.target.value });
+    };
+
+    const handleChangeCheckboxInSaved = (e) => {
+        setFrontSearchInSaved({ ...frontSearchInSaved, isShort: e.target.checked });
     };
 
     const handleChangeCheckbox = (e) => {
@@ -35,24 +52,31 @@ function SearchForm({ search, setSearch, getMovies }) {
             <form
                 className="search-form"
                 name="search-film"
-                onSubmit={handleSubmit}>
+                onSubmit={location.pathname === '/movies' ? handleSubmit : handleSubmitInSaved}>
                 <div className="search-form__container">
                     <input
                         type="text"
                         placeholder="Фильм"
                         name="film"
                         className="search-form__text"
-                        onChange={handleSearchInputChange}
-                        value={frontSearch.query || ''}
+                        onChange={location.pathname === '/movies' ? handleSearchInputChange : handleChangeCheckboxInSaved}
+                        value={location.pathname === '/movies'
+                            ?
+                        frontSearch.query || ''
+                    : frontSearchInSaved.query || ''}
                         required
                     />
 
-                    <button type="submit" disabled={!frontSearch.query} className="search-form__submit-btn" />
+                    <button
+                        type="submit"
+                        disabled={location.pathname === '/movies' ? !frontSearch.query : false}
+                        className="search-form__submit-btn"
+                    />
                 </div>
 
                 <FilterCheckbox
-                    checked={frontSearch.isShort}
-                    onChange={handleChangeCheckbox}
+                    checked={location.pathname === '/movies' ? frontSearch.isShort : frontSearchInSaved.isShort}
+                    onChange={location.pathname === '/movies' ? handleChangeCheckbox : handleChangeCheckboxInSaved}
                 />
             </form>
         </section>

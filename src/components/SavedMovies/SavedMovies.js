@@ -8,34 +8,43 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
 function SavedMovies({ isLoggedIn,
-                         filtering,
-                         movies,
+                         search,
+                         setSearch,
+                         filterMovies,
+                         //isSearchedInSave,
+                         filterSavedMovies,
+                         filteredSavedMovies,
+                         savedMovies,
                          createSavedMovie,
                          onMovieDelete}) {
-    const [search, setSearch] = useState({query: '', isShort: false});
-    const [filteredMovies, setFilteredMovies] = useState(movies);
-    const [error, setError] = useState('');
+    const [isSearchedInSave, setIsSearchedInSave] = useState('');
+    //const [search, setSearch] = useState({query: '', isShort: false});
+    //const [filteredMovies, setFilteredMovies] = useState(movies);
+    //const [error, setError] = useState('');
 
-    const searchInSavedMovies = (search) => {
-        if (!!movies.length) {
-            const filteredMovies = filtering(movies, search.query, search.isShort);
-            setFilteredMovies(filteredMovies);
-            if (filteredMovies.length === 0) {
-                setError('Ничего не найдено');
-            } else setError('');
-        }
-        setSearch(search);
-    };
+    //const searchInSavedMovies = (search) => {
+    //    if (!!movies.length) {
+    //        const filteredMovies = filtering(movies, search.query, search.isShort);
+    //        setFilteredMovies(filteredMovies);
+    //        if (filteredMovies.length === 0) {
+    //            setError('Ничего не найдено');
+    //        } else setError('');
+    //    }
+    //    setSearch(search);
+    //};
 
-    useEffect(() => {
-        if (movies.length) {
-            const filteredMovies = filtering(movies, search.query, search.isShort);
-            setFilteredMovies(filteredMovies);
-            if (filteredMovies.length === 0) {
-                setError('Ничего не найдено');
-            } else setError('');
-        }
-    }, [filtering, movies, search.query, search.isShort]);
+    //useEffect(() => {
+    //    if (movies.length) {
+    //        const filteredMovies = filtering(movies, search.query, search.isShort);
+    //        setFilteredMovies(filteredMovies);
+    //        if (filteredMovies.length === 0) {
+    //            setError('Ничего не найдено');
+    //        } else setError('');
+    //    }
+    //}, [filtering, movies, search.query, search.isShort]);
+
+    // {error && <p className='movies__error-empty' >{error}</p> }
+
 
     return(
         <>
@@ -47,12 +56,14 @@ function SavedMovies({ isLoggedIn,
             <SearchForm
                 search={search}
                 setSearch={setSearch}
-                getMovies={searchInSavedMovies}
+                filterMovies={filterMovies}
+                filterSavedMovies={filterSavedMovies}
+                setIsSearchedInSave={setIsSearchedInSave}
+                //getMovies={searchInSavedMovies}
             />
-            {error && <p className='movies__error-empty' >{error}</p> }
             <MoviesCardList
-                movies={filteredMovies}
-                savedMovies={filteredMovies}
+                movies={isSearchedInSave ? filteredSavedMovies : savedMovies}
+                savedMovies={savedMovies}
                 onMovieLike={createSavedMovie}
                 onMovieDelete={onMovieDelete}
             />

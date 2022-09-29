@@ -15,7 +15,8 @@ function Movies({
                     setSearch,
                     errorEmpty,
                     errorRequest,
-                    getMovies,
+                    filterMovies,
+                    filterSavedMovies,
                     movies,
                     onMovieLike,
                     isLoggedIn,
@@ -87,7 +88,9 @@ function Movies({
             <SearchForm
                 search={search}
                 setSearch={setSearch}
-                getMovies={getMovies}
+                filterMovies={filterMovies}
+                filterSavedMovies={filterSavedMovies}
+                //getMovies={getMovies}
             />
             {isLoading
                 ?

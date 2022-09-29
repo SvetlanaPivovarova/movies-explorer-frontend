@@ -19,6 +19,7 @@ import ProtectedRoute from "../ProtectedRoute";
 import toolTipIconSuc from '../../images/successfuly.svg';
 import toolTipIconUnsuc from '../../images/unsuccessfuly.svg';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import {useMovies} from "../../utils/useMovies";
 
 function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -47,8 +48,6 @@ function App() {
         async function checkToken() {
             try {
                 //setIsLoading(true);
-                //const jwt = localStorage.getItem('jwt');
-                //const user = await auth.checkToken(jwt);
                 const user = await mainApi.getProfile();
                 setLoggedIn(true);
                 const savedMoviesNew = await mainApi.getSavedMovies();
@@ -84,10 +83,8 @@ function App() {
                 console.log('savedM:', savedMoviesN);
                 console.log('user:', user.data);
                 history.push('/movies');
-                //navigate(MOVIES_ROUTE);
             }
         } catch (error) {
-            //showError({ custom: ERROR_MESSAGES.BAD_REQUEST, status: error.status, ...error });
             setIsInfoTooltipOpen(true);
             setTooltipMessage('Что-то пошло не так!\n' +
                 'Попробуйте ещё раз.');
@@ -199,15 +196,14 @@ function App() {
             : movies;
     }
 
+    
     useEffect(() => {
         if (movies.length) {
             const filteredMovies = filteringMovies(movies, search.query, search.isShort);
             setSearchedMovies(filteredMovies);
             localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
             if (filteredMovies.length === 0) {
-                console.log('filteredMovies.length', filteredMovies.length);
                 setErrorEmpty(ERROR_SEARCH_TEXT);
-                console.log(errorEmpty);
             } else setErrorEmpty('');
             }
         }, [movies, errorEmpty, search.query, search.isShort]);
@@ -226,25 +222,84 @@ function App() {
     // getting movies
     //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя
     // короткометражек сохраняются в хранилище, а блок результатов появляется.
+
+    async function getAllMovies(req) {
+        try {
+            setIsLoading(true);
+            const allMovies = await moviesApi.getMovies();
+            setMovies(allMovies);
+            localStorage.setItem('allMovies', JSON.stringify(allMovies));
+            setIsSearched(true);
+            setSearch(req);
+            localStorage.setItem('search', JSON.stringify(req));
+        }
+        catch (error) {
+            setError(ERROR_REQUEST_TEXT);
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('allMovies')) {
+            setMovies(JSON.parse(localStorage.getItem('allMovies')))
+            console.log('фильмы есть', movies);
+        }
+    }, []);
+
+    useEffect(() => {
+        if(isSearched) {
+            if(!movies.length) {
+                getMovies();
+            }
+        }
+    }, [isSearched, movies.length]);
+
+    //const [queryMovie, setQueryMovie] = useState('');
+    //const [isShortMovie, setIsShortMovie] = useState(false);
+
+    //const filteredAllMovies = useMovies(movies, queryMovie, isShortMovie);
+
+    //const filterAllMovies = (filteredAllMovies) => {
+    //    setIsLoading(true);
+        //setSearch(filteredAllMovies[search.query]);
+        //setQueryMovie(filteredAllMovies['movie-search']);
+        //setIsShortMovie(!!searchedMovies['movie-filter']);
+    //    localStorage.setItem('moviesQuery', JSON.stringify(searchedMovies['movie-search']));
+    //    localStorage.setItem('moviesIsSo', JSON.stringify(!!searchedMovies['movie-filter']));
+    //    setIsSearched(true);
+    //    setIsLoading(false);
+    //}
+
     const getMovies = (req) => {
-        if (!movies.length) {
+        const cashedMovies = JSON.parse(localStorage.getItem('allMovies'));
+        if (!cashedMovies.length) {
             setIsLoading(true);
             moviesApi.getMovies()
                 .then((data) => {
                     setMovies(data);
-                    localStorage.setItem('movies', JSON.stringify(data));
+                    localStorage.setItem('allMovies', JSON.stringify(data));
                     setIsSearched(true);
                 })
-                .catch(() => {
+               .catch(() => {
                     setError(ERROR_REQUEST_TEXT);
                 })
                 .finally(() => {
                     setIsLoading(false);
                 })
+        } else {
+            const filteredMovies = filteringMovies(cashedMovies, req.query, req.isShort);
+            setSearchedMovies(filteredMovies);
+            localStorage.setItem('searchedMovies', JSON.stringify(filteredMovies));
+            setIsSearched(true);
+            if (filteredMovies.length === 0) {
+                setErrorEmpty(ERROR_SEARCH_TEXT);
+            } else setErrorEmpty('');
         }
+
         setSearch(req);
         localStorage.setItem('search', JSON.stringify(req));
-
     };
 
     const createSavedMovie = (item) => {
@@ -293,23 +348,31 @@ function App() {
                 <ProtectedRoute path="/movies" isLoggedIn={loggedIn}>
                         <Movies
                             isLoading={isLoading}
+                            //onShort={setIsShortMovie}
+                            isSearched={isSearched}
                             search={search}
                             setSearch={setSearch}
                             errorEmpty={errorEmpty}
                             errorRequest={error}
-                            getMovies={getMovies}
+                            //getMovies={getMovies}
+                            filterMovies={getMovies}
                             movies={isSearched ? searchedMovies : []}
                             onMovieLike={createSavedMovie}
                             isLoggedIn={loggedIn}
                             onMovieDelete={handleDeleteMovie}
-                            savedMovies={savedMovies}
+                            savedMovies={savedMoviesFromServ}
                         />
                 </ProtectedRoute>
                 <ProtectedRoute path="/saved-movies" isLoggedIn={loggedIn}>
                     <SavedMovies
                         isLoggedIn={loggedIn}
-                        filtering={filteringMovies}
-                        movies={savedMoviesFromServ}
+                        search={search}
+                        setSearch={setSearch}
+                        filterMovies={getAllMovies}
+                    //isSearchedInSave,
+                        filterSavedMovies={filteringMovies}
+                        filteredSavedMovies={filteringMovies(savedMoviesFromServ, search.query, search.isShort)}
+                        savedMovies={savedMoviesFromServ}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
                     />

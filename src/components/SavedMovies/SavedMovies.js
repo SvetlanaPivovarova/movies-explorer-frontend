@@ -13,15 +13,22 @@ function SavedMovies({ isLoggedIn,
                          filterMovies,
                          //isSearchedInSave,
                          filterSavedMovies,
-                         filteredSavedMovies,
+                         //filteredSavedMovies,
                          savedMovies,
                          createSavedMovie,
                          onMovieDelete}) {
     const [isSearchedInSave, setIsSearchedInSave] = useState('');
+    const [searchInSaved, setSearchedInSaved] = useState({ query: '', isShort: false })
     //const [search, setSearch] = useState({query: '', isShort: false});
-    //const [filteredMovies, setFilteredMovies] = useState(movies);
+    const [filteredMovies, setFilteredMovies] = useState([]);
     //const [error, setError] = useState('');
 
+    useEffect(() => {
+        if(savedMovies.length) {
+            const filteredSavedMovies = filterSavedMovies(savedMovies, searchInSaved.query, searchInSaved.isShort);
+            setFilteredMovies(filteredSavedMovies);
+        }
+    }, [savedMovies, searchInSaved.query, searchInSaved.isShort]);
     //const searchInSavedMovies = (search) => {
     //    if (!!movies.length) {
     //        const filteredMovies = filtering(movies, search.query, search.isShort);
@@ -57,12 +64,13 @@ function SavedMovies({ isLoggedIn,
                 search={search}
                 setSearch={setSearch}
                 filterMovies={filterMovies}
-                filterSavedMovies={filterSavedMovies}
+                //filterSavedMovies={filterSavedMovies}
                 setIsSearchedInSave={setIsSearchedInSave}
+                setSearchedInSaved={setSearchedInSaved}
                 //getMovies={searchInSavedMovies}
             />
             <MoviesCardList
-                movies={isSearchedInSave ? filteredSavedMovies : savedMovies}
+                movies={isSearchedInSave ? filteredMovies : savedMovies}
                 savedMovies={savedMovies}
                 onMovieLike={createSavedMovie}
                 onMovieDelete={onMovieDelete}

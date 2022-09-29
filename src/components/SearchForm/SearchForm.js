@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useLocation } from "react-router-dom";
 
-function SearchForm({ search, setSearch, filterMovies, filterSavedMovies, setIsSearchedInSave }) {
+function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setSearchedInSaved }) {
     let location = useLocation();
 
     const [frontSearch, setFrontSearch] = useState(search);
     const [error, setError] = useState('');
-    const [frontSearchInSaved, setFrontSearchInSaved] = useState({ query: '', isShort: false })
+    const [frontSearchInSaved, setFrontSearchInSaved] = useState({ query: '', isShort: false });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +25,8 @@ function SearchForm({ search, setSearch, filterMovies, filterSavedMovies, setIsS
     const handleSubmitInSaved = (e) => {
         e.preventDefault();
         //setSearch(frontSearchInSaved);
-        filterSavedMovies(frontSearchInSaved);
+        //filterSavedMovies(frontSearchInSaved);
+        setSearchedInSaved(frontSearchInSaved);
         setIsSearchedInSave(true);
     }
 
@@ -59,7 +60,7 @@ function SearchForm({ search, setSearch, filterMovies, filterSavedMovies, setIsS
                         placeholder="Фильм"
                         name="film"
                         className="search-form__text"
-                        onChange={location.pathname === '/movies' ? handleSearchInputChange : handleChangeCheckboxInSaved}
+                        onChange={location.pathname === '/movies' ? handleSearchInputChange : handleSearchInputChangeInSaved}
                         value={location.pathname === '/movies'
                             ?
                         frontSearch.query || ''

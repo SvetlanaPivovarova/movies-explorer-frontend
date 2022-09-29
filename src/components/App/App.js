@@ -19,7 +19,7 @@ import ProtectedRoute from "../ProtectedRoute";
 import toolTipIconSuc from '../../images/successfuly.svg';
 import toolTipIconUnsuc from '../../images/unsuccessfuly.svg';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
-import {useMovies} from "../../utils/useMovies";
+//import {useMovies} from "../../utils/useMovies";
 
 function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -369,9 +369,9 @@ function App() {
                         search={search}
                         setSearch={setSearch}
                         filterMovies={getAllMovies}
-                    //isSearchedInSave,
+                        //isSearchedInSave,
                         filterSavedMovies={filteringMovies}
-                        filteredSavedMovies={filteringMovies(savedMoviesFromServ, search.query, search.isShort)}
+                        //filteredSavedMovies={filteringMovies(savedMoviesFromServ, search.query, search.isShort)}
                         savedMovies={savedMoviesFromServ}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}

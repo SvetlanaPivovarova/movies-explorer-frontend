@@ -1,15 +1,19 @@
-import React, {
-    useState,
-    // useCallback
-} from "react";
+import React, { useState, useCallback } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./Login.css";
 import logoHeader from "../../images/logo.svg";
+import { PATTERNS } from "../../utils/constants";
+import {useEffect} from "@types/react";
 
 function Login({ onLogin }) {
     const [login, setLogin] = useState({});
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
+    const [formIsValid, setFormIsValid] = useState(false);
+    const [emailIsValid, setEmailIsValid] = useState(false);
+    const [passwordIsValid, setPasswordIsValid] = useState(false);
+
+    const { EMAIL, PASSWORD } = PATTERNS;
 
     const handleChange = (event) => {
         const target = event.target;
@@ -20,6 +24,20 @@ function Login({ onLogin }) {
         setIsValid(target.closest("form").checkValidity());
     };
 
+    const validateForm = useCallback(() => {
+        setEmailIsValid(EMAIL.test(login.email));
+        setPasswordIsValid(PASSWORD.test(login.password));
+    }, [EMAIL, PASSWORD, login.email, login.password]);
+
+    useEffect(() => {
+        validateForm();
+        if (!isValid || !(emailIsValid && passwordIsValid)) {
+            setFormIsValid(false);
+        } else {
+            setFormIsValid(true);
+        }
+    }, [emailIsValid, formIsValid, isValid, passwordIsValid, validateForm]);
+
     //const resetForm = useCallback(
     //    (newValues = {}, newErrors = {}, newIsValid = false) => {
     //        setLogin(newValues);
@@ -29,9 +47,9 @@ function Login({ onLogin }) {
     //    [setLogin, setErrors, setIsValid]
     //);
 
-    function handleSubmit(e) {
+    function handleLogin(e) {
         e.preventDefault();
-        onLogin(login.password, login.email);
+        onLogin(login.email, login.password);
     }
 
     return(
@@ -40,7 +58,7 @@ function Login({ onLogin }) {
                 <img className="form__logo" src={logoHeader} alt="Логотип сайта"/>
             </NavLink>
             <h2 className="form__greeting">Рады видеть!</h2>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleLogin}>
                 <label htmlFor="e-mail" className="form__label">E-mail</label>
                 <input
                     type="e-mail"

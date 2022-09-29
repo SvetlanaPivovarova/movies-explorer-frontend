@@ -22,7 +22,6 @@ function Register({ onRegister, error }) {
         setValues({...values, [name]: value});
         setErrors({...errors, [name]: target.validationMessage });
         setIsValid(target.closest("form").checkValidity());
-        console.log(values);
     };
 
     const handleRegister = (e) => {
@@ -31,7 +30,7 @@ function Register({ onRegister, error }) {
         if (onRegister && password && email && name) {
             onRegister(email, password, name);
         }
-        resetForm();
+        //resetForm();
     };
 
     const validateForm = useCallback(() => {
@@ -49,14 +48,14 @@ function Register({ onRegister, error }) {
         }
     }, [emailIsValid, formIsValid, isValid, nameIsValid, passwordIsValid, validateForm]);
 
-    const resetForm = useCallback(
-        (newValues = {}, newErrors = {}, newIsValid = false) => {
-            setValues(newValues);
-            setErrors(newErrors);
-            setIsValid(newIsValid);
-        },
-        [setValues, setErrors, setIsValid]
-    );
+    //const resetForm = useCallback(
+    //    (newValues = {}, newErrors = {}, newIsValid = false) => {
+    //        setValues(newValues);
+    //        setErrors(newErrors);
+    //        setIsValid(newIsValid);
+    //    },
+    //    [setValues, setErrors, setIsValid]
+    //);
 
     return(
         <section className="register">

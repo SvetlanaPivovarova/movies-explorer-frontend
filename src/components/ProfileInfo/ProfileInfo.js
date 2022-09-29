@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect, useContext } from "react";
 import "./ProfileInfo.css";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { PATTERNS } from "../../utils/constants";
 
 function ProfileInfo({ onEdit, onExit }) {
     const { name, email } = useContext(CurrentUserContext);
@@ -8,6 +9,11 @@ function ProfileInfo({ onEdit, onExit }) {
     const [values, setValues] = useState({ name: name, email: email });
     const [errors, setErrors] = useState({ name: '' });
     const [isValid, setIsValid] = useState(false);
+    const [formIsValid, setFormIsValid] = useState(false);
+    const [nameIsValid, setNameIsValid] = useState(false);
+    const [emailIsValid, setEmailIsValid] = useState(false);
+
+    const { NAME, EMAIL } = PATTERNS;
 
     const handleChange = (event) => {
         const target = event.target;
@@ -19,6 +25,20 @@ function ProfileInfo({ onEdit, onExit }) {
         setIsValid(target.closest("form").checkValidity());
         console.log('login:', values);
     };
+
+    const validateForm = useCallback(() => {
+        setNameIsValid(NAME.test(values.name));
+        setEmailIsValid(EMAIL.test(values.email));
+    }, [EMAIL, NAME, values.email, values.name]);
+
+    useEffect(() => {
+        validateForm();
+        if (!isValid || !(nameIsValid && emailIsValid)) {
+            setFormIsValid(false);
+        } else {
+            setFormIsValid(true);
+        }
+    }, [emailIsValid, formIsValid, isValid, nameIsValid, validateForm]);
 
     const resetForm = useCallback(
         (newValues = {}, newErrors = {}, newIsValid = false) => {

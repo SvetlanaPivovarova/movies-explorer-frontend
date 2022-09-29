@@ -65,42 +65,7 @@ function App() {
     }, []);
 
     // регистрация
-    const handleRegisterN = (email, password, name) => {
-        auth.register({ email, password, name })
-            .then(() => {
-                handleLogin(email, password);
-                setIsInfoTooltipOpen(true);
-                setTooltipMessage('Вы успешно зарегистрировались!');
-                setMessageIcon(toolTipIconSuc);
-            })
-            .catch(err => {
-                setErrorRegister(err);
-                setIsInfoTooltipOpen(true);
-                setTooltipMessage('Что-то пошло не так!\n' +
-                    'Попробуйте ещё раз.');
-                setMessageIcon(toolTipIconUnsuc);
-                console.log(err);
-            })
-    }
-
     // авторизация
-    const handleLoginN = (password, email) => {
-        auth.authorize(password, email)
-            .then((res) => {
-                setLoggedIn(true);
-                setCurrentUser(res.data);
-                history.push('/movies');
-                console.log('loggedIn', loggedIn);
-            })
-            .catch((err) => {
-                    setIsInfoTooltipOpen(true);
-                    setTooltipMessage('Что-то пошло не так!\n' +
-                        'Попробуйте ещё раз.');
-                    setMessageIcon(toolTipIconUnsuc);
-                    console.log(err);
-            })
-    }
-
     //async
     async function handleLogin(email, password) {
         try {
@@ -306,20 +271,6 @@ function App() {
             })
             .catch((err) => console.log(err));
     }
-
-    //useEffect(() => {
-    //    getSavedMoviesFromServ();
-    //}, []);
-
-    //const getSavedMoviesFromServ = () => {
-    //    mainApi.getSavedMovies()
-    //        .then((movies) => {
-    //            setSavedMoviesFromServ(movies);
-    //        })
-    //        .catch((err) => {
-    //            console.log(err);
-    //        })
-    //}
 
     const closePopup = () => {
         setIsInfoTooltipOpen(false);

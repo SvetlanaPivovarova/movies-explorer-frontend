@@ -44,29 +44,33 @@ function App() {
 
     //async token check
     useEffect(() => {
-        async function tokenCheck() {
+        async function checkToken() {
             try {
-                setIsLoading(true);
+                //setIsLoading(true);
+                //const jwt = localStorage.getItem('jwt');
+                //const user = await auth.checkToken(jwt);
                 const user = await mainApi.getProfile();
                 setLoggedIn(true);
                 const savedMoviesNew = await mainApi.getSavedMovies();
                 setSavedMoviesFromServ(savedMoviesNew);
                 setCurrentUser(user.data);
-                console.log('savedM:', savedMoviesNew);
-                console.log('user:', user.data);
+                history.push('/movies');
+                //console.log('savedM:', savedMoviesNew);
+                //console.log('user:', user.data);
             } catch (error) {
                 setLoggedIn(false);
                 console.log(error);
-            } finally {
-                setIsLoading(false);
             }
+            //finally {
+            //    setIsLoading(false);
+            //}
         }
-        tokenCheck();
+        checkToken();
     }, []);
 
     // регистрация
     // авторизация
-    //async
+    // async
     async function handleLogin(email, password) {
         try {
             setIsLoading(true);
@@ -98,7 +102,7 @@ function App() {
         try {
             setIsLoading(true);
             await auth.register({ email, password,  name });
-            handleLogin(email, password);
+            await handleLogin(email, password);
         } catch (error) {
             setIsInfoTooltipOpen(true);
             setTooltipMessage('Что-то пошло не так!\n' +
@@ -164,25 +168,25 @@ function App() {
             });
     }
 
-    useEffect(() => {
-        checkToken()
+    //useEffect(() => {
+    //    checkToken()
         // eslint-disable-next-line
-    }, []);
+    //}, []);
 
-    const checkToken = () => {
-        const jwt = localStorage.getItem('jwt');
-        console.log('jwt', jwt);
-        if (jwt) {
-            auth.checkToken(jwt)
-                .then(() => {
-                    setLoggedIn(true);
-                    history.push('/movies');
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
-    }
+    //const checkToken = () => {
+    //    const jwt = localStorage.getItem('jwt');
+    //    console.log('jwt', jwt);
+    //    if (jwt) {
+    //        auth.checkToken(jwt)
+    //            .then(() => {
+    //                setLoggedIn(true);
+    //                history.push('/movies');
+    //            })
+    //            .catch((err) => {
+    //                console.log(err);
+    //            })
+    //    }
+    //}
 
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {

@@ -4,7 +4,7 @@ import "./Register.css";
 import logoHeader from "../../images/logo.svg";
 import { PATTERNS } from "../../utils/constants";
 
-function Register({ onRegister, error }) {
+function Register({ onRegister }) {
     const [values, setValues] = useState({});
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);

@@ -11,6 +11,7 @@ function FilterCheckbox({ checked, onChange }) {
                     name="short-films"
                     className="checkbox-input"
                     id="short-films"
+                    value={checked || ''}
                     checked={checked}
                     onChange={onChange}
                 />

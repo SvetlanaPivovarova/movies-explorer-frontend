@@ -19,7 +19,6 @@ import ProtectedRoute from "../ProtectedRoute";
 import toolTipIconSuc from '../../images/successfuly.svg';
 import toolTipIconUnsuc from '../../images/unsuccessfuly.svg';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
-//import {useMovies} from "../../utils/useMovies";
 
 function App() {
     const [currentUser, setCurrentUser] = useState({});
@@ -54,8 +53,6 @@ function App() {
                 setSavedMoviesFromServ(savedMoviesNew);
                 setCurrentUser(user.data);
                 history.push('/movies');
-                //console.log('savedM:', savedMoviesNew);
-                //console.log('user:', user.data);
             } catch (error) {
                 setLoggedIn(false);
                 console.log(error);
@@ -106,7 +103,6 @@ function App() {
                 'Попробуйте ещё раз.');
             setMessageIcon(toolTipIconUnsuc);
             console.log(error);
-            //showError({ custom: ERROR_MESSAGES.REGISTRATION, status: error.status, ...error });
         } finally {
             setIsLoading(false);
         }
@@ -121,28 +117,6 @@ function App() {
         setSearchedMovies([]);
         history.push('/');
     }
-
-    //useEffect(() => {
-    //    getUserInfo();
-    //    // eslint-disable-next-line
-    //}, []);
-
-    //информация о пользователе
-    //const getUserInfo = () => {
-    //    mainApi.getProfile()
-    //        .then((user) => {
-    //            if (user) {
-    //                setCurrentUser(user.data);
-    //                setLoggedIn(true);
-    //                history.push('/movies');
-    //                console.log('data:', user);
-    //            }
-    //        })
-    //        .catch((err) => {
-    //            console.log(err);
-    //            setLoggedIn(false);
-    //        })
-    //}
 
     // обновляет информацию о пользователе (email и имя)
     const updateUserProfile = (name, email) => {
@@ -165,26 +139,7 @@ function App() {
             });
     }
 
-    //useEffect(() => {
-    //    checkToken()
-        // eslint-disable-next-line
-    //}, []);
-
-    //const checkToken = () => {
-    //    const jwt = localStorage.getItem('jwt');
-    //    console.log('jwt', jwt);
-    //    if (jwt) {
-    //        auth.checkToken(jwt)
-    //            .then(() => {
-    //                setLoggedIn(true);
-    //                history.push('/movies');
-    //            })
-    //            .catch((err) => {
-    //                console.log(err);
-    //            })
-    //    }
-    //}
-
+    // фильтрация
     const filteringMovies = (movies, query, isShort) => {
         const allSearchedMovies = [...movies].filter(({ nameRU }) => {
             return nameRU.toLowerCase().includes(query.toLowerCase().trim());
@@ -195,7 +150,6 @@ function App() {
                 : allSearchedMovies
             : movies;
     }
-
     
     useEffect(() => {
         if (movies.length) {
@@ -217,9 +171,7 @@ function App() {
         }
     }, [])
 
-    const [errorRegister, setErrorRegister] = useState('');
-
-    // getting movies
+    // getting all movies
     //Как только поиск произведён, текст запроса, найденные фильмы и состояние переключателя
     // короткометражек сохраняются в хранилище, а блок результатов появляется.
 
@@ -255,22 +207,6 @@ function App() {
             }
         }
     }, [isSearched, movies.length]);
-
-    //const [queryMovie, setQueryMovie] = useState('');
-    //const [isShortMovie, setIsShortMovie] = useState(false);
-
-    //const filteredAllMovies = useMovies(movies, queryMovie, isShortMovie);
-
-    //const filterAllMovies = (filteredAllMovies) => {
-    //    setIsLoading(true);
-        //setSearch(filteredAllMovies[search.query]);
-        //setQueryMovie(filteredAllMovies['movie-search']);
-        //setIsShortMovie(!!searchedMovies['movie-filter']);
-    //    localStorage.setItem('moviesQuery', JSON.stringify(searchedMovies['movie-search']));
-    //    localStorage.setItem('moviesIsSo', JSON.stringify(!!searchedMovies['movie-filter']));
-    //    setIsSearched(true);
-    //    setIsLoading(false);
-    //}
 
     const getMovies = (req) => {
         const cashedMovies = JSON.parse(localStorage.getItem('allMovies'));
@@ -348,13 +284,11 @@ function App() {
                 <ProtectedRoute path="/movies" isLoggedIn={loggedIn}>
                         <Movies
                             isLoading={isLoading}
-                            //onShort={setIsShortMovie}
                             isSearched={isSearched}
                             search={search}
                             setSearch={setSearch}
                             errorEmpty={errorEmpty}
                             errorRequest={error}
-                            //getMovies={getMovies}
                             filterMovies={getMovies}
                             movies={isSearched ? searchedMovies : []}
                             onMovieLike={createSavedMovie}
@@ -369,9 +303,7 @@ function App() {
                         search={search}
                         setSearch={setSearch}
                         filterMovies={getAllMovies}
-                        //isSearchedInSave,
                         filterSavedMovies={filteringMovies}
-                        //filteredSavedMovies={filteringMovies(savedMoviesFromServ, search.query, search.isShort)}
                         savedMovies={savedMoviesFromServ}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
@@ -387,7 +319,6 @@ function App() {
                 <Route path="/signup">
                     <Register
                         onRegister={handleRegister}
-                        error={errorRegister}
                     />
                 </Route>
                 <Route path="/signin">

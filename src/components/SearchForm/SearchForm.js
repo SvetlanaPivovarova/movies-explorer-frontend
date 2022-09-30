@@ -37,7 +37,7 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
 
     const handleSearchInputChange = (e) => {
         setFrontSearch({ ...frontSearch, query: e.target.value });
-        //setSearch({ ...frontSearch, query: e.target.value });
+        setSearch({ ...frontSearch, query: e.target.value });
         console.log('query:', search.query);
     };
 
@@ -47,14 +47,13 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
 
     const handleChangeCheckbox = (e) => {
         setFrontSearch({ ...frontSearch, isShort: e.target.checked });
-        //setSearch({ ...frontSearch, isShort: e.target.checked });
-        localStorage.setItem('isChecked', JSON.stringify(frontSearch.isShort));
+        setSearch({ ...frontSearch, isShort: e.target.checked });
     };
 
     useEffect(() => {
-        setSearch({ query: frontSearch.query, isShort: frontSearch.isShort })
+        //setSearch({ query: frontSearch.query, isShort: frontSearch.isShort })
         localStorage.setItem('search', JSON.stringify(search));
-    }, [frontSearch.query, frontSearch.isShort, handleSubmit, ])
+    }, [frontSearch.query, frontSearch.isShort])
 
     return(
         <section className="content">

@@ -70,7 +70,8 @@ function App() {
     async function handleLogin(email, password) {
         try {
             setIsLoading(true);
-            const { _id } = await auth.authorize(email, password);
+            //await auth.authorize(email, password);
+            const _id = await auth.authorize(email, password);
             console.log('_id', _id);
             if (_id) {
                 setLoggedIn(true);
@@ -210,7 +211,7 @@ function App() {
 
     const getMovies = (req) => {
         const cashedMovies = JSON.parse(localStorage.getItem('allMovies'));
-        if (!cashedMovies.length) {
+        if (cashedMovies === null) {
             setIsLoading(true);
             moviesApi.getMovies()
                 .then((data) => {
@@ -276,7 +277,7 @@ function App() {
     return (
         <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-            <NavigationSidebar isMenuOpened="true" />
+            <NavigationSidebar isMenuOpened={loggedIn} />
             <Switch>
                 <Route exact path="/">
                     <Main />

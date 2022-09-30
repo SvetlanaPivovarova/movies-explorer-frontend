@@ -1,4 +1,5 @@
-import {API_URL, BASE_URL} from "./constants";
+import { API_URL, BASE_URL, NO_MOVIE_DATA } from "./constants";
+import { getUrlForTrailer } from "./dataTransformation";
 
 class MainApi {
     constructor(url, {headers}) {
@@ -37,15 +38,15 @@ class MainApi {
             //credentials: 'include',
             headers: this._headers,
             body: JSON.stringify({
-                country,
-                director,
-                duration,
-                year,
-                description,
+                country: country || NO_MOVIE_DATA,
+                director: director || NO_MOVIE_DATA,
+                duration: duration || NO_MOVIE_DATA,
+                year: year || NO_MOVIE_DATA,
+                description: description || NO_MOVIE_DATA,
                 image: `${BASE_URL}${movie.image.url}`,
-                trailerLink,
-                nameRU,
-                nameEN,
+                trailerLink: getUrlForTrailer(trailerLink),
+                nameRU: nameRU || NO_MOVIE_DATA,
+                nameEN: nameEN || NO_MOVIE_DATA,
                 thumbnail: `${BASE_URL}${movie.image.formats.thumbnail.url}`,
                 movieId: movie.id,
             })

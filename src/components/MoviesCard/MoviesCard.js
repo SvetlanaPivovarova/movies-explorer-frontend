@@ -2,7 +2,8 @@ import React, {useEffect, useState} from "react";
 import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import "./MoviesCard.css";
-import {BASE_URL} from "../../utils/constants";
+import { BASE_URL } from "../../utils/constants";
+import { durationFormat } from "../../utils/dataTransformation";
 
 function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
@@ -49,13 +50,6 @@ function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     const moviesCardLikeButtonClassName = (
         `movies-card__like-icon ${isLiked ? 'movies-card__like-icon_active' : ''}`
     );
-
-    // формат длительности фильма
-    const durationFormat = (item) => {
-        const hours = Math.floor(item.duration / 60);
-        const min = item.duration % 60;
-        return hours ? `${hours}ч ${min}м` : `${min}м`;
-    }
 
     useEffect(() => {
         const url =

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useLocation } from "react-router-dom";
@@ -19,6 +19,7 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
         else {
             setSearch(frontSearch);
             filterMovies(frontSearch);
+            console.log('CheckedЫги:', search.isShort);
         }
     };
 
@@ -36,8 +37,8 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
 
     const handleSearchInputChange = (e) => {
         setFrontSearch({ ...frontSearch, query: e.target.value });
-        setSearch({ ...frontSearch, query: e.target.value });
-        console.log('Checked:', search.query);
+        //setSearch({ ...frontSearch, query: e.target.value });
+        console.log('query:', search.query);
     };
 
     const handleChangeCheckboxInSaved = (e) => {
@@ -46,10 +47,14 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
 
     const handleChangeCheckbox = (e) => {
         setFrontSearch({ ...frontSearch, isShort: e.target.checked });
-        setSearch({ ...frontSearch, isShort: e.target.checked });
-        console.log('Checked:', e.target.checked);
-        console.log('Checked:', search.isShort);
+        //setSearch({ ...frontSearch, isShort: e.target.checked });
+        localStorage.setItem('isChecked', JSON.stringify(frontSearch.isShort));
     };
+
+    useEffect(() => {
+        setSearch({ query: frontSearch.query, isShort: frontSearch.isShort })
+        localStorage.setItem('search', JSON.stringify(search));
+    }, [frontSearch.query, frontSearch.isShort, handleSubmit, ])
 
     return(
         <section className="content">

@@ -101,7 +101,7 @@ function Register({ onRegister }) {
                     onChange={handleChange}
                 />
                 <span id="password-error" className="form__error"/>
-                <button type="submit" disabled={!isValid} className="form__button">Зарегистрироваться</button>
+                <button type="submit" disabled={!formIsValid} className="form__button">Зарегистрироваться</button>
             </form>
             <div className="form__signin">
                 <p className="form__signin-text">Уже зарегистрированы? </p>

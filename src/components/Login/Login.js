@@ -85,7 +85,7 @@ function Login({ onLogin }) {
                 <button
                     type="submit"
                     className="form__button form__button_type_login"
-                    disabled={!isValid}
+                    disabled={!formIsValid}
                 >
                     Войти
                 </button>

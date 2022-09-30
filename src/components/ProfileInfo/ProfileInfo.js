@@ -99,7 +99,7 @@ function ProfileInfo({ onEdit, onExit }) {
                     />
                 </li>
                 <span id="email-error" className="form__error"/>
-                <button type="submit" disabled={!isValid} className="profile__button">Редактировать</button>
+                <button type="submit" disabled={!formIsValid} className="profile__button">Редактировать</button>
             </form>
             <button
                 className="profile__button profile__exit-button"

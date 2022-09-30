@@ -311,6 +311,7 @@ function App() {
                         savedMovies={savedMoviesFromServ}
                         createSavedMovie={createSavedMovie}
                         onMovieDelete={handleDeleteMovie}
+                        saved={savedMovies}
                     />
                 </ProtectedRoute>
                 <ProtectedRoute path="/profile" isLoggedIn={loggedIn}>

@@ -16,7 +16,8 @@ function SavedMovies({ isLoggedIn,
                          //filteredSavedMovies,
                          savedMovies,
                          createSavedMovie,
-                         onMovieDelete}) {
+                         onMovieDelete,
+                         saved}) {
     const [isSearchedInSave, setIsSearchedInSave] = useState('');
     const [searchInSaved, setSearchedInSaved] = useState({ query: '', isShort: false })
     //const [search, setSearch] = useState({query: '', isShort: false});
@@ -28,7 +29,7 @@ function SavedMovies({ isLoggedIn,
             const filteredSavedMovies = filterSavedMovies(savedMovies, searchInSaved.query, searchInSaved.isShort);
             setFilteredMovies(filteredSavedMovies);
         }
-    }, [savedMovies, searchInSaved.query, searchInSaved.isShort, filterSavedMovies]);
+    }, [savedMovies, searchInSaved.query, searchInSaved.isShort, filterSavedMovies, saved]);
 
     return(
         <>

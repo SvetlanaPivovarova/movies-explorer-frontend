@@ -75,12 +75,12 @@ function App() {
             const _id = await auth.authorize(email, password);
             console.log('_id', _id);
             if (_id) {
-                setLoggedIn(true);
                 const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
                 setSavedMoviesFromServ(savedMoviesN);
                 setCurrentUser(user.data);
                 console.log('savedM:', savedMoviesN);
                 console.log('user:', user.data);
+                setLoggedIn(true);
                 history.push('/movies');
             }
         } catch (error) {
@@ -98,7 +98,7 @@ function App() {
         try {
             setIsLoading(true);
             await auth.register({ email, password,  name });
-            await handleLogin(email, password);
+            handleLogin(email, password);
         } catch (error) {
             setIsInfoTooltipOpen(true);
             setTooltipMessage('Что-то пошло не так!\n' +
@@ -239,7 +239,8 @@ function App() {
                 getMovies();
             }
         }
-    }, [isSearched, movies.length, getMovies]);
+        // eslint-disable-next-line
+    }, [isSearched, movies.length]);
 
     const createSavedMovie = (item) => {
         mainApi.createSavedMovie(item)

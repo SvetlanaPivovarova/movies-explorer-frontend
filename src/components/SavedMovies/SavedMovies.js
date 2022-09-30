@@ -28,30 +28,7 @@ function SavedMovies({ isLoggedIn,
             const filteredSavedMovies = filterSavedMovies(savedMovies, searchInSaved.query, searchInSaved.isShort);
             setFilteredMovies(filteredSavedMovies);
         }
-    }, [savedMovies, searchInSaved.query, searchInSaved.isShort]);
-    //const searchInSavedMovies = (search) => {
-    //    if (!!movies.length) {
-    //        const filteredMovies = filtering(movies, search.query, search.isShort);
-    //        setFilteredMovies(filteredMovies);
-    //        if (filteredMovies.length === 0) {
-    //            setError('Ничего не найдено');
-    //        } else setError('');
-    //    }
-    //    setSearch(search);
-    //};
-
-    //useEffect(() => {
-    //    if (movies.length) {
-    //        const filteredMovies = filtering(movies, search.query, search.isShort);
-    //        setFilteredMovies(filteredMovies);
-    //        if (filteredMovies.length === 0) {
-    //            setError('Ничего не найдено');
-    //        } else setError('');
-    //    }
-    //}, [filtering, movies, search.query, search.isShort]);
-
-    // {error && <p className='movies__error-empty' >{error}</p> }
-
+    }, [savedMovies, searchInSaved.query, searchInSaved.isShort, filterSavedMovies]);
 
     return(
         <>

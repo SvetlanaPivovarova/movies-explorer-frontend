@@ -62,6 +62,7 @@ function App() {
             //}
         }
         checkToken();
+        // eslint-disable-next-line
     }, []);
 
     // регистрация
@@ -199,15 +200,8 @@ function App() {
             setMovies(JSON.parse(localStorage.getItem('allMovies')))
             console.log('фильмы есть', movies);
         }
+        // eslint-disable-next-line
     }, []);
-
-    useEffect(() => {
-        if(isSearched) {
-            if(!movies.length) {
-                getMovies();
-            }
-        }
-    }, [isSearched, movies.length]);
 
     const getMovies = (req) => {
         const cashedMovies = JSON.parse(localStorage.getItem('allMovies'));
@@ -238,6 +232,14 @@ function App() {
         setSearch(req);
         localStorage.setItem('search', JSON.stringify(req));
     };
+
+    useEffect(() => {
+        if(isSearched) {
+            if(!movies.length) {
+                getMovies();
+            }
+        }
+    }, [isSearched, movies.length, getMovies]);
 
     const createSavedMovie = (item) => {
         mainApi.createSavedMovie(item)

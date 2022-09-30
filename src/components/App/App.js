@@ -250,6 +250,14 @@ function App() {
                 localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
             //.then((newSavedMovie) => {
                 console.log('saved', res._id);
+                mainApi.getSavedMovies()
+                    .then((res) => {
+                        setSavedMoviesFromServ(res);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+                //const [savedMoviesNew]
             //    setSavedMovies([...savedMovies, newSavedMovie]);
             //    localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
                 console.log('savedMovies:', savedMovies);
@@ -267,6 +275,13 @@ function App() {
                 );
                 setSavedMovies(filteredMovies);
                 localStorage.setItem('savedMovies', JSON.stringify(filteredMovies));
+                mainApi.getSavedMovies()
+                    .then((res) => {
+                        setSavedMoviesFromServ(res);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
             })
             .catch((err) => console.log(err));
     }

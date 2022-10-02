@@ -166,6 +166,7 @@ function App() {
     useEffect(() =>{
         if (localStorage.getItem('searchedMovies')) {
             setSearchedMovies(JSON.parse(localStorage.getItem('searchedMovies')));
+            setIsSearched(true);
         }
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));

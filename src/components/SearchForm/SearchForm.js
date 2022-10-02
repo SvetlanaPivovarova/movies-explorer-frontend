@@ -19,7 +19,7 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
         else {
             setSearch(frontSearch);
             filterMovies(frontSearch);
-            console.log('CheckedЫги:', search.isShort);
+            console.log('Checked:', search.isShort);
         }
     };
 

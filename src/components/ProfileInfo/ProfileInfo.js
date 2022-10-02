@@ -40,14 +40,14 @@ function ProfileInfo({ onEdit, onExit }) {
         }
     }, [emailIsValid, formIsValid, isValid, nameIsValid, validateForm]);
 
-    const resetForm = useCallback(
-        (newValues = {}, newErrors = {}, newIsValid = false) => {
-            setValues(newValues);
-            setErrors(newErrors);
-            setIsValid(newIsValid);
-        },
-        [setValues, setErrors, setIsValid]
-    );
+    // const resetForm = useCallback(
+    //    (newValues = {}, newErrors = {}, newIsValid = false) => {
+    //        setValues(newValues);
+    //        setErrors(newErrors);
+    //        setIsValid(newIsValid);
+    //    },
+    //    [setValues, setErrors, setIsValid]
+    // );
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -56,7 +56,6 @@ function ProfileInfo({ onEdit, onExit }) {
         if (onEdit && email && name) {
             onEdit(name, email);
         }
-        resetForm();
     }
 
     useEffect(() => {
@@ -99,7 +98,12 @@ function ProfileInfo({ onEdit, onExit }) {
                     />
                 </li>
                 <span id="email-error" className="form__error"/>
-                <button type="submit" disabled={!formIsValid} className="profile__button">Редактировать</button>
+                <button
+                    type="submit"
+                    disabled={!formIsValid || (values.name === name && values.email === email)}
+                    className="profile__button">
+                    Редактировать
+                </button>
             </form>
             <button
                 className="profile__button profile__exit-button"

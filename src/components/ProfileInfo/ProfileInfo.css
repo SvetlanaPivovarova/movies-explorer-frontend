@@ -69,7 +69,7 @@
 }
 
 .profile__button:disabled {
-    color: gray;
+    color: darkgray;
 }
 
 .profile__exit-button {

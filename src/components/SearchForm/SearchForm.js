@@ -37,7 +37,7 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
 
     const handleSearchInputChange = (e) => {
         setFrontSearch({ ...frontSearch, query: e.target.value });
-        setSearch({ ...frontSearch, query: e.target.value });
+        //setSearch({ ...frontSearch, query: e.target.value });
         console.log('query:', search.query);
     };
 

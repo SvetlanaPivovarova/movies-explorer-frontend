@@ -15,7 +15,7 @@ import * as auth from "../../utils/auth";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import {ERROR_REQUEST_TEXT, ERROR_SEARCH_TEXT, SHORT_MOVIE_DURATION } from "../../utils/constants";
-import ProtectedRoute from "../ProtectedRoute";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import toolTipIconSuc from '../../images/successfuly.svg';
 import toolTipIconUnsuc from '../../images/unsuccessfuly.svg';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
@@ -52,7 +52,6 @@ function App() {
                 const savedMoviesNew = await mainApi.getSavedMovies();
                 setSavedMoviesFromServ(savedMoviesNew);
                 setCurrentUser(user.data);
-                history.push('/movies');
             } catch (error) {
                 setLoggedIn(false);
                 console.log(error);
@@ -298,7 +297,7 @@ function App() {
             <NavigationSidebar isMenuOpened={loggedIn} />
             <Switch>
                 <Route exact path="/">
-                    <Main />
+                    <Main isLoggedIn={loggedIn} />
                 </Route>
                 <ProtectedRoute path="/movies" isLoggedIn={loggedIn}>
                         <Movies

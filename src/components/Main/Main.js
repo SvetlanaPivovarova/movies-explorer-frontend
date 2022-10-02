@@ -8,11 +8,11 @@ import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import Footer from "../Footer/Footer";
 
-function Main() {
+function Main({ isLoggedIn }) {
 
     return(
         <main>
-            <Header modifier="true" />
+            <Header modifier="true" loggedIn={isLoggedIn} />
             <Promo />
             <NavTab />
             <section id="about-project">

@@ -95,35 +95,37 @@ function App() {
                 })
                 .catch((err) => {
                     console.log(err);
-                    handleSignOut();
                 })
         }
         else if (jwt === null) {
             handleSignOut();
         }
     }
+
     // регистрация
     // авторизация
     // async
     async function handleLogin(email, password) {
         try {
             setIsLoading(true);
-             await auth.authorize(email, password);
-             const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
-             setSavedMoviesFromServ(savedMoviesN);
-             setCurrentUser(user.data);
-             console.log('savedM:', savedMoviesN);
-             console.log('user:', user.data);
-             setLoggedIn(true);
-             history.push('/movies');
-
+            //await auth.authorize(email, password);
+            const _id = await auth.authorize(email, password);
+            console.log('_id', _id);
+            if (_id) {
+                const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
+                setSavedMoviesFromServ(savedMoviesN);
+                setCurrentUser(user.data);
+                console.log('savedM:', savedMoviesN);
+                console.log('user:', user.data);
+                setLoggedIn(true);
+                history.push('/movies');
+            }
         } catch (error) {
             setIsInfoTooltipOpen(true);
             setTooltipMessage('Что-то пошло не так!\n' +
                 'Попробуйте ещё раз.');
             setMessageIcon(toolTipIconUnsuc);
             console.log(error);
-            localStorage.clear();
         } finally {
             setIsLoading(false);
         }

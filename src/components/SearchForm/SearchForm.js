@@ -53,6 +53,7 @@ function SearchForm({ search, setSearch, filterMovies, setIsSearchedInSave, setS
     useEffect(() => {
         //setSearch({ query: frontSearch.query, isShort: frontSearch.isShort })
         localStorage.setItem('search', JSON.stringify(search));
+        // eslint-disable-next-line
     }, [frontSearch.query, frontSearch.isShort])
 
     return(

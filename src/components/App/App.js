@@ -42,9 +42,20 @@ function App() {
 
     const history = useHistory();
 
+    // выход из аккаунта
+    const handleSignOut = () => {
+        localStorage.clear();
+        //localStorage.removeItem('jwt');
+        setLoggedIn(false);
+        setCurrentUser({});
+        setSavedMovies([]);
+        setSearchedMovies([]);
+        history.push('/');
+    }
+
     //async token check
     useEffect(() => {
-        async function checkToken() {
+        async function checkData() {
             try {
                 //setIsLoading(true);
                 const user = await mainApi.getProfile();
@@ -55,39 +66,64 @@ function App() {
             } catch (error) {
                 setLoggedIn(false);
                 console.log(error);
+                if (error === 401) {
+                    console.log('exit');
+                    handleSignOut();
+                }
             }
-            //finally {
-            //    setIsLoading(false);
-            //}
+            finally {
+                setIsLoading(false);
+            }
         }
-        checkToken();
-        // eslint-disable-next-line
+        checkData();
+         // eslint-disable-next-line
     }, []);
 
+    useEffect(() => {
+        checkToken()
+    }, []);
+
+    const checkToken = () => {
+        const jwt = localStorage.getItem('jwt');
+        console.log('jwt', jwt);
+        if (jwt) {
+            auth.checkToken(jwt)
+                .then((response) => {
+                    setCurrentUser(response.data);
+                    setLoggedIn(true);
+                    history.push('/movies');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    handleSignOut();
+                })
+        }
+        else if (jwt === null) {
+            handleSignOut();
+        }
+    }
     // регистрация
     // авторизация
     // async
     async function handleLogin(email, password) {
         try {
             setIsLoading(true);
-            //await auth.authorize(email, password);
-            const _id = await auth.authorize(email, password);
-            console.log('_id', _id);
-            if (_id) {
-                const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
-                setSavedMoviesFromServ(savedMoviesN);
-                setCurrentUser(user.data);
-                console.log('savedM:', savedMoviesN);
-                console.log('user:', user.data);
-                setLoggedIn(true);
-                history.push('/movies');
-            }
+             await auth.authorize(email, password);
+             const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
+             setSavedMoviesFromServ(savedMoviesN);
+             setCurrentUser(user.data);
+             console.log('savedM:', savedMoviesN);
+             console.log('user:', user.data);
+             setLoggedIn(true);
+             history.push('/movies');
+
         } catch (error) {
             setIsInfoTooltipOpen(true);
             setTooltipMessage('Что-то пошло не так!\n' +
                 'Попробуйте ещё раз.');
             setMessageIcon(toolTipIconUnsuc);
             console.log(error);
+            localStorage.clear();
         } finally {
             setIsLoading(false);
         }
@@ -109,16 +145,6 @@ function App() {
         }
     }
 
-    // выход из аккаунта
-    const handleSignOut = () => {
-        localStorage.clear();
-        setLoggedIn(false);
-        setCurrentUser({});
-        setSavedMovies([]);
-        setSearchedMovies([]);
-        history.push('/');
-    }
-
     // обновляет информацию о пользователе (email и имя)
     const updateUserProfile = (name, email) => {
         mainApi.editProfile({ name, email })
@@ -136,6 +162,10 @@ function App() {
                     'Попробуйте ещё раз.');
                 setMessageIcon(toolTipIconUnsuc);
                 console.log(err);
+                if (error === '401') {
+                    console.log('exit');
+                    handleSignOut();
+                }
                 throw err;
             });
     }
@@ -170,6 +200,8 @@ function App() {
         }
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));
+        } else {
+            setSearch({ query: '', isShort: false });
         }
     }, [])
 
@@ -264,6 +296,10 @@ function App() {
             })
             .catch((err) => {
                 console.log(err);
+                if (error === '401') {
+                    console.log('exit');
+                    handleSignOut();
+                }
             })
     }
 
@@ -283,7 +319,13 @@ function App() {
                         console.log(error);
                     })
             })
-            .catch((err) => console.log(err));
+            .catch((error) => {
+                console.log(error);
+                if (error === '401') {
+                    console.log('exit');
+                    handleSignOut();
+                }
+            });
     }
 
     const closePopup = () => {

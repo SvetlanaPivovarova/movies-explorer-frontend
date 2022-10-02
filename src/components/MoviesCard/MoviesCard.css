@@ -23,10 +23,6 @@
     cursor: pointer;
 }
 
-.movies-card__caption:hover .movies-card__delete-icon {
-    visibility: visible;
-}
-
 .movies-card__title {
     font-weight: 500;
     font-size: 13px;
@@ -52,6 +48,10 @@
     visibility: hidden;
 }
 
+.movies-card:hover .movies-card__delete-icon {
+    visibility: visible;
+}
+
 .movies-card__duration {
     color: rgba(139, 139, 139, 1);
     font-size: 11px;
@@ -74,6 +74,10 @@
     .movies-card__duration {
         padding-right: 14px;
         padding-left: 14px;
+    }
+
+    .movies-card__delete-icon {
+        visibility: visible;
     }
 }
 

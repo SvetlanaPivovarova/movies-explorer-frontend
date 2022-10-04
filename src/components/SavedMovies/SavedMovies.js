@@ -11,18 +11,14 @@ function SavedMovies({ isLoggedIn,
                          search,
                          setSearch,
                          filterMovies,
-                         //isSearchedInSave,
                          filterSavedMovies,
-                         //filteredSavedMovies,
                          savedMovies,
                          createSavedMovie,
                          onMovieDelete,
                          saved}) {
     const [isSearchedInSave, setIsSearchedInSave] = useState('');
     const [searchInSaved, setSearchedInSaved] = useState({ query: '', isShort: false })
-    //const [search, setSearch] = useState({query: '', isShort: false});
     const [filteredMovies, setFilteredMovies] = useState([]);
-    //const [error, setError] = useState('');
 
     useEffect(() => {
         if(savedMovies.length) {
@@ -42,10 +38,8 @@ function SavedMovies({ isLoggedIn,
                 search={search}
                 setSearch={setSearch}
                 filterMovies={filterMovies}
-                //filterSavedMovies={filterSavedMovies}
                 setIsSearchedInSave={setIsSearchedInSave}
                 setSearchedInSaved={setSearchedInSaved}
-                //getMovies={searchInSavedMovies}
             />
             <MoviesCardList
                 movies={isSearchedInSave ? filteredMovies : savedMovies}

@@ -2,12 +2,12 @@ import React, {useState, useEffect} from "react";
 import "./Movies.css";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
-import "../Preloader/Preloader"
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import ButtonMore from "../ButtonMore/ButtonMore";
 import Footer from "../Footer/Footer";
 import Preloader from "../Preloader/Preloader";
 import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
+import {SCREEN_SIZE, MOVIES_NUMBER, ADDITIONAL_MOVIES_NUMBER} from "../../utils/constants";
 
 function Movies({
                     isLoading,
@@ -33,6 +33,10 @@ function Movies({
     const [renderingMovies, setRenderingMovies] = useState([]);
     const [isButtonMoreShown, setIsButtonMoreShown] = useState(false);
 
+    const { DESKTOP, TAB, MOBILE } = SCREEN_SIZE;
+    const { DESKTOP_MOVIES, TAB_MOVIES, MOBILE_MOVIES } = MOVIES_NUMBER;
+    const { DESKTOP_ADDITIONAL_MOVIES, TAB_ADDITIONAL_MOVIES, MOBILE_ADDITIONAL_MOVIES } = ADDITIONAL_MOVIES_NUMBER;
+
     useEffect(() => {
         let delay = null;
 
@@ -49,21 +53,21 @@ function Movies({
     }, []);
 
     useEffect(() => {
-        if (screenSize.width > 1024) {
+        if (screenSize.width > DESKTOP) {
             if (!moviesNumber) {
-                setMoviesNumber(12)
+                setMoviesNumber(DESKTOP_MOVIES)
             }
-            setAddingMoviesNumber(3);
-        } else if (screenSize.width > 719) {
+            setAddingMoviesNumber(DESKTOP_ADDITIONAL_MOVIES);
+        } else if (screenSize.width > TAB) {
             if (!moviesNumber) {
-                setMoviesNumber(8)
+                setMoviesNumber(TAB_MOVIES)
             }
-            setAddingMoviesNumber(2);
-        } else if (screenSize.width > 320) {
+            setAddingMoviesNumber(TAB_ADDITIONAL_MOVIES);
+        } else if (screenSize.width > MOBILE) {
             if (!moviesNumber) {
-                setMoviesNumber(5)
+                setMoviesNumber(MOBILE_MOVIES)
             }
-            setAddingMoviesNumber(2);
+            setAddingMoviesNumber(MOBILE_ADDITIONAL_MOVIES);
         }
     }, [moviesNumber, screenSize.width]);
 
@@ -90,7 +94,6 @@ function Movies({
                 setSearch={setSearch}
                 filterMovies={filterMovies}
                 filterSavedMovies={filterSavedMovies}
-                //getMovies={getMovies}
             />
             {isLoading
                 ?

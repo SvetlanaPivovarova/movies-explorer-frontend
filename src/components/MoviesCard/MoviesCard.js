@@ -8,11 +8,6 @@ import { durationFormat } from "../../utils/dataTransformation";
 function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
     const { _id } = currentUser;
-    // Определяем, являемся ли мы владельцем текущей карточки
-    //const isOwn = item.owner._id === currentUser._id;
-
-    // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-    //const isLiked = item.likes.some(i => i._id === currentUser._id);
 
     const [isLiked, setIsLiked] = useState(false);
     const [imgUrl, setImgUrl] = useState('');

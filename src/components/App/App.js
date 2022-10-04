@@ -45,12 +45,10 @@ function App() {
     // выход из аккаунта
     const handleSignOut = () => {
         localStorage.clear();
-        //localStorage.removeItem('jwt');
         setLoggedIn(false);
         setCurrentUser({});
         setSavedMovies([]);
         setSearchedMovies([]);
-        //setSearch({ query: '', isShort: false });
         history.push('/');
     }
 
@@ -103,46 +101,6 @@ function App() {
         }
     }
 
-    // then
-    function handleLoginT(email, password) {
-        auth.authorize(email, password)
-            .then((data) => {
-                setLoggedIn(true);
-            })
-            .catch((err) => {
-            console.log(err);
-        })
-    }
-
-    // регистрация
-    // авторизация
-    // async
-    async function handleLoginN(email, password) {
-        try {
-            setIsLoading(true);
-            //await auth.authorize(email, password);
-            const _id = await auth.authorize(email, password);
-            console.log('_id', _id);
-            if (_id) {
-                const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()]);
-                setSavedMoviesFromServ(savedMoviesN);
-                setCurrentUser(user.data);
-                console.log('savedM:', savedMoviesN);
-                console.log('user:', user.data);
-                setLoggedIn(true);
-                history.push('/movies');
-            }
-        } catch (error) {
-            setIsInfoTooltipOpen(true);
-            setTooltipMessage('Что-то пошло не так!\n' +
-                'Попробуйте ещё раз.');
-            setMessageIcon(toolTipIconUnsuc);
-            console.log(error);
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
     // регистрация
     // авторизация
     // async
@@ -172,31 +130,6 @@ function App() {
             setIsLoading(false);
         }
     }
-
-    //useEffect(() => {
-    //    const token = localStorage.getItem('jwt');
-    //    mainApi.getProfile(token)
-    //        .then((res) => {
-    //            setCurrentUser(res.data);
-    //            console.log('useeffect:', res.data);
-    //        })
-    //        .catch((err) => {
-    //            console.log(err);
-    //        })
-    //}, [loggedIn]);
-
-    //useEffect(() => {
-    //    Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()])
-    //        .then((user, savedMoviesN) => {
-    //            setSavedMoviesFromServ(savedMoviesN);
-    //            setCurrentUser(user.data);
-    //            console.log('savedM:', savedMoviesN);
-    //            console.log('user:', user.data);
-    //        })
-    //        .catch((err) => {
-    //            console.log(err);
-    //        })
-    //}, [loggedIn])
 
     async function handleRegister(email, password,  name) {
         try {

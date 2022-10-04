@@ -22,7 +22,7 @@ class MainApi {
             })
     }
 
-    createSavedMovie(movie) {
+    createSavedMovie(movie, jwt) {
         const {
             country,
             director,
@@ -36,7 +36,11 @@ class MainApi {
         const promise = fetch((`${this._url}/movies`), {
             method: 'POST',
             //credentials: 'include',
-            headers: this._headers,
+            headers: {
+                "Authorization": `Bearer ${jwt}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
             body: JSON.stringify({
                 country: country || NO_MOVIE_DATA,
                 director: director || NO_MOVIE_DATA,
@@ -54,10 +58,14 @@ class MainApi {
         return this._makeRequest(promise);
     }
 
-    deleteSavedFilm(id) {
+    deleteSavedFilm(id, jwt) {
         const promise = fetch((`${this._url}/movies/${id}`), {
             method: 'DELETE',
-            headers: this._headers,
+            headers: {
+                "Authorization": `Bearer ${jwt}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
         });
         return this._makeRequest(promise);
     }

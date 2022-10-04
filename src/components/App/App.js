@@ -279,7 +279,7 @@ function App() {
 
     const createSavedMovie = (item) => {
         const token = localStorage.getItem('jwt');
-        mainApi.createSavedMovie(item)
+        mainApi.createSavedMovie(item, token)
             .then((res) => {
                 const newSavedMovies = [...savedMovies, res];
                 setSavedMovies(newSavedMovies);
@@ -309,7 +309,7 @@ function App() {
 
     const handleDeleteMovie = (movieId) => {
         const token = localStorage.getItem('jwt');
-        mainApi.deleteSavedFilm(movieId)
+        mainApi.deleteSavedFilm(movieId, token)
             .then(() => {
                 const filteredMovies = savedMovies.filter(
                     (item) => item._id !== movieId

@@ -1,4 +1,4 @@
-import { Route, Switch, useHistory } from 'react-router-dom';
+import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import { useEffect, useState } from "react";
 
 import './App.css';
@@ -41,6 +41,7 @@ function App() {
     const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
 
     const history = useHistory();
+    let location = useLocation();
 
     // выход из аккаунта
     const handleSignOut = () => {
@@ -49,6 +50,7 @@ function App() {
         setCurrentUser({});
         setSavedMovies([]);
         setSearchedMovies([]);
+        setSearch({ query: '', isShort: false });
         history.push('/');
     }
 
@@ -84,13 +86,15 @@ function App() {
     }, []);
 
     const checkToken = () => {
+
         const jwt = localStorage.getItem('jwt');
-        console.log('jwt', jwt);
+        //console.log('jwt', jwt);
         if (jwt) {
             auth.checkToken(jwt)
                 .then((response) => {
                     setCurrentUser(response.data);
                     setLoggedIn(true);
+                    history.push(location.pathname);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -107,16 +111,15 @@ function App() {
     async function handleLogin(email, password) {
         try {
             setIsLoading(true);
-            //await auth.authorize(email, password);
             const jwt = await auth.authorize(email, password);
-            console.log('_id',jwt);
-            console.log('what jwt:', localStorage.getItem('jwt'));
+            //console.log('_id',jwt);
+            //console.log('what jwt:', localStorage.getItem('jwt'));
             if (jwt) {
                 const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(jwt), mainApi.getProfile(jwt)]);
                 setSavedMoviesFromServ(savedMoviesN);
                 setCurrentUser(user.data);
-                console.log('savedM:', savedMoviesN);
-                console.log('user:', user.data);
+                //console.log('savedM:', savedMoviesN);
+                //console.log('user:', user.data);
                 setLoggedIn(true);
                 history.push('/movies');
             }
@@ -233,7 +236,7 @@ function App() {
     useEffect(() => {
         if (localStorage.getItem('allMovies')) {
             setMovies(JSON.parse(localStorage.getItem('allMovies')))
-            console.log('фильмы есть', movies);
+            //console.log('фильмы есть', movies);
         }
         // eslint-disable-next-line
     }, []);
@@ -284,8 +287,7 @@ function App() {
                 const newSavedMovies = [...savedMovies, res];
                 setSavedMovies(newSavedMovies);
                 localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
-            //.then((newSavedMovie) => {
-                console.log('saved', res._id);
+                //console.log('saved', res._id);
                 mainApi.getSavedMovies(token)
                     .then((res) => {
                         setSavedMoviesFromServ(res);
@@ -293,10 +295,7 @@ function App() {
                     .catch((error) => {
                         console.log(error);
                     })
-                //const [savedMoviesNew]
-            //    setSavedMovies([...savedMovies, newSavedMovie]);
-            //    localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
-                console.log('savedMovies:', savedMovies);
+                //console.log('savedMovies:', savedMovies);
             })
             .catch((err) => {
                 console.log(err);
@@ -319,7 +318,7 @@ function App() {
                 mainApi.getSavedMovies(token)
                     .then((res) => {
                         setSavedMoviesFromServ(res);
-                        console.log(savedMoviesFromServ);
+                        //console.log(savedMoviesFromServ);
                     })
                     .catch((error) => {
                         console.log(error);

@@ -79,19 +79,27 @@ class MainApi {
         }
     }
 
-    getSavedMovies() {
+    getSavedMovies(jwt) {
         const promise = fetch((`${this._url}/movies`), {
             method: 'GET',
-            headers: this._headers,
+            headers: {
+                "Authorization": `Bearer ${jwt}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
             //credentials: 'include',
         });
         return this._makeRequest(promise);
     }
 
-    getProfile() {
+    getProfile(jwt) {
         const promise = fetch((`${this._url}/users/me`), {
             method: 'GET',
-            headers: this._headers,
+            headers: {
+                "Authorization": `Bearer ${jwt}`,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            }
             //credentials: 'include',
         });
         return this._makeRequest(promise);

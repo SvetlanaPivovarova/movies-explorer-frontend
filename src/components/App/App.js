@@ -50,6 +50,7 @@ function App() {
         setCurrentUser({});
         setSavedMovies([]);
         setSearchedMovies([]);
+        //setSearch({ query: '', isShort: false });
         history.push('/');
     }
 
@@ -58,9 +59,10 @@ function App() {
         async function checkData() {
             try {
                 //setIsLoading(true);
-                const user = await mainApi.getProfile();
+                const token = localStorage.getItem('jwt');
+                const user = await mainApi.getProfile(token);
                 setLoggedIn(true);
-                const savedMoviesNew = await mainApi.getSavedMovies();
+                const savedMoviesNew = await mainApi.getSavedMovies(token);
                 setSavedMoviesFromServ(savedMoviesNew);
                 setCurrentUser(user.data);
             } catch (error) {
@@ -101,10 +103,21 @@ function App() {
         }
     }
 
+    // then
+    function handleLoginT(email, password) {
+        auth.authorize(email, password)
+            .then((data) => {
+                setLoggedIn(true);
+            })
+            .catch((err) => {
+            console.log(err);
+        })
+    }
+
     // регистрация
     // авторизация
     // async
-    async function handleLogin(email, password) {
+    async function handleLoginN(email, password) {
         try {
             setIsLoading(true);
             //await auth.authorize(email, password);
@@ -129,6 +142,61 @@ function App() {
             setIsLoading(false);
         }
     }
+
+    // регистрация
+    // авторизация
+    // async
+    async function handleLogin(email, password) {
+        try {
+            setIsLoading(true);
+            //await auth.authorize(email, password);
+            const jwt = await auth.authorize(email, password);
+            console.log('_id',jwt);
+            console.log('what jwt:', localStorage.getItem('jwt'));
+            if (jwt) {
+                const [savedMoviesN, user] = await Promise.all([mainApi.getSavedMovies(jwt), mainApi.getProfile(jwt)]);
+                setSavedMoviesFromServ(savedMoviesN);
+                setCurrentUser(user.data);
+                console.log('savedM:', savedMoviesN);
+                console.log('user:', user.data);
+                setLoggedIn(true);
+                history.push('/movies');
+            }
+        } catch (error) {
+            setIsInfoTooltipOpen(true);
+            setTooltipMessage('Что-то пошло не так!\n' +
+                'Попробуйте ещё раз.');
+            setMessageIcon(toolTipIconUnsuc);
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    //useEffect(() => {
+    //    const token = localStorage.getItem('jwt');
+    //    mainApi.getProfile(token)
+    //        .then((res) => {
+    //            setCurrentUser(res.data);
+    //            console.log('useeffect:', res.data);
+    //        })
+    //        .catch((err) => {
+    //            console.log(err);
+    //        })
+    //}, [loggedIn]);
+
+    //useEffect(() => {
+    //    Promise.all([mainApi.getSavedMovies(), mainApi.getProfile()])
+    //        .then((user, savedMoviesN) => {
+    //            setSavedMoviesFromServ(savedMoviesN);
+    //            setCurrentUser(user.data);
+    //            console.log('savedM:', savedMoviesN);
+    //            console.log('user:', user.data);
+    //        })
+    //        .catch((err) => {
+    //            console.log(err);
+    //        })
+    //}, [loggedIn])
 
     async function handleRegister(email, password,  name) {
         try {
@@ -201,7 +269,8 @@ function App() {
         }
         if (localStorage.getItem('search')) {
             setSearch(JSON.parse(localStorage.getItem('search')));
-        } else {
+        }
+        else {
             setSearch({ query: '', isShort: false });
         }
     }, [])
@@ -276,6 +345,7 @@ function App() {
     }, [isSearched, movies.length]);
 
     const createSavedMovie = (item) => {
+        const token = localStorage.getItem('jwt');
         mainApi.createSavedMovie(item)
             .then((res) => {
                 const newSavedMovies = [...savedMovies, res];
@@ -283,7 +353,7 @@ function App() {
                 localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
             //.then((newSavedMovie) => {
                 console.log('saved', res._id);
-                mainApi.getSavedMovies()
+                mainApi.getSavedMovies(token)
                     .then((res) => {
                         setSavedMoviesFromServ(res);
                     })
@@ -305,6 +375,7 @@ function App() {
     }
 
     const handleDeleteMovie = (movieId) => {
+        const token = localStorage.getItem('jwt');
         mainApi.deleteSavedFilm(movieId)
             .then(() => {
                 const filteredMovies = savedMovies.filter(
@@ -312,9 +383,10 @@ function App() {
                 );
                 setSavedMovies(filteredMovies);
                 localStorage.setItem('savedMovies', JSON.stringify(filteredMovies));
-                mainApi.getSavedMovies()
+                mainApi.getSavedMovies(token)
                     .then((res) => {
                         setSavedMoviesFromServ(res);
+                        console.log(savedMoviesFromServ);
                     })
                     .catch((error) => {
                         console.log(error);

@@ -10,7 +10,6 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 import * as auth from "../../utils/auth";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
@@ -342,7 +341,7 @@ function App() {
     return (
         <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
-            <NavigationSidebar isMenuOpened={loggedIn} />
+
             <Switch>
                 <Route exact path="/">
                     <Main isLoggedIn={loggedIn} />

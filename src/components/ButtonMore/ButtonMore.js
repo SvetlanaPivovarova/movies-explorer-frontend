@@ -1,10 +1,14 @@
 import React from 'react';
 import './ButtonMore.css';
 
-function ButtonMore() {
+function ButtonMore({ onClick, isVisible }) {
     return(
         <section className="button-more content">
-            <button className="button-more__button">Ещё</button>
+            <button
+                className={isVisible ? "button-more__button" : "button-more__button_invisible"}
+                onClick={onClick}>
+                    Ещё
+            </button>
         </section>
     )
 }

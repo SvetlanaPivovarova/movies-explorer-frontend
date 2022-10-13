@@ -1,31 +1,92 @@
-import React from "react";
-//import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import React, {useEffect, useState} from "react";
+import { useLocation } from 'react-router-dom';
+import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import "./MoviesCard.css";
-import preview from "../../images/33-slova-o-dizayne.png";
+import { BASE_URL } from "../../utils/constants";
+import { durationFormat } from "../../utils/dataTransformation";
 
-function MoviesCard({item, isLiked}) {
-    //const currentUser = React.useContext(CurrentUserContext);
-    // Определяем, являемся ли мы владельцем текущей карточки
-    //const isOwn = item.owner._id === currentUser._id;
+function MoviesCard({item, savedMovies, onMovieLike, onMovieDelete}) {
+    const currentUser = React.useContext(CurrentUserContext);
+    const { _id } = currentUser;
 
-    // Определяем, есть ли у карточки лайк, поставленный текущим пользователем
-    //const isLiked = item.likes.some(i => i._id === currentUser._id);
+    const [isLiked, setIsLiked] = useState(false);
+    const [imgUrl, setImgUrl] = useState('');
+
+    let location = useLocation();
+
+    useEffect(() => {
+        const isSaved = savedMovies.find((movie) => movie.movieId === item.id);
+        setIsLiked(isSaved);
+    }, [item, savedMovies]);
+
+    const handleLikeClick = () => {
+        setIsLiked(true);
+        if (isLiked) {
+            const { _id } = savedMovies.find((movie) => movie.movieId === item._id);
+            onMovieDelete(_id);
+        } else {
+            onMovieLike(item, _id);
+            setIsLiked(true);
+        }
+    };
+
+    const handleDeleteClick = () => {
+        const { _id } = item;
+        console.log('id', _id);
+        onMovieDelete(_id);
+        setIsLiked(false);
+    };
+
+    const handleMovieClick = () => {
+        window.open(item.trailerLink, '_blank');
+    }
 
     // Создаём переменную, которую после зададим в `className` для кнопки лайка
     const moviesCardLikeButtonClassName = (
         `movies-card__like-icon ${isLiked ? 'movies-card__like-icon_active' : ''}`
     );
 
+    useEffect(() => {
+        const url =
+            location.pathname === '/saved-movies'
+                ? item.image
+                : item?.image?.url.includes(BASE_URL)
+                    ? item.image
+                    : `${BASE_URL}${item.image.url}`;
+        setImgUrl(url);
+    }, [item, location.pathname]);
+
     return(
         <article className="movies-card">
-            <img className="movies-card__image" src={preview} alt={item.name}/>
+            <img
+                className="movies-card__image"
+                src={imgUrl}
+                alt={item.nameRU}
+                onClick={handleMovieClick}
+            />
             <div className="movies-card__caption">
-                <h2 className="movies-card__title">{item.name}</h2>
+                <h2 className="movies-card__title">{item.nameRU}</h2>
                 <div className="movies-card__like">
-                    <button className={moviesCardLikeButtonClassName} type="button" aria-label="Нравится" />
+                    {location.pathname === '/saved-movies' && (
+                        <button
+                            className="movies-card__like-icon movies-card__delete-icon"
+                            onClick={handleDeleteClick}
+                            type="button"
+                            aria-label="Удалить"
+                        />
+                    )}
+                    {location.pathname === '/movies' && (
+                        <button
+                            className={moviesCardLikeButtonClassName}
+                            onClick={handleLikeClick}
+                            type="button"
+                            aria-label="Нравится"
+                        />
+                    )}
+
                 </div>
             </div>
-            <p className="movies-card__duration">{item.duration}</p>
+            <p className="movies-card__duration">{durationFormat(item)}</p>
         </article>
     )
 }

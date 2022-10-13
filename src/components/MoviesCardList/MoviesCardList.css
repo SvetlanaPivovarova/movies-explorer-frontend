@@ -3,8 +3,8 @@
     box-sizing: border-box;
     margin: 70px 0 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(237px, 1fr));
+    grid-template-columns: 1fr 1fr 1fr;
+
     gap: 37px 24px;
 }
 
@@ -14,9 +14,16 @@
     }
 }
 
+@media screen and (max-width: 1024px){
+    .movies-list {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 @media screen and (max-width: 568px) {
     .movies-list {
         margin-bottom: 44px;
+        grid-template-columns: 1fr;
     }
 }
 

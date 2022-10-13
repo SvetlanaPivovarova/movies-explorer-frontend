@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import './Header.css';
 import logoHeader from '../../images/logo.svg'; // Путь к изображению внутри сборки
@@ -12,7 +12,9 @@ function Header( { modifier, loggedIn } ) {
 
     return(
         <header className={headerClassName}>
-            <img className="header__logo" src={logoHeader} alt="Логотип сайта"/>
+            <NavLink to="/">
+                <img className="header__logo" src={logoHeader} alt="Логотип сайта"/>
+            </NavLink>
             {loggedIn?
                 (
                     <nav className="header__navigation">
@@ -33,10 +35,10 @@ function Header( { modifier, loggedIn } ) {
                 )
                 :
                 (<ul className="header__navigation">
-                    <li className="header__navigation-item">Регистрация</li>
-                    <li className="header__navigation-item">
+                    <Link to="/signup" className="header__navigation-item">Регистрация</Link>
+                    <Link to="/signin" className="header__navigation-item">
                         <button className="header__auth-button">Войти</button>
-                    </li>
+                    </Link>
                 </ul>)
             }
 

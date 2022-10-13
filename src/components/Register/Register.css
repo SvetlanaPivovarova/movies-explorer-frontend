@@ -63,6 +63,10 @@
     margin: 69px 0 16px;
 }
 
+.form__button:disabled {
+    background-color: gray;
+}
+
 .form__signin {
     display: flex;
     justify-content: center;

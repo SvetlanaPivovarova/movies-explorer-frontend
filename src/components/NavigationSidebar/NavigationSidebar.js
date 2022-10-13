@@ -5,7 +5,7 @@ import AccountIcon from "../AccountIcon/AccountIcon";
 
 function NavigationSidebar({ isMenuOpened }) {
     return(
-            <div className={`menu ${isMenuOpened && "menu_opened"}`}>
+        <div className={`menu ${isMenuOpened && "menu_opened"}`}>
                 <input className="menu__checkbox-pseudo" id="menu-toggle" type="checkbox"/>
                 <label className="menu-btn" htmlFor="menu-toggle">
                     <span />

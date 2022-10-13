@@ -16,7 +16,7 @@
     width: 410px;
     display: flex;
     flex-direction: column;
-    margin: 0 0 204px;
+    margin: 0 0 16px;
     padding: 0;
 }
 
@@ -41,6 +41,14 @@
 
 .profile__text-info {
     font-weight: 400;
+    background-color: transparent;
+    font-family: inherit;
+    padding: 0;
+    width: 200px;
+    box-sizing: border-box;
+    border: none;
+    color: #ffffff;
+    text-align: end;
 }
 
 .profile__button {
@@ -50,7 +58,7 @@
     color: #ffffff;
     font-size: 13px;
     line-height: 16px;
-    margin: 0 0 16px;
+    margin: 204px 0 0;
     cursor: pointer;
     opacity: 1;
     transition: opacity .3s ease;
@@ -60,9 +68,14 @@
     opacity: .8;
 }
 
+.profile__button:disabled {
+    color: darkgray;
+}
+
 .profile__exit-button {
     color: rgba(238, 52, 101, 1);
     font-weight: 500;
+    margin-top: 0;
     margin-bottom: 70px;
 }
 

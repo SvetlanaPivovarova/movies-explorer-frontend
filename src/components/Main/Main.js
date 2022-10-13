@@ -7,12 +7,14 @@ import Techs from "../Techs/Techs";
 import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import Footer from "../Footer/Footer";
+import NavigationSidebar from "../NavigationSidebar/NavigationSidebar";
 
-function Main() {
+function Main({ isLoggedIn }) {
 
     return(
         <main>
-            <Header modifier="true" />
+            <NavigationSidebar isMenuOpened={isLoggedIn} />
+            <Header modifier="true" loggedIn={isLoggedIn} />
             <Promo />
             <NavTab />
             <section id="about-project">
